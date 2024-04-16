@@ -1,0 +1,202 @@
+/* OFFCANVAS NAVBAR MENU */
+
+.offcanvas-header{
+    display: flex;
+    /* justify-content: center; Horizontal centering */
+    align-items: center;
+    margin:0;
+
+}
+.offcanvas-body {
+    overflow-y: auto; /* Ensure vertical scrollbar is shown */
+    scrollbar-width: thin; /* Set the width of the scrollbar */
+
+}
+
+.gradient-line {
+    background: radial-gradient(circle at center, #000000 0%, #ffffff 100%); /* Adjust colors as needed */
+    height: 1px; /* Set the height of the line */
+    border: none; /* Remove border */
+  }
+.black-ops-one-regular {
+    font-family: "Black Ops One", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    color: #1A3358;
+}
+.btn-transparent {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: #000; /* Inherit text color */
+}
+.btn-transparent.active, .btn-transparent:hover {
+    background-color: rgba(255, 255, 255, 1) !important; /* Adjust opacity here */
+    color: #000;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+.button-label {
+    margin-left: 10px; /* Adjust spacing between icon and button label as needed */
+}
+
+/* Style for icon buttons */
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* text-align: center; */
+    width: 40px; /* Adjust width as needed */
+    height: 40px; /* Adjust height as needed */
+    /* border: 1px solid #ccc; Border color */
+    border-radius: 5px; /* Adjust border radius as needed */
+    margin: 10px; /* Adjust margin between buttons as needed */
+}
+
+/* Style for active icon buttons */
+.btn-icon.active {
+    background-color: #4DD0E1; /* Blue background color */
+    color: white; /* Text color */
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+/* Style for inactive icon buttons */
+.btn-icon:not(.active) {
+    background-color: white; /* White background color */
+    color: #1A315F; /* Text color */
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+/* Style for icon inside the button */
+.btn-icon i {
+    /* Ensure FontAwesome icons inherit proper styles */
+    display: block;
+    margin: 0; /* Reset margin */
+}
+@media (max-width: 992px) {
+    
+    .offcanvas.offcanvas-start.bg-body-tertiary{
+        width: fit-content !important;
+    }
+    .button-label, .black-ops-one-regular{
+        display: none;
+    }
+}
+
+/* MAIN CONTENT */
+
+/* SCHEDULE */
+::-webkit-scrollbar {
+    height: 6px; /* Adjust the width as needed */
+    width: 6px;
+}
+
+/* Thin scrollbar thumb */
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the color as needed */
+    border-radius: 3px; /* Adjust the border-radius as needed */
+}
+  
+.nav-link:not(.active){
+    color: #9ca4a4;
+}
+.tab-pane{
+    margin: 20px;
+
+}
+#table-unscheduled, #table-on-going, #table-completed {
+    min-width: 100%; /* Set initial minimum width to 100% */
+    width: 100%; /* Ensure the table fills its container */
+}
+@media (max-width: 933px) {
+    #table-unscheduled, #table-on-going, #table-completed {
+    min-width: 932px; /* Set minimum width to 932px for larger screens */
+    }
+}
+th, td { 
+    white-space: nowrap; 
+}
+.c8tableTools01 {
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+
+}
+.c8tableBody  {
+    width: 100%;
+    overflow-x: scroll;
+}
+.c8tableTools02 {
+    display: flex;
+    justify-content: space-between;
+}
+
+div.dt-container div.dt-search input:focus {
+    box-shadow: none;
+    border-color: black;
+}
+div.dt-container div.dt-length select:focus {
+    box-shadow: none;
+    border-color: black;
+}
+div.dt-container div.dt-paging ul.pagination {
+    margin: 0;
+    padding: 0;
+}
+
+div.dt-container div.dt-paging ul.pagination li.page-item {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+div.dt-container div.dt-paging ul.pagination li.page-item.active a.page-link,
+div.dt-container div.dt-paging ul.pagination li.page-item.active a.page-link:hover {
+  border: 1px solid black; /* Black border */
+}
+div.dt-container div.dt-paging ul.pagination li.page-item.active a.page-link {
+    background-color: #4DD0E1; /* Blue background color */
+    color: white; /* Text color */
+    box-shadow: none; /* Remove shadow */
+}
+
+/* Style for inactive pagination buttons */
+div.dt-container div.dt-paging ul.pagination li.page-item:not(.active) a.page-link {
+    background-color: white; /* White background color */
+    color: #1A315F; /* Text color */
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+div.dt-container div.dt-paging ul.pagination li.page-item.disabled a.page-link {
+    background-color: #e9ecef; /* Blue background color */
+    color: #5e6066; /* Text color */
+    box-shadow: none; /* Remove shadow */
+}
+
+.btn-outline-info:hover{
+    background-color: #B2EBF2;
+    border-color: #B2EBF2;
+}
+
+/* GENERATE SCHEDULE */
+
+.generate-schedule{
+    margin:10px;
+}
+.generate1 {
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+
+}
+.generateBody  {
+    width: 100%;
+    overflow-x: scroll;
+}
+.generate2 {
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+/* FOOTER */
+
+.footer{
+    margin-right: 20px;
+    padding-bottom: 20px;
+}
