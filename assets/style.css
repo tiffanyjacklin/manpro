@@ -5,12 +5,10 @@
     /* justify-content: center; Horizontal centering */
     align-items: center;
     margin:0;
-
 }
 .offcanvas-body {
     overflow-y: auto; /* Ensure vertical scrollbar is shown */
     scrollbar-width: thin; /* Set the width of the scrollbar */
-
 }
 
 .gradient-line {
@@ -23,6 +21,8 @@
     font-weight: 400;
     font-style: normal;
     color: #1A3358;
+    display: inline-block; 
+    vertical-align: middle;
 }
 .btn-transparent {
     background-color: transparent !important;
@@ -34,6 +34,21 @@
     color: #000;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Add shadow */
 }
+/* Apply transparent background and border to the submit button */
+form button[type="submit"].btn-transparent {
+    background-color: transparent;
+    border: none;
+    color: #000; /* Inherit text color */
+    cursor: pointer; /* Ensure pointer cursor */
+}
+
+/* Apply styles on hover and when active to the submit button */
+form button[type="submit"].btn-transparent:hover,
+form button[type="submit"].btn-transparent:active {
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent background color */
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
 .button-label {
     margin-left: 10px; /* Adjust spacing between icon and button label as needed */
 }
@@ -71,11 +86,11 @@
     margin: 0; /* Reset margin */
 }
 @media (max-width: 992px) {
-    
-    .offcanvas.offcanvas-start.bg-body-tertiary{
+
+    .offcanvas.offcanvas-start.bg-body-tertiary {
         width: fit-content !important;
     }
-    .button-label, .black-ops-one-regular{
+    .button-label{
         display: none;
     }
 }
@@ -101,12 +116,12 @@
     margin: 20px;
 
 }
-#table-unscheduled, #table-on-going, #table-completed {
+#table-unscheduled, #table-on-going, #table-completed, #table-items {
     min-width: 100%; /* Set initial minimum width to 100% */
     width: 100%; /* Ensure the table fills its container */
 }
 @media (max-width: 933px) {
-    #table-unscheduled, #table-on-going, #table-completed {
+    #table-unscheduled, #table-on-going, #table-completed, #table-items {
     min-width: 932px; /* Set minimum width to 932px for larger screens */
     }
 }
@@ -173,10 +188,17 @@ div.dt-container div.dt-paging ul.pagination li.page-item.disabled a.page-link {
     background-color: #B2EBF2;
     border-color: #B2EBF2;
 }
-
+.btn-info{
+    background-color: #B2EBF2;
+    border-color: #B2EBF2;
+}
+.btn-info:hover{
+    background-color: #90e2ec ;
+    border-color: #B2EBF2;
+}
 /* GENERATE SCHEDULE */
 
-.generate-schedule{
+.generate-schedule {
     margin:10px;
 }
 .generate1 {
@@ -193,6 +215,38 @@ div.dt-container div.dt-paging ul.pagination li.page-item.disabled a.page-link {
     padding-top: 10px;
     display: flex;
     justify-content: space-between;
+}
+
+/* ITEMS */
+.custom-col-woi {
+    width: 500px;
+    /* overflow-x: auto;  */
+    /* scrollbar-width: thin;  */
+}
+.form-control::placeholder {
+    color: var(--bs-secondary-color);
+    opacity: 50%;
+  }
+@media (max-width: 600px) {
+    .custom-col-woi {
+        max-width: 500px;
+        overflow-x: auto;
+        scrollbar-width: thin;
+    }
+}
+
+    /* display: flex; */
+    /* justify-content: center; Horizontal centering */
+    /* align-items: center; */
+    /* margin:0; */
+
+.title-form{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.form-label {
+    font-size: 14px;
 }
 /* FOOTER */
 

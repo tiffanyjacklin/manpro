@@ -50,12 +50,12 @@ class GenAlgo:
     def mutate(chrom, products):
         mutated_chrom = chrom[:]  # Copy the chromosome to avoid modifying the original
         mutation_type = random.choice(["single", "double"])
-        
         if mutation_type == "single":
             selected_truck = random.choice(mutated_chrom)
             if len(selected_truck) >= 2:
                 idx1, idx2 = random.sample(range(len(selected_truck)), 2)
                 selected_truck[idx1], selected_truck[idx2] = selected_truck[idx2], selected_truck[idx1]
+
         else:
             idx1, idx2 = random.sample(range(len(mutated_chrom)), 2)
             truck1, truck2 = mutated_chrom[idx1], mutated_chrom[idx2]
@@ -73,6 +73,15 @@ class GenAlgo:
         child1 = parent1[:crossover_point] + parent2[crossover_point:]
         child2 = parent2[:crossover_point] + parent1[crossover_point:]
 
+        # crossover two points
+        # crossover_points = sorted(random.sample(range(1, min(len(parent1), len(parent2)) - 1), 2))
+        # crossover_point1, crossover_point2 = crossover_points
+
+        # child1 = parent1[:crossover_point1] + parent2[crossover_point1:crossover_point2] + parent1[crossover_point2:]
+        # child2 = parent2[:crossover_point1] + parent1[crossover_point1:crossover_point2] + parent2[crossover_point2:]
+
+        # if child1 == parent1 or child2 == parent2: print(True)
+        # else: print(False)
         return child1, child2
 
 
@@ -106,8 +115,8 @@ class GenAlgo:
             for i in range(0, len(selected_parents), 2):
                 parent1, parent2 = selected_parents[i], selected_parents[i+1]
                 child1, child2 = GenAlgo.crossover(parent1, parent2)
-                # child1 = GenAlgo.mutate(child1, products)
-                # child2 = GenAlgo.mutate(child2, products)
+                child1 = GenAlgo.mutate(child1, products)
+                child2 = GenAlgo.mutate(child2, products)
                 offspring.extend([child1, child2])
                 
             # Apply mutation to offspring
@@ -121,17 +130,31 @@ class GenAlgo:
                 best_fitness = GenAlgo.fitness(best_individual, trucks)
                 return best_individual, best_fitness
             
-            old = population
-            population = [min(population, key=lambda chrom: GenAlgo.fitness(chrom, trucks))] + mutated_offspring[:-1]
-
-            # if old == population: print(True)
-            # else: print(False)
-            # print("NEWWWWW ", population)
+            old = population[:]
+            # population = [min(population, key=lambda chrom: GenAlgo.fitness(chrom, trucks))] + mutated_offspring[:-1]
+            best_individuals = sorted(population, key=lambda chrom: GenAlgo.fitness(chrom, trucks))[:5]
+            population = best_individuals + mutated_offspring[:-1]
             
-        # Select the best individual after all generations
-        best_individual = min(population, key=lambda chrom: GenAlgo.fitness(chrom, trucks))
-        best_fitness = GenAlgo.fitness(best_individual, trucks)
-        return best_individual, best_fitness
+        # best_individual = min(population, key=lambda chrom: GenAlgo.fitness(chrom, trucks))
+        # best_fitness = GenAlgo.fitness(best_individual, trucks)
+        sorted_population = sorted(population, key=lambda chrom: GenAlgo.fitness(chrom, trucks))
+        best_individuals = []
+        j = None
+        for i in sorted_population:
+            if i == j:
+                print(True)
+            else: print(False)
+
+            j = i
+
+        for individual in sorted_population:
+            if individual not in best_individuals and len(best_individuals) < 3:
+                best_individuals.append(individual)
+            elif len(best_individuals) == 3:
+                break
+
+        best_fitness = [GenAlgo.fitness(chrom, trucks) for chrom in best_individuals]
+        return best_individuals, best_fitness
 
     def init_population(num_trucks, products):
         return [random.sample(products, random.randint(1, len(products))) for _ in range(num_trucks)]
@@ -146,7 +169,7 @@ class GenAlgo:
         selected_parents = []
         for _ in range(len(population)):
             tournament = random.sample(range(len(population)), tournament_size)
-            winner = max(tournament, key=lambda x: fitness_values[x])
+            winner = min(tournament, key=lambda x: fitness_values[x])
             selected_parents.append(population[winner])
         # print(selected_parents)
         return selected_parents

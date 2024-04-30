@@ -85,10 +85,10 @@ if (isset($_POST['id_barang'])) {
       <div class="tab-content">
         <div class="tab-pane fade" id="on-going">
         <?php
-            $sql = "SELECT * FROM `schedule` WHERE `date_time` IS NULL;";
+            $sql = "SELECT * FROM `schedule` WHERE `date_time` IS NULL AND `schedule_status` = 1;";
             $res = mysqli_query($con, $sql);
 
-            echo '<table class="table table-hover fixed-size-table table-on-going"" id="table-on-going">';
+            echo '<table class="table table-hover fixed-size-table table-on-going" id="table-on-going">';
             echo '<thead>';
             echo '<tr>';
             echo '<th scope="col">Action</th>';
@@ -109,7 +109,72 @@ if (isset($_POST['id_barang'])) {
                   echo '<td>
                           <form id="completeScheduleForm" action="schedule.php" method="POST" style="display: inline;">
                             <input type="hidden" name="id_barang" value="'.$row['id_barang'].'">
-                            <button type="submit" class="btn btn-outline-info btn-sm">Complete</button>
+                            <button type="submit" class="btn btn-outline-info btn-sm">Complete</button>';
+                  echo '
+                  <div class="modal" id="productDetailsModal'.$row['id_barang'].'" tabindex="-1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title title-form">Product Details</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="productDetailsModalBody">';
+
+                            $modal_sql = "SELECT *
+                                          FROM `schedule` JOIN `truck` ON `schedule`.`id_truk` = `truck`.`id` JOIN `item` ON `schedule`.`id_barang` = `item`.`id`
+                                          WHERE `id_schedule` IN (SELECT `id_schedule` FROM `schedule` WHERE `id_barang` = ".$row['id_barang'].")   
+                                          ORDER BY `schedule`.`schedule_status` , `schedule`.`id_barang`;";
+                            $modal_res = mysqli_query($con, $modal_sql);
+                            $schedule_status_lama = 0;
+                            $count = 1;
+                            if (mysqli_num_rows($modal_res) > 0) {
+                              while ($modal_row = mysqli_fetch_array($modal_res)) {
+                                $plate = $modal_row['unique_number'];
+                                if ($modal_row['schedule_status'] != $schedule_status_lama){
+                                  if ($count != 1){
+                                    echo '</tbody>
+                                        </table>';
+                                  }
+                                  echo "<strong>Output GA Terbaik Ke-".$count.":</strong><br>";                                
+                                  echo "<strong>Truck's Unique Number:".$plate."</strong><br>";
+                                  $count++;
+                                  $schedule_status_lama = $modal_row['schedule_status'];
+                                  echo '<table class="table table-hover fixed-size-table">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">ID</th>
+                                      <th scope="col">Product Name</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>';
+                                }
+                                if ($modal_row['id_barang'] == $row['id_barang']){
+                                  echo '<tr>';
+                                  // Display the ID in the first column
+                                  echo '<td><strong>' . $modal_row['id_barang'] . '</strong></td>';
+                                  // Display the item name in the second column
+                                  echo '<td><strong>' . $modal_row['item_name'] . '</strong></td>';
+                                  // Close the row
+                                  echo '</tr>';
+                                }else{
+                                  echo '<tr>';
+                                  // Display the ID in the first column
+                                  echo '<td>' . $modal_row['id_barang'] . '</td>';
+                                  // Display the item name in the second column
+                                  echo '<td>' . $modal_row['item_name'] . '</td>';
+                                  // Close the row
+                                  echo '</tr>';                                }
+                                
+                              }
+                            }
+
+                  echo '</tbody>
+                      </table>                   
+                    </div>
+                  </div>
+                </div>
+              </div>';
+                  echo'
                           </form>
                         </td>';
                   echo '<th>' . $row['id'] . '</th>';
@@ -122,8 +187,10 @@ if (isset($_POST['id_barang'])) {
                               Product ID: '.$row_product['id'].' <br>
                               Product: '.$row_product['item_name'].' <br>
                               Dimension: ' . $row_product['panjang'] . 'cm x ' . $row_product['lebar'] . 'cm x ' . $row_product['tinggi'] . 'cm <br>
-                              Order received: '.$row_product['order_received'].'
-                            </td>';                      
+                              Order received: '.$row_product['order_received'].'<br>
+                              <button type="button" class="btn btn-outline-info btn-sm product-details-btn" data-product-id="' . $row_product['id'] . '" style="margin-top:10px;">Show More</button>
+                            </td>
+                            ';                      
                     }
                   }
                   $sql_truck = "SELECT * FROM `truck` WHERE id = ".$row['id_truk'].";";
@@ -152,7 +219,7 @@ if (isset($_POST['id_barang'])) {
                   $address_res = mysqli_query($con, $address_sql);
                   if (mysqli_num_rows($address_res) > 0) {
                       while ($address_row = mysqli_fetch_array($address_res)) {
-                          echo '<td>' . $address_row['alamat'] . ',<br>' . $address_row['kelurahan_desa'] . ',<br>' . $address_row['kecamatan'] . ',<br>' . $address_row['kota_kabupaten'] . ',<br> Jawa Timur ' . $address_row['kode pos'] . '</td>';
+                          echo '<td>' . $address_row['alamat'] . ',<br>' . $address_row['kelurahan_desa'] . ',<br>' . $address_row['kecamatan'] . ',<br>' . $address_row['kota_kabupaten'] . ',<br> Jawa Timur ' . $address_row['kode_pos'] . '</td>';
                       }
                   }
                   echo '</tr>';
@@ -165,7 +232,7 @@ if (isset($_POST['id_barang'])) {
         </div>
         <div class="tab-pane fade" id="completed">
         <?php
-            $sql = "SELECT * FROM `schedule` WHERE `date_time` IS NOT NULL;";
+            $sql = "SELECT * FROM `schedule` WHERE `date_time` IS NOT NULL AND `schedule_status` = 1;";
             $res = mysqli_query($con, $sql);
 
             echo '<table class="table table-hover fixed-size-table table-completed"" id="table-completed">';
@@ -226,7 +293,7 @@ if (isset($_POST['id_barang'])) {
                   $address_res = mysqli_query($con, $address_sql);
                   if (mysqli_num_rows($address_res) > 0) {
                       while ($address_row = mysqli_fetch_array($address_res)) {
-                          echo '<td>' . $address_row['alamat'] . ',<br>' . $address_row['kelurahan_desa'] . ',<br>' . $address_row['kecamatan'] . ',<br>' . $address_row['kota_kabupaten'] . ',<br> Jawa Timur ' . $address_row['kode pos'] . '</td>';
+                          echo '<td>' . $address_row['alamat'] . ',<br>' . $address_row['kelurahan_desa'] . ',<br>' . $address_row['kecamatan'] . ',<br>' . $address_row['kota_kabupaten'] . ',<br> Jawa Timur ' . $address_row['kode_pos'] . '</td>';
                       }
                   }
                   echo '<td>' . $row['date_time'] . '</td>';
@@ -288,7 +355,7 @@ if (isset($_POST['id_barang'])) {
                   $address_res = mysqli_query($con, $address_sql);
                   if (mysqli_num_rows($address_res) > 0) {
                       while ($address_row = mysqli_fetch_array($address_res)) {
-                          echo '<td>' . $address_row['alamat'] . ',<br>' . $address_row['kelurahan_desa'] . ',<br>' . $address_row['kecamatan'] . ',<br>' . $address_row['kota_kabupaten'] . ',<br> Jawa Timur ' . $address_row['kode pos'] . '</td>';
+                          echo '<td>' . $address_row['alamat'] . ',<br>' . $address_row['kelurahan_desa'] . ',<br>' . $address_row['kecamatan'] . ',<br>' . $address_row['kota_kabupaten'] . ',<br> Jawa Timur ' . $address_row['kode_pos'] . '</td>';
                       }
                   }
                   echo '</tr>';
@@ -320,6 +387,21 @@ if (isset($_POST['id_barang'])) {
         //     Perform further action with selectedItems array, e.g., generate schedule
         //     console.log(selectedItems); // Placeholder action for demonstration
         // }
+          // JavaScript to handle click event on product details button
+        document.addEventListener('DOMContentLoaded', function() {
+          const productDetailsButtons = document.querySelectorAll('.product-details-btn');
+          const modalBody = document.getElementById('productDetailsModalBody');
+
+          productDetailsButtons.forEach(button => {
+            button.addEventListener('click', function() {
+              // Get the product ID from the data attribute
+              const productId = this.getAttribute('data-product-id');
+              // Show the modal
+              const modal = new bootstrap.Modal(document.getElementById('productDetailsModal' + productId));
+              modal.show();
+            });
+          });
+        });
         $(document).ready(function() {
           $('#table-unscheduled').DataTable({
               "pageLength": 10,

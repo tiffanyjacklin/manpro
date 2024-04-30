@@ -1,10 +1,18 @@
+<?php
+
+if(isset($_POST['logout'])){
+    session_destroy(); // Hapus semua data sesi
+    header("Location: login.php");
+    exit(); // Hentikan eksekusi skrip agar tidak melanjutkan ke bagian bawah
+}
+?>
 <div class="offcanvas offcanvas-start bg-body-tertiary" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="width: fit-content !important;">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title">
-            <img src="images/logo-bt.png" style="height: 50px" alt="Logo">
-            <a class="navbar-brand black-ops-one-regular" href="dashboard.php" >  
+            <img src="images/logo-bt.png" style="height: 50px; display: inline-block; vertical-align: middle;" alt="Logo" >
+            <span class="button-label navbar-brand black-ops-one-regular" href="dashboard.php" >  
                 TIP LOGISTICS
-            </a>
+            </span>
         </h5>
         <!-- <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button> -->
     </div>
@@ -22,7 +30,7 @@
                 <div class="btn-icon">
                     <i class="fa-solid fa-cubes" aria-pressed="false"></i>
                 </div>
-                <span class="button-label">Products</span>
+                <span class="button-label">Items</span>
             </button>
             <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                 <div class="btn-icon">
@@ -49,12 +57,14 @@
                 </div>
                 <span class="button-label">Billing</span>
             </button>
-            <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
-                <div class="btn-icon">
-                    <i class="fa-solid fa-right-from-bracket" aria-pressed="false"></i>
-                </div>
-                <span class="button-label">Sign Out</span>
-            </button>
+            <form action="" method="POST">
+                <button type="submit" name="logout" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false">
+                    <div class="btn-icon">
+                        <i class="fa-solid fa-right-from-bracket" aria-pressed="false"></i>
+                    </div>
+                    <span class="button-label">Sign Out</span>
+                </button>
+            </form>
             </div>
         </div>
     </div>

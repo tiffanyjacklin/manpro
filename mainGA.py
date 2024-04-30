@@ -3,6 +3,7 @@ from produk import Product, Destination
 from transport import Transportation
 import random
 import mysql.connector
+import json
 
 mydb = mysql.connector.connect(
   host="localhost",
@@ -20,9 +21,7 @@ def longest_subarray_length(arr):
     return max_length
 
 def print_sol(best_solution):
-    # print("best", best_solution)
     unique_elements = set()
-
     unique_sublist = [[] for _ in range(len(best_solution))]
     index = 0
     while index <= longest_subarray_length(best_solution):
@@ -33,17 +32,17 @@ def print_sol(best_solution):
                     unique_sublist[best_solution.index(truck)].append(item)
                     break
         index += 1
-
+    
     sublist = []
-
-    for i, truck in enumerate(unique_sublist):
+    for i, truck in enumerate(unique_sublist): 
         temp = []
         # print(f"Truck {i+1}:")
         for product in truck:
             temp.append(product.id)
             # print(f"  Product - ID: {product.id}, Name: {product.name}, Weight: {product.weight}, Length: {product.length}, Width: {product.width}, Height: {product.height}, Destination: {product.dest.dest_city}, Jarak: {product.dest.distance}")
         sublist.append(temp)
-    print(sublist)
+    # print(sublist)
+    return sublist
 
 def product(product_list, location_list):
     product_lists = []
@@ -74,7 +73,7 @@ def fetch_data():
     mycursor.execute(sql_location)
     mylocation = mycursor.fetchall()
 
-    sql_truck = "SELECT * FROM truck"
+    sql_truck = "SELECT * FROM truck WHERE t_status = 1"
     mycursor.execute(sql_truck)
     mytruck = mycursor.fetchall()
 
@@ -101,4 +100,7 @@ best_solution, best_fitness = GenAlgo.genetic_algorithm(population_size, num_gen
 #         product_ids = [product.id for product in row]
 #         print(product_ids)
 # print_sol(best_solution)
-result = print_sol(best_solution)
+result = []
+for best in best_solution:
+    result.append(print_sol(best))
+print(result)

@@ -4,78 +4,75 @@ require "connect.php";
 
 
 if (isset($_POST['item_ids_output'])) {
-
-    // Retrieve the item_ids_output data from the form submission
     $item_ids_output = $_POST['item_ids_output'];
-    // Remove square brackets and split the string into individual arrays
-    $item_ids_array = explode('], [', trim($item_ids_output, '[]'));
-
-    // Convert each array element into an array
-    $item_ids_by_truck = array_map(function($item_ids) {
-        return explode(',', $item_ids);
-    }, $item_ids_array);
-    
-    // Trim each item ID in the arrays
-    $item_ids_by_truck = array_map(function($item_ids) {
-        return array_map('trim', $item_ids);
-    }, $item_ids_by_truck);
-
-    if (is_array($item_ids_by_truck)) {
-        $sql_id_schedule = "SELECT `id_schedule` FROM `schedule` ORDER BY `id` DESC LIMIT 1;"; 
-        $res_id_schedule = mysqli_query($con, $sql_id_schedule);
-
-        if ($res_id_schedule) {
-        // Check if any rows were returned
-            if (mysqli_num_rows($res_id_schedule) > 0) {
-                // Fetch the result row as an associative array
-                $row = mysqli_fetch_assoc($res_id_schedule);
-                // Access the id_schedule value
-                $latest_id_schedule = $row['id_schedule'];
-                // Use the value as needed
-            } 
-        }
-        $schedule_id_counter = $latest_id_schedule;
-        $updated_trucks = [];
-
-        foreach ($item_ids_by_truck as $truck_id => $item_ids) {
-            if (!in_array("", $item_ids)) {
-                // Increment the schedule ID counter only if items exist for the truck
-                $schedule_id_counter++;
-            }
-            if (!empty($item_ids)) {
-                // Increment the schedule ID counter only if items exist for the truck
-            
+        // $item_ids_output = exec("python ./mainGA.py");
+    // echo $item_ids_output;
                 
-                foreach ($item_ids as $item_id) {
-                    // Fetch item details from the database
-                    $sql = "SELECT * FROM `item` WHERE `status` = 0 AND `id` = '".$item_id."';";
-                    $res = mysqli_query($con, $sql);
-                    
-                    if (mysqli_num_rows($res) > 0) {
-                        while ($row = mysqli_fetch_array($res)) {
-                            $sql_insert = "INSERT INTO `schedule` (`status`, `id_schedule`, `id_barang`, `id_truk`, `id_location_from`, `id_location_dest`) VALUES (1, ".$schedule_id_counter.",  ".$item_id.", ".($truck_id+1).", ".$row['id_location_from'].", ".$row['id_location_to'].");"; 
-                            mysqli_query($con,$sql_insert);
+    $item_ids_by_trucks = json_decode($item_ids_output);
+    // $item_ids_by_truck = $item_ids_by_trucks[0];
+    $count = 1;
 
-                            $sql_update_status = "UPDATE `item` SET status = 1 WHERE `id` = '".$item_id."';";
-                            mysqli_query($con,$sql_update_status);
-                            
-                            if (!in_array($truck_id, $updated_trucks)) {
-                                $sql_update_truck = "UPDATE `truck` SET id_location = ".$row['id_location_from']." WHERE `id` = '".($truck_id+1)."'";
-                                mysqli_query($con,$sql_update_truck);
-                                // Add truck to updated list
-                                $updated_trucks[] = $truck_id;
-                            }
+    foreach ($item_ids_by_trucks as $item_ids_by_truck) {
+        if (is_array($item_ids_by_truck)) {
+            
+            $sql_id_schedule = "SELECT `id_schedule` FROM `schedule` ORDER BY `id` DESC LIMIT 1;"; 
+            $res_id_schedule = mysqli_query($con, $sql_id_schedule);
 
+            if ($res_id_schedule) {
+                if (mysqli_num_rows($res_id_schedule) > 0) {
+                    $row = mysqli_fetch_assoc($res_id_schedule);
+                    $latest_id_schedule = $row['id_schedule'];
+                } 
+            }
+            $schedule_id_counter = $latest_id_schedule;
+            $updated_trucks = [];
+
+            foreach ($item_ids_by_truck as $truck_id => $item_ids) {
+                if (!in_array("", $item_ids)) {
+                    $schedule_id_counter++;
+                }
+                if (!empty($item_ids)) {
+                    foreach ($item_ids as $item_id) {
+                        if ($count == 1){
+                            $sql = "SELECT * FROM `item` WHERE `status` = 0 AND `id` = '".$item_id."';";    
+                        }else{
+                            // echo "GAMASUK TA IKI<br>";
+                            $sql = "SELECT * FROM `item` WHERE `id` = '".$item_id."';";    
                         }
-                    } 
+                        $res = mysqli_query($con, $sql);
+                        
+
+                        if (mysqli_num_rows($res) > 0) {
+                            while ($row = mysqli_fetch_array($res)) {
+                                if ($count == 1){
+                                    $sql_insert = "INSERT INTO `schedule` (`status`, `id_schedule`, `id_barang`, `id_truk`, `id_location_from`, `id_location_dest`, `schedule_status`) VALUES (1, ".$schedule_id_counter.",  ".$item_id.", ".($truck_id+1).", ".$row['id_location_from'].", ".$row['id_location_to'].",1);"; 
+                                    mysqli_query($con,$sql_insert);
+        
+                                    $sql_update_status = "UPDATE `item` SET status = 1 WHERE `id` = '".$item_id."';";
+                                    mysqli_query($con,$sql_update_status);
+        
+                                    if (!in_array($truck_id, $updated_trucks)) {
+                                        $sql_update_truck = "UPDATE `truck` SET id_location = ".$row['id_location_from']." WHERE `id` = '".($truck_id+1)."'";
+                                        mysqli_query($con,$sql_update_truck);
+                                        $updated_trucks[] = $truck_id;
+                                    }
+                                }
+                                else{
+                                    // echo "MASUK KOK";
+                                    $sql_insert = "INSERT INTO `schedule` (`status`, `id_schedule`, `id_barang`, `id_truk`, `id_location_from`, `id_location_dest`, `schedule_status`) VALUES (0, ".$schedule_id_counter.",  ".$item_id.", ".($truck_id+1).", ".$row['id_location_from'].", ".$row['id_location_to'].",$count);"; 
+                                    mysqli_query($con,$sql_insert);
+                                }
+                                
+                            }
+                        } 
+                    }
                 }
             }
-        }
-        header("Location: schedule.php");
-    } 
-    // Now you can use $item_ids_output as needed
-    // For example, you can process it or display it
-    echo $item_ids_output;
+            // $count++;
+        } $count++;
+        // echo $count;
+    }
+    header("Location: schedule.php");
 }
 ?>
 <!DOCTYPE html>
@@ -92,23 +89,13 @@ if (isset($_POST['item_ids_output'])) {
     <div class="main-content">
         <div class="container">
         <div class="generate-schedule">
-            <?php
+        <?php
             $item_ids_output = exec("python ./mainGA.py");
             echo $item_ids_output;
             
-            // Remove square brackets and split the string into individual arrays
-            $item_ids_array = explode('], [', trim($item_ids_output, '[]'));
-
-            // Convert each array element into an array
-            $item_ids_by_truck = array_map(function($item_ids) {
-                return explode(',', $item_ids);
-            }, $item_ids_array);
+            $item_ids_by_trucks = json_decode($item_ids_output);
+            $item_ids_by_truck = $item_ids_by_trucks[0];
             
-            // Trim each item ID in the arrays
-            $item_ids_by_truck = array_map(function($item_ids) {
-                return array_map('trim', $item_ids);
-            }, $item_ids_by_truck);
-
             if (is_array($item_ids_by_truck)) {
                 // echo '<pre>';
                 // var_dump($item_ids_by_truck);
@@ -195,7 +182,7 @@ if (isset($_POST['item_ids_output'])) {
                                     $address_res = mysqli_query($con, $address_sql);
                                     if (mysqli_num_rows($address_res) > 0) {
                                         while ($address_row = mysqli_fetch_array($address_res)) {
-                                            echo '<td>' . $address_row['alamat'] . ',<br>' . $address_row['kelurahan_desa'] . ',<br>' . $address_row['kecamatan'] . ',<br>' . $address_row['kota_kabupaten'] . ',<br> Jawa Timur ' . $address_row['kode pos'] . '</td>';
+                                            echo '<td>' . $address_row['alamat'] . ',<br>' . $address_row['kelurahan_desa'] . ',<br>' . $address_row['kecamatan'] . ',<br>' . $address_row['kota_kabupaten'] . ',<br> Jawa Timur ' . $address_row['kode_pos'] . '</td>';
                                         }
                                     }
                                     echo '</tr>';
