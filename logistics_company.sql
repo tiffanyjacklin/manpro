@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 16, 2024 at 07:12 PM
+-- Generation Time: Apr 30, 2024 at 08:48 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -29,16 +29,17 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
-  `name` varchar(40) NOT NULL,
-  `password` varchar(40) NOT NULL
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`id`, `name`, `password`) VALUES
-(1, 'admin', 'admin');
+INSERT INTO `admin` (`id`, `username`, `password`) VALUES
+(1, 'admin', '$2y$10$2T5uaYdwB5vES7CTD9rMk.rFnFZ4FfADBUuIra.zzzojWb/l95NLa'),
+(2, 'admin2', '$2y$10$IB7/wtHOP.jjLpxpuqEZUeWvHdiris5MVrHlZpYziVHZS1RTRnPVy');
 
 -- --------------------------------------------------------
 
@@ -58,7 +59,7 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `max_weight_kg`, `base_price`, `multiplier_per_kg`) VALUES
-(1, 3, 10, 9),
+(1, 3, 9, 9),
 (2, 6, 35, 0),
 (3, 50, 35, 7);
 
@@ -14970,7 +14971,7 @@ INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `
 (5, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-02-12 11:34:11', '2024-04-17 00:06:31', 28, 'Tiffany', '081888888888', 57, 'Lucky', '081111111111'),
 (6, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-02-13 08:16:00', '2024-04-17 00:06:31', 46, 'Tiffany', '081888888888', 15, 'Lucky', '081111111111'),
 (7, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-16 17:11:48', '2024-04-17 00:11:48', 106, 'Tiffany', '081888888888', 121, 'Lucky', '081111111111'),
-(8, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-03-01 16:55:01', NULL, 115, 'Tiffany', '081888888888', 40, 'Lucky', '081111111111'),
+(8, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-29 14:26:11', '2024-04-29 21:26:11', 115, 'Tiffany', '081888888888', 40, 'Lucky', '081111111111'),
 (9, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-03-04 23:46:55', NULL, 121, 'Tiffany', '081888888888', 7, 'Lucky', '081111111111'),
 (10, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-03-09 21:29:49', NULL, 29, 'Tiffany', '081888888888', 54, 'Lucky', '081111111111'),
 (11, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-03-13 16:14:07', NULL, 36, 'Tiffany', '081888888888', 66, 'Lucky', '081111111111'),
@@ -14980,9 +14981,27 @@ INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `
 (15, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-03-26 21:26:15', NULL, 108, 'Tiffany', '081888888888', 37, 'Lucky', '081111111111'),
 (16, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-03 14:15:34', NULL, 85, 'Tiffany', '081888888888', 50, 'Lucky', '081111111111'),
 (17, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-07 19:22:58', NULL, 64, 'Tiffany', '081888888888', 113, 'Lucky', '081111111111'),
-(18, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-09 03:50:52', NULL, 108, 'Tiffany', '081888888888', 59, 'Lucky', '081111111111'),
+(18, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-30 06:23:54', '2024-04-30 13:23:54', 108, 'Tiffany', '081888888888', 59, 'Lucky', '081111111111'),
 (19, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-10 09:09:23', NULL, 86, 'Tiffany', '081888888888', 27, 'Lucky', '081111111111'),
-(20, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-13 09:59:19', NULL, 9, 'Tiffany', '081888888888', 97, 'Lucky', '081111111111');
+(20, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-13 09:59:19', NULL, 9, 'Tiffany', '081888888888', 97, 'Lucky', '081111111111'),
+(21, 1, 'parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 6, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888'),
+(22, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
+(23, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
+(24, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
+(25, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
+(26, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
+(27, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
+(28, 1, 'parfum', 20, 10, 15, 2, 1, 105000, '2024-04-29 14:24:11', NULL, 6, 'Fiola', '081999999999', 52, 'Tiffany', '081888888888'),
+(29, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
+(30, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
+(31, 1, 'Petite Avenue Perfume', 10, 10, 15, 1, 1, 20000, '2024-04-29 14:24:11', NULL, 3, 'Fiola', '081999999999', 2, 'Tiffany', '081888888888'),
+(32, 1, 'Petite Avenue Perfume', 20, 10, 15, 2, 1, 28000, '2024-04-29 14:24:11', NULL, 9, 'Fiola', '081999999999', 2, 'Tiffany', '081888888888'),
+(33, 1, 'Petite Avenue Perfume', 20, 10, 15, 2, 1, 131000, '2024-04-29 14:24:11', NULL, 2, 'Fiola', '081999999999', 54, 'Tiffany', '081888888888'),
+(34, 1, 'Petite Avenue Perfume', 30, 10, 10, 3, 1, 52000, '2024-04-29 14:24:11', NULL, 7, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888'),
+(35, 1, 'Petite Avenue Perfume', 30, 10, 10, 3, 1, 52000, '2024-04-29 14:24:11', NULL, 7, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888'),
+(36, 1, 'Kulkas', 50, 50, 150, 20, 3, 161000, '2024-04-30 06:23:41', NULL, 6, 'Fiola', '081999999999', 2, 'Tiffany', '081888888888'),
+(37, 1, 'Mesin Cuci', 70, 40, 80, 15, 3, 200000, '2024-04-30 06:23:41', NULL, 4, 'Fiola', '081999999999', 11, 'Tiffany', '081888888888'),
+(38, 1, 'Meja', 70, 50, 50, 10, 3, 119000, '2024-04-30 06:23:41', NULL, 5, 'Fiola', '081999999999', 16, 'Tiffany', '081888888888');
 
 -- --------------------------------------------------------
 
@@ -14996,7 +15015,7 @@ CREATE TABLE `location` (
   `kota_kabupaten` varchar(50) NOT NULL,
   `kecamatan` varchar(50) NOT NULL,
   `kelurahan_desa` varchar(50) NOT NULL,
-  `kode pos` int(5) NOT NULL,
+  `kode_pos` int(5) NOT NULL,
   `latitude` varchar(100) NOT NULL,
   `longitude` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -15005,7 +15024,7 @@ CREATE TABLE `location` (
 -- Dumping data for table `location`
 --
 
-INSERT INTO `location` (`id`, `alamat`, `kota_kabupaten`, `kecamatan`, `kelurahan_desa`, `kode pos`, `latitude`, `longitude`) VALUES
+INSERT INTO `location` (`id`, `alamat`, `kota_kabupaten`, `kecamatan`, `kelurahan_desa`, `kode_pos`, `latitude`, `longitude`) VALUES
 (1, 'Kedung Cowek Viii No. 1A', 'Surabaya', 'Bulak', 'Kedung Cowek', 60124, '-7.219096', '112.777034'),
 (2, 'Kenjeran No.438', 'Surabaya', 'Tambaksari', 'Gading', 60134, '-7.2485679', '112.7770085'),
 (3, 'Demak Timur No.28', 'Surabaya', 'Bubutan', 'Gundih', 60172, '-7.2485241', '112.7059558'),
@@ -15143,6 +15162,7 @@ CREATE TABLE `schedule` (
   `id_location_from` int(11) NOT NULL,
   `id_location_dest` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL,
+  `schedule_status` int(1) NOT NULL,
   `date_time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -15150,27 +15170,81 @@ CREATE TABLE `schedule` (
 -- Dumping data for table `schedule`
 --
 
-INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_truk`, `id_location_from`, `id_location_dest`, `status`, `date_time`) VALUES
-(1, 1, 1, 1, 2, 1, 2, '2024-04-16 23:03:06'),
-(2, 2, 2, 2, 2, 1, 2, '2024-04-16 23:19:57'),
-(3, 3, 9, 1, 121, 7, 2, '2024-04-16 23:55:50'),
-(4, 4, 12, 2, 86, 88, 2, '2024-04-17 00:00:46'),
-(5, 5, 6, 3, 46, 15, 2, '2024-04-17 00:06:31'),
-(6, 5, 10, 3, 29, 54, 2, '2024-04-17 00:06:34'),
-(7, 6, 7, 4, 106, 121, 2, '2024-04-17 00:11:48'),
-(8, 6, 8, 4, 115, 40, 1, NULL),
-(9, 7, 18, 5, 108, 59, 1, NULL),
-(10, 8, 20, 6, 9, 97, 1, NULL),
-(11, 9, 3, 7, 22, 70, 1, NULL),
-(12, 10, 13, 8, 90, 67, 1, NULL),
-(13, 11, 19, 9, 86, 27, 1, NULL),
-(14, 12, 16, 10, 85, 50, 1, NULL),
-(15, 13, 11, 11, 36, 66, 1, NULL),
-(16, 14, 15, 12, 108, 37, 1, NULL),
-(17, 15, 17, 13, 64, 113, 1, NULL),
-(18, 16, 4, 14, 74, 79, 1, NULL),
-(19, 17, 14, 15, 77, 53, 1, NULL),
-(20, 18, 5, 16, 28, 57, 1, NULL);
+INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_truk`, `id_location_from`, `id_location_dest`, `status`, `schedule_status`, `date_time`) VALUES
+(1, 1, 1, 1, 2, 1, 2, 1, '2024-04-16 23:03:06'),
+(2, 2, 2, 2, 2, 1, 2, 1, '2024-04-16 23:19:57'),
+(3, 3, 9, 1, 121, 7, 2, 1, '2024-04-16 23:55:50'),
+(4, 4, 12, 2, 86, 88, 2, 1, '2024-04-17 00:00:46'),
+(5, 5, 6, 3, 46, 15, 2, 1, '2024-04-17 00:06:31'),
+(6, 5, 10, 3, 29, 54, 2, 1, '2024-04-17 00:06:34'),
+(7, 6, 7, 4, 106, 121, 2, 1, '2024-04-17 00:11:48'),
+(8, 6, 8, 4, 115, 40, 2, 1, '2024-04-29 21:26:11'),
+(9, 7, 18, 5, 108, 59, 2, 1, '2024-04-30 13:23:54'),
+(10, 8, 20, 6, 9, 97, 1, 1, NULL),
+(11, 9, 3, 7, 22, 70, 1, 1, NULL),
+(12, 10, 13, 8, 90, 67, 1, 1, NULL),
+(13, 11, 19, 9, 86, 27, 1, 1, NULL),
+(14, 12, 16, 10, 85, 50, 1, 1, NULL),
+(15, 13, 11, 11, 36, 66, 1, 1, NULL),
+(16, 14, 15, 12, 108, 37, 1, 1, NULL),
+(17, 15, 17, 13, 64, 113, 1, 1, NULL),
+(18, 16, 4, 14, 74, 79, 1, 1, NULL),
+(19, 17, 14, 15, 77, 53, 1, 1, NULL),
+(20, 18, 5, 16, 28, 57, 1, 1, NULL),
+(21, 19, 27, 1, 3, 52, 1, 1, NULL),
+(22, 19, 34, 1, 7, 3, 1, 1, NULL),
+(23, 19, 22, 1, 3, 52, 1, 1, NULL),
+(24, 19, 30, 1, 3, 52, 1, 1, NULL),
+(25, 19, 26, 1, 3, 52, 1, 1, NULL),
+(26, 19, 25, 1, 3, 52, 1, 1, NULL),
+(27, 19, 31, 1, 3, 2, 1, 1, NULL),
+(28, 20, 32, 2, 9, 2, 1, 1, NULL),
+(29, 20, 23, 2, 3, 52, 1, 1, NULL),
+(30, 21, 33, 3, 2, 54, 1, 1, NULL),
+(31, 21, 29, 3, 3, 52, 1, 1, NULL),
+(32, 21, 35, 3, 7, 3, 1, 1, NULL),
+(33, 21, 28, 3, 6, 52, 1, 1, NULL),
+(34, 21, 21, 3, 6, 3, 1, 1, NULL),
+(35, 21, 24, 3, 3, 52, 1, 1, NULL),
+(36, 22, 27, 1, 3, 52, 0, 2, NULL),
+(37, 22, 34, 1, 7, 3, 0, 2, NULL),
+(38, 22, 22, 1, 3, 52, 0, 2, NULL),
+(39, 22, 29, 1, 3, 52, 0, 2, NULL),
+(40, 22, 30, 1, 3, 52, 0, 2, NULL),
+(41, 22, 26, 1, 3, 52, 0, 2, NULL),
+(42, 22, 21, 1, 6, 3, 0, 2, NULL),
+(43, 22, 25, 1, 3, 52, 0, 2, NULL),
+(44, 22, 33, 1, 2, 54, 0, 2, NULL),
+(45, 22, 31, 1, 3, 2, 0, 2, NULL),
+(46, 23, 32, 2, 9, 2, 0, 2, NULL),
+(47, 23, 23, 2, 3, 52, 0, 2, NULL),
+(48, 24, 24, 3, 3, 52, 0, 2, NULL),
+(49, 24, 28, 3, 6, 52, 0, 2, NULL),
+(50, 24, 35, 3, 7, 3, 0, 2, NULL),
+(51, 25, 27, 1, 3, 52, 0, 3, NULL),
+(52, 25, 34, 1, 7, 3, 0, 3, NULL),
+(53, 25, 22, 1, 3, 52, 0, 3, NULL),
+(54, 25, 30, 1, 3, 52, 0, 3, NULL),
+(55, 25, 26, 1, 3, 52, 0, 3, NULL),
+(56, 25, 31, 1, 3, 2, 0, 3, NULL),
+(57, 26, 35, 2, 7, 3, 0, 3, NULL),
+(58, 26, 24, 2, 3, 52, 0, 3, NULL),
+(59, 26, 23, 2, 3, 52, 0, 3, NULL),
+(60, 26, 25, 2, 3, 52, 0, 3, NULL),
+(61, 26, 21, 2, 6, 3, 0, 3, NULL),
+(62, 27, 33, 3, 2, 54, 0, 3, NULL),
+(63, 27, 29, 3, 3, 52, 0, 3, NULL),
+(64, 27, 32, 3, 9, 2, 0, 3, NULL),
+(65, 27, 28, 3, 6, 52, 0, 3, NULL),
+(66, 28, 38, 1, 5, 16, 1, 1, NULL),
+(67, 28, 37, 1, 4, 11, 1, 1, NULL),
+(68, 29, 36, 2, 6, 2, 1, 1, NULL),
+(69, 30, 38, 1, 5, 16, 0, 2, NULL),
+(70, 31, 36, 2, 6, 2, 0, 2, NULL),
+(71, 32, 37, 3, 4, 11, 0, 2, NULL),
+(72, 33, 38, 1, 5, 16, 0, 3, NULL),
+(73, 34, 36, 2, 6, 2, 0, 3, NULL),
+(74, 35, 37, 3, 4, 11, 0, 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -15198,22 +15272,23 @@ CREATE TABLE `truck` (
 --
 
 INSERT INTO `truck` (`id`, `unique_number`, `capacity_kg`, `panjang`, `lebar`, `tinggi`, `t_status`, `fuel_capacity`, `fuel_now`, `km_per_liter`, `id_fuel`, `id_location`) VALUES
-(1, 'AE 7001 AB', 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 121),
-(2, 'AE 8002 CD', 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 86),
-(3, 'AG 8003 EF', 2000, 310, 175, 185, 1, 70, 70, 7, 6, 29),
-(4, 'AG 9004 GH', 1000, 230, 140, 124, 1, 43, -24.8985, 13.3, 1, 115),
-(5, 'L 9005 IJ ', 2000, 310, 175, 185, 1, 70, 70, 7, 6, 108),
-(6, 'L 8006 KL ', 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 9),
-(7, 'M 9007 MN ', 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 22),
-(8, 'M 8008 OP ', 2000, 310, 175, 185, 1, 70, 70, 7, 6, 90),
-(9, 'N 9009 QR ', 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 86),
-(10, 'N 8010 ST ', 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 85),
-(11, 'P 7011 UV ', 2000, 310, 175, 185, 1, 70, 70, 7, 6, 36),
-(12, 'P 8012 WX ', 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 108),
-(13, 'S 8013 YZ ', 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 64),
-(14, 'S 9014 AB ', 2000, 310, 175, 185, 1, 70, 70, 7, 6, 74),
-(15, 'W 8015 CD ', 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 77),
-(16, 'W 9016 EF ', 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 28);
+(1, 'AE 7001 AB', 1000, 230, 140, 124, 1, 43, 43, 14.63, 2, 5),
+(2, 'AE 8002 CD', 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 6),
+(3, 'AG 8003 EF', 2000, 310, 175, 185, 2, 70, 70, 7, 6, 2),
+(4, 'AG 9004 GH', 1000, 230, 140, 124, 2, 43, 41.1682, 13.3, 1, 115),
+(5, 'L 9005 IJ ', 2000, 310, 175, 185, 2, 70, 31.342, 7, 6, 108),
+(6, 'L 8006 KL ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 9),
+(7, 'M 9007 MN ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 22),
+(8, 'M 8008 OP ', 2000, 310, 175, 185, 2, 70, 70, 7, 6, 90),
+(9, 'N 9009 QR ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 86),
+(10, 'N 8010 ST ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 85),
+(11, 'P 7011 UV ', 2000, 310, 175, 185, 2, 70, 70, 7, 6, 36),
+(12, 'P 8012 WX ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 108),
+(13, 'S 8013 YZ ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 64),
+(14, 'S 9014 AB ', 2000, 310, 175, 185, 2, 70, 70, 7, 6, 74),
+(15, 'W 8015 CD ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 77),
+(16, 'W 9016 EF ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 28),
+(20, 'L 8123 FM', 1000, 230, 140, 124, 1, 43, 0, 13.3, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -15264,7 +15339,9 @@ INSERT INTO `truck_driver` (`id`, `id_truck`, `id_driver`, `position`) VALUES
 (29, 13, 22, 2),
 (30, 14, 18, 2),
 (31, 15, 14, 2),
-(32, 16, 10, 2);
+(32, 16, 10, 2),
+(65, 20, 21, 1),
+(66, 20, 24, 2);
 
 --
 -- Indexes for dumped tables
@@ -15352,7 +15429,7 @@ ALTER TABLE `truck_driver`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -15382,7 +15459,7 @@ ALTER TABLE `fuel`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `location`
@@ -15394,19 +15471,19 @@ ALTER TABLE `location`
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `truck`
 --
 ALTER TABLE `truck`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `truck_driver`
 --
 ALTER TABLE `truck_driver`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- Constraints for dumped tables
