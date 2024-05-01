@@ -78,7 +78,21 @@ if (isset($_POST['id_barang'])) {
           <a class="nav-link" href="#completed">Completed</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#unscheduled">Unscheduled</a>
+          <a class="nav-link" href="#unscheduled">Unscheduled
+              <?php
+              $unschedule_sql = "SELECT COUNT(*) FROM `item` WHERE `status` = 0;";
+              $unschedule_res = mysqli_query($con, $unschedule_sql);
+              if (mysqli_num_rows($unschedule_res) > 0) {
+                // Loop through the fetched rows and display them
+                while ($unschedule_row = mysqli_fetch_array($unschedule_res)) {
+                  if ($unschedule_row['COUNT(*)'] > 0){
+                    echo '<span class="badge text-bg-custom">'.$unschedule_row['COUNT(*)'].'</span>';
+                    
+                  }
+                }
+              }
+              ?>
+            </a>
         </li>
       </ul>
 

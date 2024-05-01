@@ -18,7 +18,7 @@ require "connect.php";
         <!-- <h5 class="title-form" style="font-size: 40px; margin-top: 10px;">Daftar Truk</h5> -->
 
         <!-- Add Truck button with styling -->
-        <button type="button" class="btn btn-outline-info" onclick="window.location.href='add.php'" style="margin-top:20px;">Add Truck</button>
+        <button type="button" class="btn btn-outline-info" onclick="window.location.href='add_truck.php'" style="margin-top:20px;">Add Truck</button>
 
         <table class="table table-hover fixed-size-table table-generate" id="table-truck">
           <thead>

@@ -1,6 +1,7 @@
 <?php
 include "database.php";
 require "connect.php";
+session_start();
 
 $add_message = "";
 
@@ -101,59 +102,100 @@ if (isset($_POST["add"])){
 
     <div class="main-content">
       <div class="container">
-        <i><?= $add_message ?></i>
-        <div class="mx-auto custom-col-woi" style="margin-bottom:20px;">
-    <form class="row g-3" action="add.php" method="POST">
-        <div class="col-12 d-flex justify-content-between" style="padding-top: 20px; padding-bottom: 20px;">
-            <button type="button" class="btn btn-outline-info" onclick="window.location.href='items.php'">Back</button>
-            <h5 class="title-form">Add Truck Form</h5>
-            <button class="btn btn-info" type="submit" name="add">Add</button>
-        </div>
+        <i><?= $add_message ?></i>        
+        <div class="col-12 d-flex justify-content-between" style="padding-top: 20px;">
+                    <button type="button" class="btn btn-outline-info" onclick="window.location.href='items.php'">Back</button>
+                    <h5 class="title-form">Add Truck Form</h5>
+                    <button class="btn btn-info" type="submit" name="add">Add</button>
+                </div>
+        <h5 class="title-form" style="margin-top: 20px; margin-bottom: 20px;"><h5>
+        <table class="table table-hover fixed-size-table table-truck-type" id="table-truck-type">
+            <thead>
+                <tr>
+                    <th scope="col">Type</th>
+                    <th scope="col">Dimension</th>
+                    <th scope="col">Truck Capacity</th>
+                    <th scope="col">Fuel Type</th>
+                    <th scope="col">Fuel Capacity</th>
+                    <th scope="col">km/L</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>CDE</td>
+                    <td>P: 310 cm<br>
+                        L: 175 cm<br>
+                        T: 185 cm</td>
+                    <td>2000 kg</td>
+                    <td>Solar JBT</td>
+                    <td>70 Liter</td>
+                    <td>7</td>
+                </tr>
+                <tr>
+                    <td>CDD</td>
+                    <td>P: 230 cm<br>
+                        L: 140 cm<br>
+                        T: 124 cm</td>
+                    <!-- <td>230 cm x 140 cm x 124 cm</td> -->
+                    <td>1000 kg</td>
+                    <td>Pertalite</td>
+                    <td>43 Liter</td>
+                    <td>13.3</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="mx-auto custom-col-woi" style="margin-bottom:20px; padding-top: 20px;">
+            <form class="row g-3" action="add_truck.php" method="POST">
+                <!-- <div class="col-12 d-flex justify-content-between" style="padding-top: 20px; padding-bottom: 20px;">
+                    <button type="button" class="btn btn-outline-info" onclick="window.location.href='items.php'">Back</button>
+                    <h5 class="title-form">Add Truck Form</h5>
+                    <button class="btn btn-info" type="submit" name="add">Add</button>
+                </div> -->
 
-        <div class="col-md-6">
-            <label for="unique_number" class="form-label">Unique Number</label>
-            <input type="text" class="form-control" id="unique_number" placeholder="XX 0000 XXX" name="unique_number" required oninput="formatUniqueNumber(this)">
+                <div class="col-md-6">
+                    <label for="unique_number" class="form-label">Unique Number</label>
+                    <input type="text" class="form-control" id="unique_number" placeholder="XX 0000 XXX" name="unique_number" required oninput="formatUniqueNumber(this)">
+                </div>
+            
+                <div class="col-md-6">
+                    <label for="type" class="form-label">Truck's Type</label>
+                    <select class="form-select" name="type" required>
+                        <option value="">Select Truck's Type</option>
+                        <option value="CDE">CDE</option>
+                        <option value="CDD">CDD</option>
+                    </select>
+                </div>
+                <!-- <div class="col-md-4">
+                    <label for="panjang" class="form-label">Panjang (cm)</label>
+                    <input type="number" class="form-control" id="panjang" placeholder="Panjang (cm)" name="panjang" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="lebar" class="form-label">Lebar (cm)</label>
+                    <input type="number" class="form-control" id="lebar" placeholder="Lebar (cm)" name="lebar" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="tinggi" class="form-label">Tinggi (cm)</label>
+                    <input type="number" class="form-control" id="tinggi" placeholder="Tinggi (cm)" name="tinggi" required>
+                </div> -->
+                
+                <div class="col-md-12">
+                    <label for="id_location" class="form-label">Truck Location</label>
+                    <select class="form-select" id="id_location" name="id_location" required>
+                    <option value="">Select Location</option>
+                    <?php
+                    // Assume $con is your database connection
+                    $location_sql = "SELECT * FROM `location` ORDER BY `kota_kabupaten`, `alamat`";
+                    $location_res = mysqli_query($con, $location_sql);
+                    if ($location_res && mysqli_num_rows($location_res) > 0) {
+                        while ($location_row = mysqli_fetch_assoc($location_res)) {
+                            echo '<option value="' . $location_row['id'] . '">' . $location_row['alamat'] . ', ' . $location_row['kelurahan_desa'] . ', ' . $location_row['kecamatan'] . ', ' . $location_row['kota_kabupaten'] . ', Jawa Timur ' . $location_row['kode_pos'] . '</option>';
+                        }
+                    }
+                    ?>
+                    </select>
+                </div>
+            </form>
         </div>
-       
-        <div class="col-md-6">
-            <label for="type" class="form-label">Truck's Type</label>
-            <select class="form-select" name="type" required>
-                <option value="">Select Truck's Type</option>
-                <option value="CDE">CDE</option>
-                <option value="CDD">CDD</option>
-            </select>
-        </div>
-        <!-- <div class="col-md-4">
-            <label for="panjang" class="form-label">Panjang (cm)</label>
-            <input type="number" class="form-control" id="panjang" placeholder="Panjang (cm)" name="panjang" required>
-        </div>
-        <div class="col-md-4">
-            <label for="lebar" class="form-label">Lebar (cm)</label>
-            <input type="number" class="form-control" id="lebar" placeholder="Lebar (cm)" name="lebar" required>
-        </div>
-        <div class="col-md-4">
-            <label for="tinggi" class="form-label">Tinggi (cm)</label>
-            <input type="number" class="form-control" id="tinggi" placeholder="Tinggi (cm)" name="tinggi" required>
-        </div> -->
-        
-        <div class="col-md-12">
-            <label for="id_location" class="form-label">Lokasi Truk</label>
-            <select class="form-select" id="id_location" name="id_location" required>
-            <option value="">Select Location</option>
-            <?php
-            // Assume $con is your database connection
-            $location_sql = "SELECT * FROM `location` ORDER BY `kota_kabupaten`, `alamat`";
-            $location_res = mysqli_query($con, $location_sql);
-            if ($location_res && mysqli_num_rows($location_res) > 0) {
-                while ($location_row = mysqli_fetch_assoc($location_res)) {
-                    echo '<option value="' . $location_row['id'] . '">' . $location_row['alamat'] . ', ' . $location_row['kelurahan_desa'] . ', ' . $location_row['kecamatan'] . ', ' . $location_row['kota_kabupaten'] . ', Jawa Timur ' . $location_row['kode_pos'] . '</option>';
-                }
-            }
-            ?>
-            </select>
-        </div>
-    </form>
-</div>
 
 <!-- <script>
     function formatUniqueNumber(input) {
@@ -192,9 +234,16 @@ if (isset($_POST["add"])){
 
 
 
-
       </div>
-
+      <script>
+        $(document).ready(function() {
+            $('#table-truck-type').DataTable({
+                "pageLength": 10,
+                "autoWidth": true,
+                "dom": '<"generateBody"t>'
+            });
+        });
+    </script>
     <?php
       include('footer.php');
     ?>

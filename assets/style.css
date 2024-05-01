@@ -248,6 +248,11 @@ div.dt-container div.dt-paging ul.pagination li.page-item.disabled a.page-link {
 .form-label {
     font-size: 14px;
 }
+
+.text-bg-custom {
+    color: white !important;
+    background-color: RGBA(var(--bs-info-rgb), var(--bs-bg-opacity, 1)) !important;
+}
 /* FOOTER */
 
 .footer{

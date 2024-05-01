@@ -1,5 +1,7 @@
 <?php
 if (!isset ($_SESSION["admin"])){
+    $_SESSION['requested_url'] = $_SERVER['REQUEST_URI'];
+
 	header("location: login.php");
 }
 ?>
