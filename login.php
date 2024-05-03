@@ -27,10 +27,24 @@ if(isset($_POST['login'])){
             $_SESSION['admin'] = $row['username'];
             header("Location: dashboard.php");
         } else {
-            echo "Password salah";
+            echo "<div class='alert alert-info' role='alert'>
+                                Password salah.
+                              </div>";
+                        echo "<script>
+                                setTimeout(function() {
+                                    $('.alert').fadeOut('slow');
+                                }, 5000); // 10 seconds
+                              </script>";
         }
     } else {
-        echo "Username tidak ditemukan";
+        echo "<div class='alert alert-info' role='alert'>
+                                Username tidak ditemukan.
+                              </div>";
+                        echo "<script>
+                                setTimeout(function() {
+                                    $('.alert').fadeOut('slow');
+                                }, 5000); // 10 seconds
+                              </script>";
     }
 
     $conn->close();
