@@ -6,9 +6,14 @@ require "connect.php";
 $status_message = "";
 if (isset($_POST['id'])) {
     $id = $_POST['id'];
-    if (isset($_POST["change"])) {
+}
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+}
+if (isset($_POST["change"])) {
         // Ambil data dari formulir
         // $unique_number = $_POST['unique_number'];
+        // $id = $_POST['id'];
         $status = $_POST['status'];
         $id_fuel = $_POST['fuel'];
         $unique_number = $_POST['unique_number'];
@@ -18,8 +23,12 @@ if (isset($_POST['id'])) {
         if ($id_fuel == 1) {
         //     $id_fuel = 1;
             $km_per_liter = 13.3;
-        }else{
+        }else if ($id_fuel == 2){
             $km_per_liter = 14.63;
+        }else{
+            $id_fuel = 6;
+            $km_per_liter = 7;
+
         }
 
         // Tentukan nilai status yang akan disimpan dalam database
@@ -37,7 +46,7 @@ if (isset($_POST['id'])) {
     
         if ($db->query($sql)) {
             $status_message = "Status truk berhasil diubah";
-            header("Location: edit_status.php");
+            header("Location: edit_status.php?id=".$id."");
 
         } else {
             $status_message = "Gagal mengubah status truk";
@@ -65,8 +74,8 @@ if (isset($_POST['id'])) {
         //     $status_message = "Gagal mengubah Fuel truk";
         // }
 
-    }
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -142,13 +151,18 @@ if (isset($_POST['id'])) {
                 
                 $fuel_type = $row['id_fuel'];
                 $unique_number = $row['unique_number'];
+                if ($row['capacity_kg'] == 1000){
+                    $type = 'CDD';
+                } else {
+                    $type = 'CDE';
+                }
             }
             ?>
           </tbody>  
         </table>
         <div class="row g-3" style="padding-top: 20px;">
             <form action="edit_status.php" method="POST">
-                <input type="hidden" name="id" value="<?php echo $id; ?>"> <!-- Include $id as a hidden input field -->
+                <input type="hidden" name="id" id="id" value="<?php echo $id; ?>"> <!-- Include $id as a hidden input field -->
                 <div class="row">
                     <div class="col-md-4">                    
                         <label for="unique_number" class="col-form-label">Change Truck's Unique Number</label>
@@ -164,25 +178,27 @@ if (isset($_POST['id'])) {
                         </select>
                     </div>
                 
-                    <div class="col-md-4">
-                        <label for="fuel" class="col-form-label">Change Truck's Fuel</label>
-                        <select class="form-select" name="fuel">
-                            <?php
-                            $selected = '';
-                            // Assume $con is your database connection
-                            $fuel_sql = "SELECT * FROM `fuel` WHERE id = 1 OR id = 2";
-                            $fuel_res = mysqli_query($con, $fuel_sql);
-                            if ($fuel_res && mysqli_num_rows($fuel_res) > 0) {
-                                while ($fuel_row = mysqli_fetch_assoc($fuel_res)) {
-                                    $selected = ($fuel_row['id'] == $fuel_type) ? 'selected' : ''; // Check if current option is selected
-                                    echo '<option value="' . $fuel_row['id'] . '" ' . $selected . '>' . $fuel_row['fuel_type'] . '</option>';
-                                }
+                    <?php 
+                     if ($type == 'CDD'){
+                        echo '<div class="col-md-4">
+                        <label for="fuel" class="col-form-label">Change Truck'."'".'.s Fuel</label>
+                        <select class="form-select" name="fuel">';
+                        $selected = '';
+                        // Assume $con is your database connection
+                        $fuel_sql = "SELECT * FROM `fuel` WHERE id = 1 OR id = 2";
+                        $fuel_res = mysqli_query($con, $fuel_sql);
+                        if ($fuel_res && mysqli_num_rows($fuel_res) > 0) {
+                            while ($fuel_row = mysqli_fetch_assoc($fuel_res)) {
+                                $selected = ($fuel_row['id'] == $fuel_type) ? 'selected' : ''; // Check if current option is selected
+                                echo '<option value="' . $fuel_row['id'] . '" ' . $selected . '>' . $fuel_row['fuel_type'] . '</option>';
                             }
-                            ?>
-                        </select>
-                    </div>
-                </div>
-
+                        }
+                     }
+                     echo '</select>
+                     </div>
+                 </div>';
+                    ?>
+                        
                 <div class="row justify-content-center" style="padding-top: 20px;">
                     <div class="col-md-6 text-center">
                         <button type="submit" name="change" class="btn btn-outline-info btn-block">Change</button>

@@ -16,11 +16,12 @@ if (isset($_POST["add"])){
         // $tinggi = $_POST['tinggi'];
         $t_status = 1;
         $type = $_POST['type'];
-        if ($type == 'CDE'){
+        if ($type == 'CDD'){
             $id_fuel = 6;
             $capacity = 2000;
             $km_per_liter = 7;
             $fuel_capacity = 70;
+            $fuel_now = 70;
             $panjang = 310;
             $lebar = 175;
             $tinggi = 185;
@@ -29,6 +30,7 @@ if (isset($_POST["add"])){
             $capacity = 1000;
             $km_per_liter = 13.3;
             $fuel_capacity = 43;
+            $fuel_now = 43;
             $panjang = 230;
             $lebar = 140;
             $tinggi = 124;
@@ -65,8 +67,8 @@ if (isset($_POST["add"])){
         }
         
         // Create and execute the SQL query
-        $sql = "INSERT INTO truck (unique_number, capacity_kg, panjang, lebar, tinggi, t_status, fuel_capacity, km_per_liter, id_fuel, id_location) 
-        VALUES ('$unique_number', '$capacity', $panjang, $lebar, $tinggi, $t_status, $fuel_capacity, $km_per_liter, $id_fuel, '$id_location')";
+        $sql = "INSERT INTO truck (unique_number, capacity_kg, panjang, lebar, tinggi, t_status, fuel_capacity, fuel_now, km_per_liter, id_fuel, id_location) 
+        VALUES ('$unique_number', '$capacity', $panjang, $lebar, $tinggi, $t_status, $fuel_capacity, $fuel_now, $km_per_liter, $id_fuel, '$id_location')";
         if($db->query($sql)){
             $add_message = "Truck berhasil ditambahkan";
             $id_sql = "SELECT id FROM `truck` ORDER BY `truck`.`id` DESC LIMIT 1;";
@@ -122,7 +124,7 @@ if (isset($_POST["add"])){
             </thead>
             <tbody>
                 <tr>
-                    <td>CDE</td>
+                    <td>CDD</td>
                     <td>P: 310 cm<br>
                         L: 175 cm<br>
                         T: 185 cm</td>
@@ -132,7 +134,7 @@ if (isset($_POST["add"])){
                     <td>7</td>
                 </tr>
                 <tr>
-                    <td>CDD</td>
+                    <td>CDE</td>
                     <td>P: 230 cm<br>
                         L: 140 cm<br>
                         T: 124 cm</td>
