@@ -26,7 +26,7 @@ if (isset($_POST['item_ids_output'])) {
             }
             $schedule_id_counter = $latest_id_schedule;
             $updated_trucks = [];
-
+            $schedule_ids = [];
             foreach ($item_ids_by_truck as $truck_id => $item_ids) {
                 if (!in_array("", $item_ids)) {
                     $schedule_id_counter++;
@@ -44,22 +44,34 @@ if (isset($_POST['item_ids_output'])) {
 
                         if (mysqli_num_rows($res) > 0) {
                             while ($row = mysqli_fetch_array($res)) {
-                                if ($count == 1){
-                                    $sql_insert = "INSERT INTO `schedule` (`status`, `id_schedule`, `id_barang`, `id_truk`, `id_location_from`, `id_location_dest`, `schedule_status`) VALUES (1, ".$schedule_id_counter.",  ".$item_id.", ".($truck_id+1).", ".$row['id_location_from'].", ".$row['id_location_to'].",1);"; 
-                                    mysqli_query($con,$sql_insert);
+                                if ($count == 1 ){
+                                    $sql_insert_schedule = "INSERT INTO `schedule` (`status`, `id_schedule`, `id_barang`, `id_location_from`, `id_location_dest`, `schedule_status`) VALUES (1, ".$schedule_id_counter.",  ".$item_id.", ".$row['id_location_from'].", ".$row['id_location_to'].",1);"; 
+                                    mysqli_query($con,$sql_insert_schedule);
+                                    
+                                    $schedule_ids[] = $schedule_id_counter;
+                                    #INI DRIVER1 DRIVER2 HARUSNYA DIINPUT PAKAI ID DARI HASIL GENERATE DRIVER 
+                                    if (!in_array($schedule_id_counter,$schedule_ids)){
+                                        $sql_insert_truck_driver = "INSERT INTO `truck_driver` (`id`,`id_truck`,`id_driver1`, `id_driver2`) VALUES (".$schedule_id_counter.", ".($truck_id+1).", 1, 2);";
+                                        mysqli_query($con,$sql_insert_truck_driver);
+                                    }
         
                                     $sql_update_status = "UPDATE `item` SET status = 1 WHERE `id` = '".$item_id."';";
                                     mysqli_query($con,$sql_update_status);
         
                                     if (!in_array($truck_id, $updated_trucks)) {
-                                        $sql_update_truck = "UPDATE `truck` SET id_location = ".$row['id_location_from']." WHERE `id` = '".($truck_id+1)."'";
-                                        mysqli_query($con,$sql_update_truck);
-                                        $updated_trucks[] = $truck_id;
+
+                                        $sql_check_truck_schedule = "SELECT * FROM `schedule` s JOIN `truck_driver` td ON s.id_schedule = td.id WHERE s.`id_barang` = ".$item_id.";";
+                                        $res_check_truck_schedule = mysqli_query($con, $sql_check_truck_schedule);
+                                        if (mysqli_num_rows($res_check_truck_schedule) == 0) {
+                                            $sql_update_truck = "UPDATE `truck` SET id_location = ".$row['id_location_from']." WHERE `id` = '".($truck_id+1)."'";
+                                            mysqli_query($con,$sql_update_truck);
+                                            $updated_trucks[] = $truck_id;
+                                        }
                                     }
                                 }
                                 else{
                                     // echo "MASUK KOK";
-                                    $sql_insert = "INSERT INTO `schedule` (`status`, `id_schedule`, `id_barang`, `id_truk`, `id_location_from`, `id_location_dest`, `schedule_status`) VALUES (0, ".$schedule_id_counter.",  ".$item_id.", ".($truck_id+1).", ".$row['id_location_from'].", ".$row['id_location_to'].",$count);"; 
+                                    $sql_insert = "INSERT INTO `schedule` (`status`, `id_schedule`, `id_barang`, `id_location_from`, `id_location_dest`, `schedule_status`) VALUES (0, ".$schedule_id_counter.",  ".$item_id.", ".$row['id_location_from'].", ".$row['id_location_to'].",$count);"; 
                                     mysqli_query($con,$sql_insert);
                                 }
                                 
@@ -92,6 +104,7 @@ if (isset($_POST['item_ids_output'])) {
         <?php
             $item_ids_output = exec("python ./mainGA.py");
             echo $item_ids_output;
+            // echo "HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
             
             $item_ids_by_trucks = json_decode($item_ids_output);
             $item_ids_by_truck = $item_ids_by_trucks[0];
@@ -157,6 +170,7 @@ if (isset($_POST['item_ids_output'])) {
                                             Dimension: ' . $row['panjang'] . 'cm x ' . $row['lebar'] . 'cm x ' . $row['tinggi'] . 'cm <br>
                                             Order received: '.$row['order_received'].'
                                         </td>';
+
                                     $sql_truck = "SELECT * FROM `truck` WHERE id = ".($truck_id+1).";";
                                     $res_truck = mysqli_query($con, $sql_truck);
                                     if (mysqli_num_rows($res_truck) > 0) {
@@ -165,15 +179,15 @@ if (isset($_POST['item_ids_output'])) {
                                                     Truck ID:  ' . $row_truck['id'].'<br>
                                                     Unique number: ' . $row_truck['unique_number'].'<br>';
                 
-                                        $sql_driver = "SELECT * FROM `truck` t JOIN `truck_driver` td ON t.`id` = td.`id_truck`
-                                                    JOIN `driver` d ON td.`id_driver` = d.`id` 
-                                                    WHERE t.`id` = ".$row_truck['id']." ORDER BY td.`position`;";
-                                        $res_driver = mysqli_query($con, $sql_driver);
-                                        if (mysqli_num_rows($res_driver) > 0) {
-                                        while ($row_driver = mysqli_fetch_array($res_driver)) {
-                                            echo 'Driver ' . $row_driver['position'] . ': ' . $row_driver['driver_name'].'<br>';
-                                        }
-                                        }
+                                        // $sql_driver = "SELECT * FROM `truck` t JOIN `truck_driver` td ON t.`id` = td.`id_truck`
+                                        //             JOIN `driver` d ON td.`id_driver` = d.`id` 
+                                        //             WHERE t.`id` = ".$row_truck['id']." ORDER BY td.`position`;";
+                                        // $res_driver = mysqli_uery($con, $sql_driver);
+                                        // if (mysqli_num_rows($res_driver) > 0) {
+                                        // while ($row_driver = mysqli_fetch_array($res_driver)) {
+                                        //     echo 'Driver ' . $row_driver['position'] . ': ' . $row_driver['driver_name'].'<br>';
+                                        // }
+                                        // }
                                         echo '</td>';                      
                                     }
                                     }

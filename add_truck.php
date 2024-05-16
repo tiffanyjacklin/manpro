@@ -7,14 +7,14 @@ $add_message = "";
 
 if (isset($_POST["add"])){
     // Check if all required fields are not empty
-    // if (!empty($_POST['unique_number']) && !empty($_POST['capacity']) && !empty($_POST['panjang']) && !empty($_POST['lebar']) && !empty($_POST['tinggi']) && !empty($_POST['t_status']) && !empty($_POST['fuel_capacity']) && !empty($_POST['km_per_liter']) && !empty($_POST['id_fuel']) && !empty($_POST['id_location'])) {
+    // if (!empty($_POST['unique_number']) && !empty($_POST['capacity']) && !empty($_POST['panjang']) && !empty($_POST['lebar']) && !empty($_POST['tinggi']) && !empty($_POST['truck_status']) && !empty($_POST['fuel_capacity']) && !empty($_POST['km_per_liter']) && !empty($_POST['id_fuel']) && !empty($_POST['id_location'])) {
         // Assign POST values to variables
         $unique_number = $_POST['unique_number'];
         // $capacity = $_POST['capacity'];
         // $panjang = $_POST['panjang'];
         // $lebar = $_POST['lebar'];
         // $tinggi = $_POST['tinggi'];
-        $t_status = 1;
+        $truck_status = 1;
         $type = $_POST['type'];
         if ($type == 'CDD'){
             $id_fuel = 6;
@@ -39,47 +39,48 @@ if (isset($_POST["add"])){
         // $km_per_liter = $_POST['km_per_liter'];
         // $id_fuel = $_POST['id_fuel'];
         $id_location = $_POST['id_location'];
-        $driver1 = "";
-        $driver2 = "";
-        $driver1_sql = "SELECT id_driver, COUNT(*) AS driver_count
-                        FROM truck_driver
-                        WHERE position = 1
-                        GROUP BY id_driver
-                        ORDER BY driver_count ASC
-                        LIMIT 1;";
-        $driver1_res = mysqli_query($con, $driver1_sql);
-        if ($driver1_res && mysqli_num_rows($driver1_res) > 0) {
-            while ($driver1_row = mysqli_fetch_assoc($driver1_res)) {
-                $driver1 = $driver1_row['id_driver'];
-            }
-        }
-        $driver2_sql = "SELECT id_driver, COUNT(*) AS driver_count
-                        FROM truck_driver
-                        WHERE position = 2
-                        GROUP BY id_driver
-                        ORDER BY driver_count ASC
-                        LIMIT 1;";
-        $driver2_res = mysqli_query($con, $driver2_sql);
-        if ($driver2_res && mysqli_num_rows($driver2_res) > 0) {
-            while ($driver2_row = mysqli_fetch_assoc($driver2_res)) {
-                $driver2 = $driver2_row['id_driver'];
-            }
-        }
+        // $driver1 = "";
+        // $driver2 = "";
+        // $driver1_sql = "SELECT id_driver1, COUNT(*) AS driver_count
+        //                 FROM truck_driver
+        //                 -- WHERE position = 1
+        //                 GROUP BY id_driver
+        //                 ORDER BY driver_count ASC
+        //                 LIMIT 1;";
+        // $driver1_res = mysqli_query($con, $driver1_sql);
+        // if ($driver1_res && mysqli_num_rows($driver1_res) > 0) {
+        //     while ($driver1_row = mysqli_fetch_assoc($driver1_res)) {
+        //         $driver1 = $driver1_row['id_driver'];
+        //     }
+        // }
+        // $driver2_sql = "SELECT id_driver2, COUNT(*) AS driver_count
+        //                 FROM truck_driver
+        //                 -- WHERE position = 2
+        //                 GROUP BY id_driver
+        //                 ORDER BY driver_count ASC
+        //                 LIMIT 1;";
+        // $driver2_res = mysqli_query($con, $driver2_sql);
+        // if ($driver2_res && mysqli_num_rows($driver2_res) > 0) {
+        //     while ($driver2_row = mysqli_fetch_assoc($driver2_res)) {
+        //         $driver2 = $driver2_row['id_driver'];
+        //     }
+        // }
         
         // Create and execute the SQL query
-        $sql = "INSERT INTO truck (unique_number, capacity_kg, panjang, lebar, tinggi, t_status, fuel_capacity, fuel_now, km_per_liter, id_fuel, id_location) 
-        VALUES ('$unique_number', '$capacity', $panjang, $lebar, $tinggi, $t_status, $fuel_capacity, $fuel_now, $km_per_liter, $id_fuel, '$id_location')";
+        $sql = "INSERT INTO truck (unique_number, capacity_kg, panjang, lebar, tinggi, truck_status, fuel_capacity, fuel_now, km_per_liter, id_fuel, id_location) 
+        VALUES ('$unique_number', '$capacity', $panjang, $lebar, $tinggi, $truck_status, $fuel_capacity, $fuel_now, $km_per_liter, $id_fuel, '$id_location')";
         if($db->query($sql)){
             $add_message = "Truck berhasil ditambahkan";
-            $id_sql = "SELECT id FROM `truck` ORDER BY `truck`.`id` DESC LIMIT 1;";
-            $id_res = mysqli_query($con, $id_sql);
-            if ($id_res && mysqli_num_rows($id_res) > 0) {
-                while ($id_row = mysqli_fetch_assoc($id_res)) {
-                    $id_sc = $id_row['id_driver'];
-                }
-            }
-            mysqli_query($con,"INSERT INTO `truck_driver` (`id_truck`, `id_driver`, `position`) VALUES ($id_sc, $driver1, 1);");
-            mysqli_query($con,"INSERT INTO `truck_driver` (`id_truck`, `id_driver`, `position`) VALUES ($id_sc, $driver2, 2);");
+            // $id_sql = "SELECT id FROM `truck` ORDER BY `truck`.`id` DESC LIMIT 1;";
+            // $id_res = mysqli_query($con, $id_sql);
+            // if ($id_res && mysqli_num_rows($id_res) > 0) {
+            //     while ($id_row = mysqli_fetch_assoc($id_res)) {
+            //         $id_sc = $id_row['id_driver'];
+            //     }
+            // }
+            // mysqli_query($con,"INSERT INTO `truck_driver` (`id_truck`, `id_schedule`, `id_driver1`, `id_driver2`) VALUES ($id_sc, $driver1, $driver2);");
+            // mysqli_query($con,"INSERT INTO `truck_driver` (`id_truck`, `id_driver`, `position`) VALUES ($id_sc, $driver1, 1);");
+            // mysqli_query($con,"INSERT INTO `truck_driver` (`id_truck`, `id_driver`, `position`) VALUES ($id_sc, $driver2, 2);");
             
             header("Location: trucks.php");
         } else {
@@ -105,6 +106,8 @@ if (isset($_POST["add"])){
     <div class="main-content">
       <div class="container">
         <i><?= $add_message ?></i>        
+        <form class="row" action="add_truck.php" method="POST">
+
         <div class="col-12 d-flex justify-content-between" style="padding-top: 20px;">
                     <button type="button" class="btn btn-outline-info" onclick="window.location.href='items.php'">Back</button>
                     <h5 class="title-form">Add Truck Form</h5>
@@ -147,8 +150,8 @@ if (isset($_POST["add"])){
             </tbody>
         </table>
         <div class="mx-auto custom-col-woi" style="margin-bottom:20px; padding-top: 20px;">
-            <form class="row g-3" action="add_truck.php" method="POST">
-                <!-- <div class="col-12 d-flex justify-content-between" style="padding-top: 20px; padding-bottom: 20px;">
+            <div class="row g-3">        
+        <!-- <div class="col-12 d-flex justify-content-between" style="padding-top: 20px; padding-bottom: 20px;">
                     <button type="button" class="btn btn-outline-info" onclick="window.location.href='items.php'">Back</button>
                     <h5 class="title-form">Add Truck Form</h5>
                     <button class="btn btn-info" type="submit" name="add">Add</button>
@@ -195,6 +198,7 @@ if (isset($_POST["add"])){
                     }
                     ?>
                     </select>
+                </div>
                 </div>
             </form>
         </div>

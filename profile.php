@@ -1,12 +1,13 @@
 <?php
 session_start();
 require "connect.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <?php include('head.php'); ?>
-    <title>TIP LOGISTICS | Staffs</title>
+    <title>TIP LOGISTICS | Profile</title>
 </head>
 <body>
     <?php

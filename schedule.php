@@ -13,33 +13,28 @@ if (isset($_POST['id_barang'])) {
   $sql_item_complete = "UPDATE `item` SET `status` = 2, `order_completed` = current_timestamp() WHERE `id` = ".$id_barang.";";
   mysqli_query($con, $sql_item_complete);
 
-  $sql_distance =  "SELECT t.`id`, t.`fuel_now`, t.`km_per_liter`, s.`id_location_from`, s.`id_location_dest`, c.`distance_m` FROM `truck` t 
-                    JOIN `schedule` s ON t.`id` = s.`id_truk`
+  $sql_distance =  "SELECT t.`id` AS `id`, t.`fuel_now`, t.`km_per_liter`, s.`id_location_from`, s.`id_location_dest`, c.`distance_m`, td.`id_driver1`, td.`id_driver2` 
+                    FROM `truck` t 
+                    JOIN `truck_driver` td ON t.`id` = td.`id_truck`
+                    JOIN `schedule` s ON td.`id` = s.`id_schedule`
                     JOIN `country_map` c ON (s.`id_location_from` = c.`id_location_from`) AND (s.`id_location_dest` = c.`id_location_to`)
                     WHERE s.`id_barang` = ".$id_barang."; ";
   $res_distance = mysqli_query($con, $sql_distance);
   if (mysqli_num_rows($res_distance) > 0) {
     while ($row_product = mysqli_fetch_array($res_distance)) {
       $id_truck = $row_product['id'];
-      $sql_truck_fuel = "UPDATE `truck` SET `id_location` = ".$row_product['id_location_from'].", `fuel_now` = ".($row_product['fuel_now']-(($row_product['distance_m']/1000)/$row_product['km_per_liter']))." WHERE `id` = ".$row_product['id'].";";   
+      $sql_truck_fuel = "UPDATE `truck` SET `id_location` = ".$row_product['id_location_from'].", `fuel_now` = ".($row_product['fuel_now']-(($row_product['distance_m']/1000)/$row_product['km_per_liter'])).", `total_distance` = ".($row_product['distance_m']/1000)." WHERE `id` = ".$row_product['id'].";";   
       mysqli_query($con,$sql_truck_fuel);
-
+      $sql_driver1_dist = "UPDATE `driver1` SET `total_distance` = (`total_distance`+".($row_product['distance_m']/1000).") WHERE `id` = ".$row_product['id_driver1'].";";
+      $sql_driver1_dist = "UPDATE `driver2` SET `total_distance` = (`total_distance`+".($row_product['distance_m']/1000).") WHERE `id` = ".$row_product['id_driver2'].";";
     }
   }
-  $sql_update_truck_location = "UPDATE `truck`
-                                SET `id_location` = (
-                                    SELECT `id_location_from`
-                                    FROM `schedule`
-                                    WHERE `id_truk` = ".$id_truck." AND `status` = 1
-                                    ORDER BY `id_schedule`
-                                    LIMIT 1
-                                )
-                                WHERE id = $id_truck";
+
 
   // Execute the SELECT query to check for NULL
   $select_query = "SELECT `id_location_from`
-                    FROM `schedule`
-                    WHERE `id_truk` = ".$id_truck." AND `status` = 1
+                    FROM `schedule` s JOIN `truck_driver` td ON s.`id_schedule` = td.`id`
+                    WHERE td.`id_truck` = ".$id_truck." AND `status` = 1
                     ORDER BY `id_schedule`
                     LIMIT 1";
   $result = mysqli_query($con, $select_query);
@@ -48,10 +43,19 @@ if (isset($_POST['id_barang'])) {
   if ($result && mysqli_num_rows($result) > 0) {
   // The SELECT query returned a non-NULL value
   // Proceed with the UPDATE query
-  mysqli_query($con, $sql_update_truck_location);
+  $sql_update_truck_location = "UPDATE `truck`
+                                SET `id_location` = (
+                                    SELECT `id_location_from`
+                                    FROM `schedule` s JOIN `truck_driver` td ON s.`id_schedule` = td.`id`
+                                    WHERE td.`id_truck` = ".$id_truck." AND `status` = 1
+                                    ORDER BY `id_schedule`
+                                    LIMIT 1
+                                )
+                                WHERE id = $id_truck";
+    mysqli_query($con, $sql_update_truck_location);
 
 
-}
+  }
 
 }
 
@@ -133,11 +137,17 @@ if (isset($_POST['id_barang'])) {
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" id="productDetailsModalBody">';
-
-                            $modal_sql = "SELECT *
-                                          FROM `schedule` JOIN `truck` ON `schedule`.`id_truk` = `truck`.`id` JOIN `item` ON `schedule`.`id_barang` = `item`.`id`
+                            $modal_sql = "SELECT * FROM `schedule` 
+                                          LEFT JOIN `truck_driver` ON `schedule`.`id_schedule` = `truck_driver`.`id` 
+                                          LEFT JOIN `item` ON `schedule`.`id_barang` = `item`.`id`
+                                          LEFT JOIN `truck` ON `truck_driver`.`id_truck` = `truck`.`id`
                                           WHERE `id_schedule` IN (SELECT `id_schedule` FROM `schedule` WHERE `id_barang` = ".$row['id_barang'].")   
                                           ORDER BY `schedule`.`schedule_status` , `schedule`.`id_barang`;";
+                            // $modal_sql = "SELECT *
+                            //               FROM `schedule` JOIN `truck` ON `schedule`.`id_truk` = `truck`.`id` JOIN `item` ON `schedule`.`id_barang` = `item`.`id`
+                            //               WHERE `id_schedule` IN (SELECT `id_schedule` FROM `schedule` WHERE `id_barang` = ".$row['id_barang'].")   
+                            //               ORDER BY `schedule`.`schedule_status` , `schedule`.`id_barang`;";
+                            
                             $modal_res = mysqli_query($con, $modal_sql);
                             $schedule_status_lama = 0;
                             $count = 1;
@@ -146,11 +156,12 @@ if (isset($_POST['id_barang'])) {
                                 $plate = $modal_row['unique_number'];
                                 if ($modal_row['schedule_status'] != $schedule_status_lama){
                                   if ($count != 1){
+                                    // echo "<strong>Truck's Unique Number:".$plate."</strong><br>";
+
                                     echo '</tbody>
                                         </table>';
                                   }
                                   echo "<strong>Output GA Terbaik Ke-".$count.":</strong><br>";                                
-                                  echo "<strong>Truck's Unique Number:".$plate."</strong><br>";
                                   $count++;
                                   $schedule_status_lama = $modal_row['schedule_status'];
                                   echo '<table class="table table-hover fixed-size-table">
@@ -177,7 +188,8 @@ if (isset($_POST['id_barang'])) {
                                   // Display the item name in the second column
                                   echo '<td>' . $modal_row['item_name'] . '</td>';
                                   // Close the row
-                                  echo '</tr>';                                }
+                                  echo '</tr>';                                
+                                }
                                 
                               }
                             }
@@ -207,23 +219,33 @@ if (isset($_POST['id_barang'])) {
                             ';                      
                     }
                   }
-                  $sql_truck = "SELECT * FROM `truck` WHERE id = ".$row['id_truk'].";";
+
+                  $sql_truck = "SELECT `d1`.`driver_name` AS `driver1`, `d2`.`driver_name` as `driver2`, `truck`.`unique_number` AS `unique_number` 
+                                FROM `schedule` 
+                                JOIN `truck_driver` ON `schedule`.`id_schedule` = `truck_driver`.`id` 
+                                JOIN `truck` ON `truck_driver`.`id_truck` = `truck`.`id`
+                                LEFT JOIN `driver` `d1` ON `d1`.`id` = `truck_driver`.`id_driver1`
+                                LEFT JOIN `driver` `d2` ON `d2`.`id` = `truck_driver`.`id_driver2`
+                                WHERE `schedule`.`id_barang` = ".$row['id_barang']." ;";
+                  // $sql_truck = "SELECT * FROM `truck` WHERE id = ".$row['id_truk'].";";
                   $res_truck = mysqli_query($con, $sql_truck);
                   if (mysqli_num_rows($res_truck) > 0) {
                     while ($row_truck = mysqli_fetch_array($res_truck)) {
                       echo '<td>
                               Unique number: ' . $row_truck['unique_number'].'<br>';
-
-                      $sql_driver = "SELECT * FROM `truck` t JOIN `truck_driver` td ON t.`id` = td.`id_truck`
-                                    JOIN `driver` d ON td.`id_driver` = d.`id` 
-                                    WHERE t.`id` = ".$row_truck['id']." ORDER BY td.`position`;";
-                      $res_driver = mysqli_query($con, $sql_driver);
-                      if (mysqli_num_rows($res_driver) > 0) {
-                        while ($row_driver = mysqli_fetch_array($res_driver)) {
-                          echo 'Driver ' . $row_driver['position'] . ': ' . $row_driver['driver_name'].'<br>';
-                        }
-                      }
+                      echo   'Driver 1: '.$row_truck['driver1'].'<br>';
+                      echo   'Driver 2: '.$row_truck['driver2'].'<br>';
                       echo '</td>';                      
+
+                      // $sql_driver = "SELECT * FROM `truck` t JOIN `truck_driver` td ON t.`id` = td.`id_truck`
+                      //               JOIN `driver` d ON td.`id_driver` = d.`id` 
+                      //               WHERE t.`id` = ".$row_truck['id']." ORDER BY td.`position`;";
+                      // $res_driver = mysqli_query($con, $sql_driver);
+                      // if (mysqli_num_rows($res_driver) > 0) {
+                      //   while ($row_driver = mysqli_fetch_array($res_driver)) {
+                      //     echo 'Driver ' . $row_driver['position'] . ': ' . $row_driver['driver_name'].'<br>';
+                      //   }
+                      // }
                     }
                   }
                   
@@ -243,6 +265,7 @@ if (isset($_POST['id_barang'])) {
             echo '</tbody>';
             echo '</table>';
           ?>
+        
         </div>
         <div class="tab-pane fade" id="completed">
         <?php
@@ -281,22 +304,19 @@ if (isset($_POST['id_barang'])) {
                             </td>';                      
                     }
                   }
-                  $sql_truck = "SELECT * FROM `truck` WHERE id = ".$row['id_truk'].";";
+                  $sql_truck = "SELECT d1.driver_name AS driver1, d2.driver_name as driver2, `truck`.`unique_number` AS unique_number FROM `schedule` 
+                                JOIN `truck_driver` ON `schedule`.`id_schedule` = `truck_driver`.`id` 
+                                JOIN `truck` ON `truck_driver`.`id_truck` = `truck`.`id`
+                                LEFT JOIN `driver` d1 ON d1.`id` = `truck_driver`.`id_driver1`
+                                LEFT JOIN `driver` d2 ON d2.`id` = `truck_driver`.`id_driver2`
+                                WHERE `schedule`.`id_barang` = ".$row['id_barang'].";";
                   $res_truck = mysqli_query($con, $sql_truck);
                   if (mysqli_num_rows($res_truck) > 0) {
                     while ($row_truck = mysqli_fetch_array($res_truck)) {
                       echo '<td>
                               Unique number: ' . $row_truck['unique_number'].'<br>';
-
-                      $sql_driver = "SELECT * FROM `truck` t JOIN `truck_driver` td ON t.`id` = td.`id_truck`
-                                    JOIN `driver` d ON td.`id_driver` = d.`id` 
-                                    WHERE t.`id` = ".$row_truck['id']." ORDER BY td.`position`;";
-                      $res_driver = mysqli_query($con, $sql_driver);
-                      if (mysqli_num_rows($res_driver) > 0) {
-                        while ($row_driver = mysqli_fetch_array($res_driver)) {
-                          echo 'Driver ' . $row_driver['position'] . ': ' . $row_driver['driver_name'].'<br>';
-                        }
-                      }
+                      echo   'Driver 1: '.$row_truck['driver1'].'<br>';
+                      echo   'Driver 2: '.$row_truck['driver2'].'<br>';
                       echo '</td>';                      
                     }
                   }

@@ -20,15 +20,21 @@
                 </button>
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
-                        <i class="fa-solid fa-cubes" aria-pressed="false"></i>
-                    </div>
-                    <span class="button-label">Items</span>
-                </button>
-                <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
-                    <div class="btn-icon">
                         <i class="fa-solid fa-calendar" aria-pressed="false"></i>
                     </div>
                     <span class="button-label">Schedule</span>
+                </button>
+                <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
+                    <div class="btn-icon">
+                        <i class="fa-solid fa-coins" aria-pressed="false"></i>
+                    </div>
+                    <span class="button-label">Transaction</span>
+                </button>
+                <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
+                    <div class="btn-icon">
+                        <i class="fa-solid fa-cubes" aria-pressed="false"></i>
+                    </div>
+                    <span class="button-label">Items</span>
                 </button>
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
@@ -40,14 +46,21 @@
                     <div class="btn-icon">
                         <i class="fa-solid fa-person-praying" aria-pressed="false"></i>
                     </div>
-                    <span class="button-label">Staffs</span>
+                    <span class="button-label">Drivers</span>
                 </button>
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
                     
-                        <i class="fa-solid fa-coins" aria-pressed="false"></i>
+                        <i class="fa-solid fa-bell" aria-pressed="false"></i>
                     </div>
-                    <span class="button-label">Billing</span>
+                    <span class="button-label">Notification</span>
+                </button>
+                <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
+                    <div class="btn-icon">
+                    
+                        <i class="fa-solid fa-address-card" aria-pressed="false"></i>
+                    </div>
+                    <span class="button-label">Profile</span>
                 </button>
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">

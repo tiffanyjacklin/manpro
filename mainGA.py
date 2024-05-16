@@ -73,7 +73,7 @@ def fetch_data():
     mycursor.execute(sql_location)
     mylocation = mycursor.fetchall()
 
-    sql_truck = "SELECT * FROM truck WHERE t_status = 1"
+    sql_truck = "SELECT * FROM truck WHERE truck_status = 1"
     mycursor.execute(sql_truck)
     mytruck = mycursor.fetchall()
 
