@@ -13,7 +13,7 @@ if (isset($_POST['id_barang'])) {
   $sql_item_complete = "UPDATE `item` SET `status` = 2, `order_completed` = current_timestamp() WHERE `id` = ".$id_barang.";";
   mysqli_query($con, $sql_item_complete);
 
-  $sql_distance =  "SELECT t.`id` AS `id`, t.`fuel_now`, t.`km_per_liter`, s.`id_location_from`, s.`id_location_dest`, c.`distance_m`, td.`id_driver1`, td.`id_driver2` 
+  $sql_distance =  "SELECT t.`id` AS `id`, t.`fuel_now`, t.`km_per_liter`, s.`id_location_from`, s.`id_location_dest`, c.`distance_m`, td.`id_driver1` AS `id_driver1`, td.`id_driver2` AS `id_driver2`
                     FROM `truck` t 
                     JOIN `truck_driver` td ON t.`id` = td.`id_truck`
                     JOIN `schedule` s ON td.`id` = s.`id_schedule`
@@ -25,8 +25,10 @@ if (isset($_POST['id_barang'])) {
       $id_truck = $row_product['id'];
       $sql_truck_fuel = "UPDATE `truck` SET `id_location` = ".$row_product['id_location_from'].", `fuel_now` = ".($row_product['fuel_now']-(($row_product['distance_m']/1000)/$row_product['km_per_liter'])).", `total_distance` = ".($row_product['distance_m']/1000)." WHERE `id` = ".$row_product['id'].";";   
       mysqli_query($con,$sql_truck_fuel);
-      $sql_driver1_dist = "UPDATE `driver1` SET `total_distance` = (`total_distance`+".($row_product['distance_m']/1000).") WHERE `id` = ".$row_product['id_driver1'].";";
-      $sql_driver1_dist = "UPDATE `driver2` SET `total_distance` = (`total_distance`+".($row_product['distance_m']/1000).") WHERE `id` = ".$row_product['id_driver2'].";";
+      $sql_driver1_dist = "UPDATE `driver` SET `total_distance` = (`total_distance`+".($row_product['distance_m']/1000).") WHERE `id` = ".$row_product['id_driver1'].";";
+      mysqli_query($con,$sql_driver1_dist);
+      $sql_driver2_dist = "UPDATE `driver` SET `total_distance` = (`total_distance`+".($row_product['distance_m']/1000).") WHERE `id` = ".$row_product['id_driver2'].";";
+      mysqli_query($con,$sql_driver2_dist);
     }
   }
 
@@ -53,8 +55,6 @@ if (isset($_POST['id_barang'])) {
                                 )
                                 WHERE id = $id_truck";
     mysqli_query($con, $sql_update_truck_location);
-
-
   }
 
 }

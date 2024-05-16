@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 30, 2024 at 08:48 PM
+-- Generation Time: May 16, 2024 at 06:10 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -30,16 +30,20 @@ SET time_zone = "+00:00";
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `position` int(1) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `phone_number` varchar(12) NOT NULL,
+  `address` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`id`, `username`, `password`) VALUES
-(1, 'admin', '$2y$10$2T5uaYdwB5vES7CTD9rMk.rFnFZ4FfADBUuIra.zzzojWb/l95NLa'),
-(2, 'admin2', '$2y$10$IB7/wtHOP.jjLpxpuqEZUeWvHdiris5MVrHlZpYziVHZS1RTRnPVy');
+INSERT INTO `admin` (`id`, `username`, `password`, `position`, `name`, `phone_number`, `address`) VALUES
+(1, 'admin', '$2y$10$2T5uaYdwB5vES7CTD9rMk.rFnFZ4FfADBUuIra.zzzojWb/l95NLa', 1, 'Fiola', '081111111111', 'Jemursari Sel. IV No.1 Jemur Wonosari, Wonocolo, Surabaya, Jawa Timur 60237'),
+(2, 'admin2', '$2y$10$IB7/wtHOP.jjLpxpuqEZUeWvHdiris5MVrHlZpYziVHZS1RTRnPVy', 2, 'Tiffany', '089999999999', 'Demak Timur No.28, Gundih, Bubutan, Surabaya, Jawa Timur 60172');
 
 -- --------------------------------------------------------
 
@@ -14864,49 +14868,48 @@ CREATE TABLE `driver` (
   `id` int(11) NOT NULL,
   `driver_name` varchar(45) NOT NULL,
   `phone_number` varchar(12) NOT NULL,
-  `working_hours_week` int(11) NOT NULL,
+  `total_distance` float NOT NULL,
   `experience` int(11) NOT NULL,
-  `driver_status` tinyint(1) NOT NULL,
-  `id_location` int(11) NOT NULL
+  `driver_status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `driver`
 --
 
-INSERT INTO `driver` (`id`, `driver_name`, `phone_number`, `working_hours_week`, `experience`, `driver_status`, `id_location`) VALUES
-(1, 'Budi Setiawan', '081234567890', 40, 1, 1, 5),
-(2, 'Andika Pratama', '082345678901', 40, 4, 1, 5),
-(3, 'Dwi Santoso', '083456789012', 40, 4, 1, 1),
-(4, 'Fahmi Susanto', '084567890123', 40, 4, 1, 5),
-(5, 'Hadi Nugroho', '085678901234', 40, 8, 1, 5),
-(6, 'Joko Wibowo', '086789012345', 40, 9, 1, 2),
-(7, 'Aditya Kusuma', '087890123456', 40, 8, 1, 5),
-(8, 'Rizky Saputra', '088901234567', 40, 4, 1, 5),
-(9, 'Dito Hermawan', '089012345678', 40, 6, 1, 5),
-(10, 'Arya Wijaya', '081123456789', 40, 3, 1, 5),
-(11, 'Bayu Wardhana', '082234567890', 40, 5, 1, 5),
-(12, 'Bagus Santoso', '083345678901', 40, 4, 1, 5),
-(13, 'Doni Firmansyah', '084456789012', 40, 10, 1, 5),
-(14, 'Eko Suryanto', '085567890123', 40, 7, 1, 5),
-(15, 'Fajar Ramadhan', '086678901234', 40, 6, 1, 5),
-(16, 'Gede Wirawan', '087789012345', 40, 3, 1, 5),
-(17, 'Hafiz Maulana', '088890123456', 40, 2, 1, 5),
-(18, 'Irfan Prasetyo', '089901234567', 40, 5, 1, 5),
-(19, 'Jaka Putra', '081012345678', 40, 10, 1, 5),
-(20, 'Kurniawan Satria', '082123456789', 40, 3, 1, 5),
-(21, 'Lutfi Hidayat', '083234567890', 40, 8, 1, 1),
-(22, 'Maulana Akbar', '084345678901', 40, 10, 1, 5),
-(23, 'Nanda Pratama', '085456789012', 40, 8, 1, 5),
-(24, 'Oktavianus Surya', '086567890123', 40, 3, 1, 2),
-(25, 'Panji Adi Nugroho', '087678901234', 40, 4, 1, 5),
-(26, 'Rizal Hadianto', '088789012345', 40, 7, 1, 5),
-(27, 'Satria Wijaya', '089890123456', 40, 7, 1, 5),
-(28, 'Taufik Setiawan', '081901234567', 40, 7, 1, 5),
-(29, 'Umar Ramdhani', '082012345678', 40, 6, 1, 5),
-(30, 'Vicky Saputro', '083123456789', 40, 9, 1, 5),
-(31, 'Wahyu Santoso', '084234567890', 40, 9, 1, 5),
-(32, 'Yuda Nugroho', '085345678901', 40, 8, 1, 5);
+INSERT INTO `driver` (`id`, `driver_name`, `phone_number`, `total_distance`, `experience`, `driver_status`) VALUES
+(1, 'Budi Setiawan', '081234567890', 40, 1, 1),
+(2, 'Andika Pratama', '082345678901', 481, 4, 1),
+(3, 'Dwi Santoso', '083456789012', 40, 4, 1),
+(4, 'Fahmi Susanto', '084567890123', 40, 4, 1),
+(5, 'Hadi Nugroho', '085678901234', 40, 8, 1),
+(6, 'Joko Wibowo', '086789012345', 40, 9, 1),
+(7, 'Aditya Kusuma', '087890123456', 40, 8, 1),
+(8, 'Rizky Saputra', '088901234567', 40, 4, 1),
+(9, 'Dito Hermawan', '089012345678', 40, 6, 1),
+(10, 'Arya Wijaya', '081123456789', 40, 3, 1),
+(11, 'Bayu Wardhana', '082234567890', 40, 5, 1),
+(12, 'Bagus Santoso', '083345678901', 204, 4, 1),
+(13, 'Doni Firmansyah', '084456789012', 40, 10, 1),
+(14, 'Eko Suryanto', '085567890123', 40, 7, 1),
+(15, 'Fajar Ramadhan', '086678901234', 40, 6, 1),
+(16, 'Gede Wirawan', '087789012345', 40, 3, 1),
+(17, 'Hafiz Maulana', '088890123456', 40, 2, 1),
+(18, 'Irfan Prasetyo', '089901234567', 40, 5, 1),
+(19, 'Jaka Putra', '081012345678', 40, 10, 1),
+(20, 'Kurniawan Satria', '082123456789', 40, 3, 1),
+(21, 'Lutfi Hidayat', '083234567890', 40, 8, 1),
+(22, 'Maulana Akbar', '084345678901', 40, 10, 1),
+(23, 'Nanda Pratama', '085456789012', 40, 8, 1),
+(24, 'Oktavianus Surya', '086567890123', 40, 3, 1),
+(25, 'Panji Adi Nugroho', '087678901234', 40, 4, 1),
+(26, 'Rizal Hadianto', '088789012345', 481, 7, 1),
+(27, 'Satria Wijaya', '089890123456', 40, 7, 1),
+(28, 'Taufik Setiawan', '081901234567', 40, 7, 1),
+(29, 'Umar Ramdhani', '082012345678', 40, 6, 1),
+(30, 'Vicky Saputro', '083123456789', 204, 9, 1),
+(31, 'Wahyu Santoso', '084234567890', 40, 9, 1),
+(32, 'Yuda Nugroho', '085345678901', 40, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -14966,7 +14969,7 @@ CREATE TABLE `item` (
 INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `weight_kg`, `category`, `shipping_cost`, `order_received`, `order_completed`, `id_location_from`, `sender_name`, `sender_phone_num`, `id_location_to`, `receiver_name`, `receiver_phone_num`) VALUES
 (1, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-01-13 10:29:53', '2024-01-15 23:52:15', 2, 'Tiffany', '081888888888', 1, 'Lucky', '081111111111'),
 (2, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-01-16 13:56:48', '2024-04-17 00:06:04', 2, 'Tiffany', '081888888888', 1, 'Lucky', '081111111111'),
-(3, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-01-25 03:22:03', '2024-04-16 23:55:50', 22, 'Tiffany', '081888888888', 70, 'Lucky', '081111111111'),
+(3, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-16 14:15:11', '2024-05-16 21:15:11', 22, 'Tiffany', '081888888888', 70, 'Lucky', '081111111111'),
 (4, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-02-11 07:55:23', '2024-04-17 00:00:46', 74, 'Tiffany', '081888888888', 79, 'Lucky', '081111111111'),
 (5, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-02-12 11:34:11', '2024-04-17 00:06:31', 28, 'Tiffany', '081888888888', 57, 'Lucky', '081111111111'),
 (6, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-02-13 08:16:00', '2024-04-17 00:06:31', 46, 'Tiffany', '081888888888', 15, 'Lucky', '081111111111'),
@@ -14974,16 +14977,16 @@ INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `
 (8, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-29 14:26:11', '2024-04-29 21:26:11', 115, 'Tiffany', '081888888888', 40, 'Lucky', '081111111111'),
 (9, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-03-04 23:46:55', NULL, 121, 'Tiffany', '081888888888', 7, 'Lucky', '081111111111'),
 (10, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-03-09 21:29:49', NULL, 29, 'Tiffany', '081888888888', 54, 'Lucky', '081111111111'),
-(11, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-03-13 16:14:07', NULL, 36, 'Tiffany', '081888888888', 66, 'Lucky', '081111111111'),
+(11, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-16 16:01:47', '2024-05-16 23:01:47', 36, 'Tiffany', '081888888888', 66, 'Lucky', '081111111111'),
 (12, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-03-19 16:56:53', NULL, 86, 'Tiffany', '081888888888', 88, 'Lucky', '081111111111'),
-(13, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-03-22 20:02:52', NULL, 90, 'Tiffany', '081888888888', 67, 'Lucky', '081111111111'),
+(13, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-16 15:10:32', '2024-05-16 22:10:32', 90, 'Tiffany', '081888888888', 67, 'Lucky', '081111111111'),
 (14, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-03-24 00:24:45', NULL, 77, 'Tiffany', '081888888888', 53, 'Lucky', '081111111111'),
-(15, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-03-26 21:26:15', NULL, 108, 'Tiffany', '081888888888', 37, 'Lucky', '081111111111'),
-(16, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-03 14:15:34', NULL, 85, 'Tiffany', '081888888888', 50, 'Lucky', '081111111111'),
+(15, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-16 16:01:52', '2024-05-16 23:01:52', 108, 'Tiffany', '081888888888', 37, 'Lucky', '081111111111'),
+(16, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-16 15:11:44', '2024-05-16 22:11:44', 85, 'Tiffany', '081888888888', 50, 'Lucky', '081111111111'),
 (17, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-07 19:22:58', NULL, 64, 'Tiffany', '081888888888', 113, 'Lucky', '081111111111'),
 (18, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-30 06:23:54', '2024-04-30 13:23:54', 108, 'Tiffany', '081888888888', 59, 'Lucky', '081111111111'),
-(19, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-10 09:09:23', NULL, 86, 'Tiffany', '081888888888', 27, 'Lucky', '081111111111'),
-(20, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-13 09:59:19', NULL, 9, 'Tiffany', '081888888888', 97, 'Lucky', '081111111111'),
+(19, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-16 15:10:56', '2024-05-16 22:10:56', 86, 'Tiffany', '081888888888', 27, 'Lucky', '081111111111'),
+(20, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-06 09:46:38', '2024-05-06 16:46:38', 9, 'Tiffany', '081888888888', 97, 'Lucky', '081111111111'),
 (21, 1, 'parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 6, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888'),
 (22, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
 (23, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
@@ -14997,11 +15000,15 @@ INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `
 (31, 1, 'Petite Avenue Perfume', 10, 10, 15, 1, 1, 20000, '2024-04-29 14:24:11', NULL, 3, 'Fiola', '081999999999', 2, 'Tiffany', '081888888888'),
 (32, 1, 'Petite Avenue Perfume', 20, 10, 15, 2, 1, 28000, '2024-04-29 14:24:11', NULL, 9, 'Fiola', '081999999999', 2, 'Tiffany', '081888888888'),
 (33, 1, 'Petite Avenue Perfume', 20, 10, 15, 2, 1, 131000, '2024-04-29 14:24:11', NULL, 2, 'Fiola', '081999999999', 54, 'Tiffany', '081888888888'),
-(34, 1, 'Petite Avenue Perfume', 30, 10, 10, 3, 1, 52000, '2024-04-29 14:24:11', NULL, 7, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888'),
-(35, 1, 'Petite Avenue Perfume', 30, 10, 10, 3, 1, 52000, '2024-04-29 14:24:11', NULL, 7, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888'),
-(36, 1, 'Kulkas', 50, 50, 150, 20, 3, 161000, '2024-04-30 06:23:41', NULL, 6, 'Fiola', '081999999999', 2, 'Tiffany', '081888888888'),
-(37, 1, 'Mesin Cuci', 70, 40, 80, 15, 3, 200000, '2024-04-30 06:23:41', NULL, 4, 'Fiola', '081999999999', 11, 'Tiffany', '081888888888'),
-(38, 1, 'Meja', 70, 50, 50, 10, 3, 119000, '2024-04-30 06:23:41', NULL, 5, 'Fiola', '081999999999', 16, 'Tiffany', '081888888888');
+(34, 1, 'Petite Avenue Perfume', 30, 10, 10, 3, 1, 52000, '2024-05-06 09:46:02', NULL, 7, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888'),
+(35, 1, 'Petite Avenue Perfume', 30, 10, 10, 3, 1, 52000, '2024-05-06 09:46:02', NULL, 7, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888'),
+(36, 0, 'Kulkas', 50, 50, 150, 20, 3, 161000, '2024-05-16 15:58:36', NULL, 6, 'Fiola', '081999999999', 2, 'Tiffany', '081888888888'),
+(37, 0, 'Mesin Cuci', 70, 40, 80, 15, 3, 200000, '2024-05-16 15:58:36', NULL, 4, 'Fiola', '081999999999', 11, 'Tiffany', '081888888888'),
+(38, 0, 'Meja', 70, 50, 50, 10, 3, 119000, '2024-05-16 15:58:36', NULL, 5, 'Fiola', '081999999999', 16, 'Tiffany', '081888888888'),
+(39, 0, 'Petite Avenue Perfume', 10, 10, 15, 1, 1, 422000, '2024-05-16 15:58:36', NULL, 110, 'Fiola', '081999999999', 67, 'Tiffany', '081888888888'),
+(40, 0, 'Kulkas', 10, 10, 10, 10, 3, 402000, '2024-05-16 15:58:36', NULL, 115, 'Fiola', '081999999999', 105, 'Tiffany', '081888888888'),
+(41, 0, 'Petite Avenue Perfume', 10, 10, 10, 1, 1, 424000, '2024-05-16 15:58:36', NULL, 67, 'Fiola', '081999999999', 107, 'Tiffany', '081888888888'),
+(42, 0, 'Botol', 20, 20, 50, 1, 2, 59000, '2024-05-16 15:58:36', NULL, 2, 'Fiola', '081999999999', 6, 'Tiffany', '081888888888');
 
 -- --------------------------------------------------------
 
@@ -15158,7 +15165,6 @@ CREATE TABLE `schedule` (
   `id` int(11) NOT NULL,
   `id_schedule` int(11) NOT NULL,
   `id_barang` int(11) NOT NULL,
-  `id_truk` int(11) NOT NULL,
   `id_location_from` int(11) NOT NULL,
   `id_location_dest` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL,
@@ -15170,81 +15176,89 @@ CREATE TABLE `schedule` (
 -- Dumping data for table `schedule`
 --
 
-INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_truk`, `id_location_from`, `id_location_dest`, `status`, `schedule_status`, `date_time`) VALUES
-(1, 1, 1, 1, 2, 1, 2, 1, '2024-04-16 23:03:06'),
-(2, 2, 2, 2, 2, 1, 2, 1, '2024-04-16 23:19:57'),
-(3, 3, 9, 1, 121, 7, 2, 1, '2024-04-16 23:55:50'),
-(4, 4, 12, 2, 86, 88, 2, 1, '2024-04-17 00:00:46'),
-(5, 5, 6, 3, 46, 15, 2, 1, '2024-04-17 00:06:31'),
-(6, 5, 10, 3, 29, 54, 2, 1, '2024-04-17 00:06:34'),
-(7, 6, 7, 4, 106, 121, 2, 1, '2024-04-17 00:11:48'),
-(8, 6, 8, 4, 115, 40, 2, 1, '2024-04-29 21:26:11'),
-(9, 7, 18, 5, 108, 59, 2, 1, '2024-04-30 13:23:54'),
-(10, 8, 20, 6, 9, 97, 1, 1, NULL),
-(11, 9, 3, 7, 22, 70, 1, 1, NULL),
-(12, 10, 13, 8, 90, 67, 1, 1, NULL),
-(13, 11, 19, 9, 86, 27, 1, 1, NULL),
-(14, 12, 16, 10, 85, 50, 1, 1, NULL),
-(15, 13, 11, 11, 36, 66, 1, 1, NULL),
-(16, 14, 15, 12, 108, 37, 1, 1, NULL),
-(17, 15, 17, 13, 64, 113, 1, 1, NULL),
-(18, 16, 4, 14, 74, 79, 1, 1, NULL),
-(19, 17, 14, 15, 77, 53, 1, 1, NULL),
-(20, 18, 5, 16, 28, 57, 1, 1, NULL),
-(21, 19, 27, 1, 3, 52, 1, 1, NULL),
-(22, 19, 34, 1, 7, 3, 1, 1, NULL),
-(23, 19, 22, 1, 3, 52, 1, 1, NULL),
-(24, 19, 30, 1, 3, 52, 1, 1, NULL),
-(25, 19, 26, 1, 3, 52, 1, 1, NULL),
-(26, 19, 25, 1, 3, 52, 1, 1, NULL),
-(27, 19, 31, 1, 3, 2, 1, 1, NULL),
-(28, 20, 32, 2, 9, 2, 1, 1, NULL),
-(29, 20, 23, 2, 3, 52, 1, 1, NULL),
-(30, 21, 33, 3, 2, 54, 1, 1, NULL),
-(31, 21, 29, 3, 3, 52, 1, 1, NULL),
-(32, 21, 35, 3, 7, 3, 1, 1, NULL),
-(33, 21, 28, 3, 6, 52, 1, 1, NULL),
-(34, 21, 21, 3, 6, 3, 1, 1, NULL),
-(35, 21, 24, 3, 3, 52, 1, 1, NULL),
-(36, 22, 27, 1, 3, 52, 0, 2, NULL),
-(37, 22, 34, 1, 7, 3, 0, 2, NULL),
-(38, 22, 22, 1, 3, 52, 0, 2, NULL),
-(39, 22, 29, 1, 3, 52, 0, 2, NULL),
-(40, 22, 30, 1, 3, 52, 0, 2, NULL),
-(41, 22, 26, 1, 3, 52, 0, 2, NULL),
-(42, 22, 21, 1, 6, 3, 0, 2, NULL),
-(43, 22, 25, 1, 3, 52, 0, 2, NULL),
-(44, 22, 33, 1, 2, 54, 0, 2, NULL),
-(45, 22, 31, 1, 3, 2, 0, 2, NULL),
-(46, 23, 32, 2, 9, 2, 0, 2, NULL),
-(47, 23, 23, 2, 3, 52, 0, 2, NULL),
-(48, 24, 24, 3, 3, 52, 0, 2, NULL),
-(49, 24, 28, 3, 6, 52, 0, 2, NULL),
-(50, 24, 35, 3, 7, 3, 0, 2, NULL),
-(51, 25, 27, 1, 3, 52, 0, 3, NULL),
-(52, 25, 34, 1, 7, 3, 0, 3, NULL),
-(53, 25, 22, 1, 3, 52, 0, 3, NULL),
-(54, 25, 30, 1, 3, 52, 0, 3, NULL),
-(55, 25, 26, 1, 3, 52, 0, 3, NULL),
-(56, 25, 31, 1, 3, 2, 0, 3, NULL),
-(57, 26, 35, 2, 7, 3, 0, 3, NULL),
-(58, 26, 24, 2, 3, 52, 0, 3, NULL),
-(59, 26, 23, 2, 3, 52, 0, 3, NULL),
-(60, 26, 25, 2, 3, 52, 0, 3, NULL),
-(61, 26, 21, 2, 6, 3, 0, 3, NULL),
-(62, 27, 33, 3, 2, 54, 0, 3, NULL),
-(63, 27, 29, 3, 3, 52, 0, 3, NULL),
-(64, 27, 32, 3, 9, 2, 0, 3, NULL),
-(65, 27, 28, 3, 6, 52, 0, 3, NULL),
-(66, 28, 38, 1, 5, 16, 1, 1, NULL),
-(67, 28, 37, 1, 4, 11, 1, 1, NULL),
-(68, 29, 36, 2, 6, 2, 1, 1, NULL),
-(69, 30, 38, 1, 5, 16, 0, 2, NULL),
-(70, 31, 36, 2, 6, 2, 0, 2, NULL),
-(71, 32, 37, 3, 4, 11, 0, 2, NULL),
-(72, 33, 38, 1, 5, 16, 0, 3, NULL),
-(73, 34, 36, 2, 6, 2, 0, 3, NULL),
-(74, 35, 37, 3, 4, 11, 0, 3, NULL);
+INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_location_from`, `id_location_dest`, `status`, `schedule_status`, `date_time`) VALUES
+(1, 1, 1, 2, 1, 2, 1, '2024-04-16 23:03:06'),
+(2, 2, 2, 2, 1, 2, 1, '2024-04-16 23:19:57'),
+(3, 3, 9, 121, 7, 2, 1, '2024-04-16 23:55:50'),
+(4, 4, 12, 86, 88, 2, 1, '2024-04-17 00:00:46'),
+(5, 5, 6, 46, 15, 2, 1, '2024-04-17 00:06:31'),
+(6, 5, 10, 29, 54, 2, 1, '2024-04-17 00:06:34'),
+(7, 6, 7, 106, 121, 2, 1, '2024-04-17 00:11:48'),
+(8, 6, 8, 115, 40, 2, 1, '2024-04-29 21:26:11'),
+(9, 7, 18, 108, 59, 2, 1, '2024-04-30 13:23:54'),
+(10, 8, 20, 9, 97, 2, 1, '2024-05-06 16:46:38'),
+(11, 9, 3, 22, 70, 2, 1, '2024-05-16 21:15:10'),
+(12, 10, 13, 90, 67, 2, 1, '2024-05-16 22:10:32'),
+(13, 11, 19, 86, 27, 2, 1, '2024-05-16 22:10:56'),
+(14, 12, 16, 85, 50, 2, 1, '2024-05-16 22:11:44'),
+(15, 13, 11, 36, 66, 2, 1, '2024-05-16 23:01:47'),
+(16, 14, 15, 108, 37, 2, 1, '2024-05-16 23:01:52'),
+(17, 15, 17, 64, 113, 1, 1, NULL),
+(18, 16, 4, 74, 79, 1, 1, NULL),
+(19, 17, 14, 77, 53, 1, 1, NULL),
+(20, 18, 5, 28, 57, 1, 1, NULL),
+(21, 19, 27, 3, 52, 1, 1, NULL),
+(22, 19, 34, 7, 3, 1, 1, NULL),
+(23, 19, 22, 3, 52, 1, 1, NULL),
+(24, 19, 30, 3, 52, 1, 1, NULL),
+(25, 19, 26, 3, 52, 1, 1, NULL),
+(26, 19, 25, 3, 52, 1, 1, NULL),
+(27, 19, 31, 3, 2, 1, 1, NULL),
+(28, 20, 32, 9, 2, 1, 1, NULL),
+(29, 20, 23, 3, 52, 1, 1, NULL),
+(30, 21, 33, 2, 54, 1, 1, NULL),
+(31, 21, 29, 3, 52, 1, 1, NULL),
+(32, 21, 35, 7, 3, 1, 1, NULL),
+(33, 21, 28, 6, 52, 1, 1, NULL),
+(34, 21, 21, 6, 3, 1, 1, NULL),
+(35, 21, 24, 3, 52, 1, 1, NULL),
+(36, 22, 27, 3, 52, 0, 2, NULL),
+(37, 22, 34, 7, 3, 0, 2, NULL),
+(38, 22, 22, 3, 52, 0, 2, NULL),
+(39, 22, 29, 3, 52, 0, 2, NULL),
+(40, 22, 30, 3, 52, 0, 2, NULL),
+(41, 22, 26, 3, 52, 0, 2, NULL),
+(42, 22, 21, 6, 3, 0, 2, NULL),
+(43, 22, 25, 3, 52, 0, 2, NULL),
+(44, 22, 33, 2, 54, 0, 2, NULL),
+(45, 22, 31, 3, 2, 0, 2, NULL),
+(46, 23, 32, 9, 2, 0, 2, NULL),
+(47, 23, 23, 3, 52, 0, 2, NULL),
+(48, 24, 24, 3, 52, 0, 2, NULL),
+(49, 24, 28, 6, 52, 0, 2, NULL),
+(50, 24, 35, 7, 3, 0, 2, NULL),
+(51, 25, 27, 3, 52, 0, 3, NULL),
+(52, 25, 34, 7, 3, 0, 3, NULL),
+(53, 25, 22, 3, 52, 0, 3, NULL),
+(54, 25, 30, 3, 52, 0, 3, NULL),
+(55, 25, 26, 3, 52, 0, 3, NULL),
+(56, 25, 31, 3, 2, 0, 3, NULL),
+(57, 26, 35, 7, 3, 0, 3, NULL),
+(58, 26, 24, 3, 52, 0, 3, NULL),
+(59, 26, 23, 3, 52, 0, 3, NULL),
+(60, 26, 25, 3, 52, 0, 3, NULL),
+(61, 26, 21, 6, 3, 0, 3, NULL),
+(62, 27, 33, 2, 54, 0, 3, NULL),
+(63, 27, 29, 3, 52, 0, 3, NULL),
+(64, 27, 32, 9, 2, 0, 3, NULL),
+(65, 27, 28, 6, 52, 0, 3, NULL),
+(66, 28, 38, 5, 16, 1, 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaction`
+--
+
+CREATE TABLE `transaction` (
+  `id` int(11) NOT NULL,
+  `status` int(1) NOT NULL,
+  `date_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `nominal` int(11) NOT NULL,
+  `id_item` int(11) DEFAULT NULL,
+  `id_truck` int(11) DEFAULT NULL,
+  `id_driver` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -15255,11 +15269,12 @@ INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_truk`, `id_locatio
 CREATE TABLE `truck` (
   `id` int(11) NOT NULL,
   `unique_number` varchar(11) DEFAULT NULL,
+  `total_distance` float NOT NULL,
   `capacity_kg` int(11) NOT NULL,
   `panjang` float NOT NULL,
   `lebar` float NOT NULL,
   `tinggi` float NOT NULL,
-  `t_status` tinyint(1) NOT NULL,
+  `truck_status` tinyint(1) NOT NULL,
   `fuel_capacity` int(11) NOT NULL,
   `fuel_now` float NOT NULL,
   `km_per_liter` float NOT NULL,
@@ -15271,24 +15286,25 @@ CREATE TABLE `truck` (
 -- Dumping data for table `truck`
 --
 
-INSERT INTO `truck` (`id`, `unique_number`, `capacity_kg`, `panjang`, `lebar`, `tinggi`, `t_status`, `fuel_capacity`, `fuel_now`, `km_per_liter`, `id_fuel`, `id_location`) VALUES
-(1, 'AE 7001 AB', 1000, 230, 140, 124, 1, 43, 43, 14.63, 2, 5),
-(2, 'AE 8002 CD', 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 6),
-(3, 'AG 8003 EF', 2000, 310, 175, 185, 2, 70, 70, 7, 6, 2),
-(4, 'AG 9004 GH', 1000, 230, 140, 124, 2, 43, 41.1682, 13.3, 1, 115),
-(5, 'L 9005 IJ ', 2000, 310, 175, 185, 2, 70, 31.342, 7, 6, 108),
-(6, 'L 8006 KL ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 9),
-(7, 'M 9007 MN ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 22),
-(8, 'M 8008 OP ', 2000, 310, 175, 185, 2, 70, 70, 7, 6, 90),
-(9, 'N 9009 QR ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 86),
-(10, 'N 8010 ST ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 85),
-(11, 'P 7011 UV ', 2000, 310, 175, 185, 2, 70, 70, 7, 6, 36),
-(12, 'P 8012 WX ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 108),
-(13, 'S 8013 YZ ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 64),
-(14, 'S 9014 AB ', 2000, 310, 175, 185, 2, 70, 70, 7, 6, 74),
-(15, 'W 8015 CD ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 77),
-(16, 'W 9016 EF ', 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 28),
-(20, 'L 8123 FM', 1000, 230, 140, 124, 1, 43, 0, 13.3, 1, 3);
+INSERT INTO `truck` (`id`, `unique_number`, `total_distance`, `capacity_kg`, `panjang`, `lebar`, `tinggi`, `truck_status`, `fuel_capacity`, `fuel_now`, `km_per_liter`, `id_fuel`, `id_location`) VALUES
+(1, 'AE 7001 AB', 1, 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 110),
+(2, 'AE 8002 CD', 0, 1000, 230, 140, 124, 1, 43, 43, 14.63, 2, 4),
+(3, 'AG 8003 EF', 0, 2000, 310, 175, 185, 1, 70, 70, 7, 6, 7),
+(4, 'AG 9004 GH', 0, 1000, 230, 140, 124, 2, 43, 41.1682, 13.3, 1, 115),
+(5, 'L 9005 IJ ', 0, 2000, 310, 175, 185, 2, 70, 31.342, 7, 6, 108),
+(6, 'L 8006 KL ', 0, 1000, 230, 140, 124, 2, 43, 28.9043, 13.3, 1, 9),
+(7, 'M 9007 MN ', 0, 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 22),
+(8, 'M 8008 OP ', 147.299, 2000, 310, 175, 185, 2, 70, 48.9573, 7, 6, 90),
+(9, 'N 9009 QR ', 213.335, 1000, 230, 140, 124, 2, 43, 26.9598, 13.3, 1, 86),
+(10, 'N 8010 ST ', 229.607, 1000, 230, 140, 124, 2, 43, 25.7363, 13.3, 1, 85),
+(11, 'P 7011 UV ', 163.921, 2000, 310, 175, 185, 2, 70, -0.251886, 7, 6, 36),
+(12, 'P 8012 WX ', 440.807, 1000, 230, 140, 124, 2, 43, 9.85662, 13.3, 1, 108),
+(13, 'S 8013 YZ ', 0, 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 64),
+(14, 'S 9014 AB ', 0, 2000, 310, 175, 185, 2, 70, 70, 7, 6, 74),
+(15, 'W 8015 CD ', 0, 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 77),
+(16, 'W 9016 EF ', 0, 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 28),
+(20, 'L 8123 FM', 0, 1000, 230, 140, 124, 2, 43, 43, 14.63, 2, 3),
+(21, 'L 8123 FI', 0, 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 8);
 
 -- --------------------------------------------------------
 
@@ -15299,49 +15315,61 @@ INSERT INTO `truck` (`id`, `unique_number`, `capacity_kg`, `panjang`, `lebar`, `
 CREATE TABLE `truck_driver` (
   `id` int(11) NOT NULL,
   `id_truck` int(11) NOT NULL,
-  `id_driver` int(11) NOT NULL,
-  `position` tinyint(1) NOT NULL
+  `id_driver1` int(11) NOT NULL,
+  `id_driver2` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `truck_driver`
 --
 
-INSERT INTO `truck_driver` (`id`, `id_truck`, `id_driver`, `position`) VALUES
-(1, 1, 21, 1),
-(2, 2, 6, 1),
-(3, 3, 31, 1),
-(4, 4, 17, 1),
-(5, 5, 13, 1),
-(6, 6, 11, 1),
-(7, 7, 7, 1),
-(8, 8, 28, 1),
-(9, 9, 27, 1),
-(10, 10, 20, 1),
-(11, 11, 12, 1),
-(12, 12, 2, 1),
-(13, 13, 16, 1),
-(14, 14, 4, 1),
-(15, 15, 29, 1),
-(16, 16, 9, 1),
-(17, 1, 3, 2),
-(18, 2, 24, 2),
-(19, 3, 8, 2),
-(20, 4, 5, 2),
-(21, 5, 19, 2),
-(22, 6, 32, 2),
-(23, 7, 25, 2),
-(24, 8, 15, 2),
-(25, 9, 23, 2),
-(26, 10, 1, 2),
-(27, 11, 30, 2),
-(28, 12, 26, 2),
-(29, 13, 22, 2),
-(30, 14, 18, 2),
-(31, 15, 14, 2),
-(32, 16, 10, 2),
-(65, 20, 21, 1),
-(66, 20, 24, 2);
+INSERT INTO `truck_driver` (`id`, `id_truck`, `id_driver1`, `id_driver2`) VALUES
+(1, 1, 21, 3),
+(2, 2, 6, 24),
+(3, 1, 21, 3),
+(4, 2, 6, 24),
+(5, 3, 31, 8),
+(6, 4, 17, 5),
+(7, 5, 13, 19),
+(8, 6, 11, 32),
+(9, 7, 7, 25),
+(10, 8, 28, 15),
+(11, 9, 27, 23),
+(12, 10, 20, 1),
+(13, 11, 12, 30),
+(14, 12, 2, 26),
+(15, 13, 16, 22),
+(16, 14, 4, 18),
+(17, 15, 29, 14),
+(18, 16, 9, 10),
+(19, 1, 21, 3),
+(20, 2, 6, 24),
+(21, 3, 31, 8),
+(28, 1, 21, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `truck_type`
+--
+
+CREATE TABLE `truck_type` (
+  `id` int(11) NOT NULL,
+  `type_name` varchar(3) NOT NULL,
+  `capacity_kg` int(11) NOT NULL,
+  `panjang` int(11) NOT NULL,
+  `lebar` int(11) NOT NULL,
+  `tinggi` int(11) NOT NULL,
+  `fuel_capacity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `truck_type`
+--
+
+INSERT INTO `truck_type` (`id`, `type_name`, `capacity_kg`, `panjang`, `lebar`, `tinggi`, `fuel_capacity`) VALUES
+(1, 'CDE', 1000, 230, 140, 124, 43),
+(2, 'CDD', 2000, 310, 175, 185, 70);
 
 --
 -- Indexes for dumped tables
@@ -15371,8 +15399,7 @@ ALTER TABLE `country_map`
 -- Indexes for table `driver`
 --
 ALTER TABLE `driver`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_location` (`id_location`) USING BTREE;
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `fuel`
@@ -15400,10 +15427,17 @@ ALTER TABLE `location`
 --
 ALTER TABLE `schedule`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `s_truck_1` (`id_truk`),
   ADD KEY `s_item_1` (`id_barang`),
   ADD KEY `s_dest_1` (`id_location_dest`),
   ADD KEY `s_from_1` (`id_location_from`);
+
+--
+-- Indexes for table `transaction`
+--
+ALTER TABLE `transaction`
+  ADD KEY `t_driver_1` (`id_driver`),
+  ADD KEY `t_item_1` (`id_item`),
+  ADD KEY `t_truck_1` (`id_truck`);
 
 --
 -- Indexes for table `truck`
@@ -15419,7 +15453,8 @@ ALTER TABLE `truck`
 ALTER TABLE `truck_driver`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_truck` (`id_truck`) USING BTREE,
-  ADD KEY `id_driver` (`id_driver`) USING BTREE;
+  ADD KEY `id_driver` (`id_driver1`) USING BTREE,
+  ADD KEY `truck_driver_ibfk_3` (`id_driver2`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -15459,7 +15494,7 @@ ALTER TABLE `fuel`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `location`
@@ -15471,13 +15506,13 @@ ALTER TABLE `location`
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
 
 --
 -- AUTO_INCREMENT for table `truck`
 --
 ALTER TABLE `truck`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `truck_driver`
@@ -15497,12 +15532,6 @@ ALTER TABLE `country_map`
   ADD CONSTRAINT `country_map_ibfk_2` FOREIGN KEY (`id_location_to`) REFERENCES `location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `driver`
---
-ALTER TABLE `driver`
-  ADD CONSTRAINT `driver_ibfk_1` FOREIGN KEY (`id_location`) REFERENCES `location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
 -- Constraints for table `item`
 --
 ALTER TABLE `item`
@@ -15516,8 +15545,15 @@ ALTER TABLE `item`
 ALTER TABLE `schedule`
   ADD CONSTRAINT `s_dest_1` FOREIGN KEY (`id_location_dest`) REFERENCES `location` (`id`),
   ADD CONSTRAINT `s_from_1` FOREIGN KEY (`id_location_from`) REFERENCES `location` (`id`),
-  ADD CONSTRAINT `s_item_1` FOREIGN KEY (`id_barang`) REFERENCES `item` (`id`),
-  ADD CONSTRAINT `s_truck_1` FOREIGN KEY (`id_truk`) REFERENCES `truck` (`id`);
+  ADD CONSTRAINT `s_item_1` FOREIGN KEY (`id_barang`) REFERENCES `item` (`id`);
+
+--
+-- Constraints for table `transaction`
+--
+ALTER TABLE `transaction`
+  ADD CONSTRAINT `t_driver_1` FOREIGN KEY (`id_driver`) REFERENCES `driver` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `t_item_1` FOREIGN KEY (`id_item`) REFERENCES `item` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `t_truck_1` FOREIGN KEY (`id_truck`) REFERENCES `truck` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `truck`
@@ -15531,7 +15567,8 @@ ALTER TABLE `truck`
 --
 ALTER TABLE `truck_driver`
   ADD CONSTRAINT `truck_driver_ibfk_1` FOREIGN KEY (`id_truck`) REFERENCES `truck` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `truck_driver_ibfk_2` FOREIGN KEY (`id_driver`) REFERENCES `driver` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `truck_driver_ibfk_2` FOREIGN KEY (`id_driver1`) REFERENCES `driver` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `truck_driver_ibfk_3` FOREIGN KEY (`id_driver2`) REFERENCES `driver` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

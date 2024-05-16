@@ -48,11 +48,12 @@ if (isset($_POST['item_ids_output'])) {
                                     $sql_insert_schedule = "INSERT INTO `schedule` (`status`, `id_schedule`, `id_barang`, `id_location_from`, `id_location_dest`, `schedule_status`) VALUES (1, ".$schedule_id_counter.",  ".$item_id.", ".$row['id_location_from'].", ".$row['id_location_to'].",1);"; 
                                     mysqli_query($con,$sql_insert_schedule);
                                     
-                                    $schedule_ids[] = $schedule_id_counter;
                                     #INI DRIVER1 DRIVER2 HARUSNYA DIINPUT PAKAI ID DARI HASIL GENERATE DRIVER 
                                     if (!in_array($schedule_id_counter,$schedule_ids)){
                                         $sql_insert_truck_driver = "INSERT INTO `truck_driver` (`id`,`id_truck`,`id_driver1`, `id_driver2`) VALUES (".$schedule_id_counter.", ".($truck_id+1).", 1, 2);";
                                         mysqli_query($con,$sql_insert_truck_driver);
+                                        $schedule_ids[] = $schedule_id_counter;
+
                                     }
         
                                     $sql_update_status = "UPDATE `item` SET status = 1 WHERE `id` = '".$item_id."';";
