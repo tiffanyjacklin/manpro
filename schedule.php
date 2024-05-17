@@ -32,6 +32,15 @@ if (isset($_POST['id_barang'])) {
     }
   }
 
+  $sql_shipping_cost = "SELECT `shipping_cost` FROM `item` WHERE `id` = ".$id_barang.";";
+  $res_shipping_cost = mysqli_query($con, $sql_shipping_cost);
+
+  if (mysqli_num_rows($res_shipping_cost) > 0) {
+    while ($row_shipping_cost = mysqli_fetch_array($res_shipping_cost)) {
+    $sql_input_shipping_cost = "INSERT INTO `transaction` (`status`, `date_time`, `nominal`, `id_item`) VALUES (1,current_timestamp(),".$row_shipping_cost['shipping_cost'].",".$id_barang.");"; 
+    mysqli_query($con,$sql_input_shipping_cost);
+    }
+  }
 
   // Execute the SELECT query to check for NULL
   $select_query = "SELECT `id_location_from`

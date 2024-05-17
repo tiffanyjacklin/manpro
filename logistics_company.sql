@@ -15279,6 +15279,29 @@ CREATE TABLE `transaction` (
   `id_driver` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `transaction`
+--
+
+INSERT INTO `transaction` (`id`, `status`, `date_time`, `nominal`, `id_item`, `id_truck`, `id_driver`) VALUES
+(1, 1, '2024-01-15 16:52:15', 30000, 1, NULL, NULL),
+(2, 1, '2024-04-16 17:06:04', 30000, 2, NULL, NULL),
+(3, 1, '2024-04-16 17:06:04', 30000, 9, NULL, NULL),
+(4, 1, '2024-04-16 17:06:04', 30000, 12, NULL, NULL),
+(5, 1, '2024-04-16 17:06:31', 30000, 6, NULL, NULL),
+(6, 1, '2024-04-16 17:06:04', 30000, 10, NULL, NULL),
+(7, 1, '2024-04-16 17:11:48', 30000, 7, NULL, NULL),
+(8, 1, '2024-04-29 14:26:11', 30000, 8, NULL, NULL),
+(9, 1, '2024-04-30 06:23:54', 30000, 18, NULL, NULL),
+(10, 1, '2024-05-06 09:46:38', 30000, 20, NULL, NULL),
+(11, 1, '2024-05-16 14:15:11', 30000, 3, NULL, NULL),
+(12, 1, '2024-05-16 15:10:32', 30000, 13, NULL, NULL),
+(13, 1, '2024-05-16 15:10:56', 30000, 19, NULL, NULL),
+(14, 1, '2024-05-16 15:11:44', 30000, 16, NULL, NULL),
+(15, 1, '2024-05-16 16:01:47', 30000, 11, NULL, NULL),
+(16, 1, '2024-05-16 16:01:52', 30000, 15, NULL, NULL),
+(17, 1, '2024-05-17 10:30:11', 30000, 17, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -15460,6 +15483,7 @@ ALTER TABLE `schedule`
 -- Indexes for table `transaction`
 --
 ALTER TABLE `transaction`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `t_driver_1` (`id_driver`),
   ADD KEY `t_item_1` (`id_item`),
   ADD KEY `t_truck_1` (`id_truck`);
@@ -15534,6 +15558,12 @@ ALTER TABLE `schedule`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
 
 --
+-- AUTO_INCREMENT for table `transaction`
+--
+ALTER TABLE `transaction`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
 -- AUTO_INCREMENT for table `truck`
 --
 ALTER TABLE `truck`
@@ -15579,7 +15609,6 @@ ALTER TABLE `transaction`
   ADD CONSTRAINT `t_driver_1` FOREIGN KEY (`id_driver`) REFERENCES `driver` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `t_item_1` FOREIGN KEY (`id_item`) REFERENCES `item` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `t_truck_1` FOREIGN KEY (`id_truck`) REFERENCES `truck` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
 --
 -- Constraints for table `truck`
 --
