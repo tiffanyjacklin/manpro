@@ -20,12 +20,15 @@ SET time_zone = "+00:00";
 --
 -- Database: `logistics_company`
 --
-
+CREATE DATABASE IF NOT EXISTS `logistics_company` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `logistics_company`;
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `admin`
 --
+
+DROP TABLE IF EXISTS `admin`;
 
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
@@ -51,6 +54,8 @@ INSERT INTO `admin` (`id`, `username`, `password`, `position`, `name`, `phone_nu
 -- Table structure for table `category`
 --
 
+DROP TABLE IF EXISTS `category`;
+
 CREATE TABLE `category` (
   `id` int(11) NOT NULL,
   `max_weight_kg` int(11) NOT NULL,
@@ -72,6 +77,8 @@ INSERT INTO `category` (`id`, `max_weight_kg`, `base_price`, `multiplier_per_kg`
 --
 -- Table structure for table `country_map`
 --
+
+DROP TABLE IF EXISTS `country_map`;
 
 CREATE TABLE `country_map` (
   `id` int(11) NOT NULL,
@@ -14864,6 +14871,8 @@ INSERT INTO `country_map` (`id`, `id_location_from`, `id_location_to`, `distance
 -- Table structure for table `driver`
 --
 
+DROP TABLE IF EXISTS `driver`;
+
 CREATE TABLE `driver` (
   `id` int(11) NOT NULL,
   `driver_name` varchar(45) NOT NULL,
@@ -14917,6 +14926,8 @@ INSERT INTO `driver` (`id`, `driver_name`, `phone_number`, `total_distance`, `ex
 -- Table structure for table `fuel`
 --
 
+DROP TABLE IF EXISTS `fuel`;
+
 CREATE TABLE `fuel` (
   `id` int(11) NOT NULL,
   `fuel_type` varchar(100) NOT NULL,
@@ -14941,6 +14952,8 @@ INSERT INTO `fuel` (`id`, `fuel_type`, `cost_per_liter`) VALUES
 --
 -- Table structure for table `item`
 --
+
+DROP TABLE IF EXISTS `item`;
 
 CREATE TABLE `item` (
   `id` int(11) NOT NULL,
@@ -15015,6 +15028,8 @@ INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `
 --
 -- Table structure for table `location`
 --
+
+DROP TABLE IF EXISTS `location`;
 
 CREATE TABLE `location` (
   `id` int(11) NOT NULL,
@@ -15161,6 +15176,8 @@ INSERT INTO `location` (`id`, `alamat`, `kota_kabupaten`, `kecamatan`, `keluraha
 -- Table structure for table `schedule`
 --
 
+DROP TABLE IF EXISTS `schedule`;
+
 CREATE TABLE `schedule` (
   `id` int(11) NOT NULL,
   `id_schedule` int(11) NOT NULL,
@@ -15250,6 +15267,8 @@ INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_location_from`, `i
 -- Table structure for table `transaction`
 --
 
+DROP TABLE IF EXISTS `transaction`;
+
 CREATE TABLE `transaction` (
   `id` int(11) NOT NULL,
   `status` int(1) NOT NULL,
@@ -15265,6 +15284,8 @@ CREATE TABLE `transaction` (
 --
 -- Table structure for table `truck`
 --
+
+DROP TABLE IF EXISTS `truck`;
 
 CREATE TABLE `truck` (
   `id` int(11) NOT NULL,
@@ -15312,6 +15333,8 @@ INSERT INTO `truck` (`id`, `unique_number`, `total_distance`, `capacity_kg`, `pa
 -- Table structure for table `truck_driver`
 --
 
+DROP TABLE IF EXISTS `truck_driver`;
+
 CREATE TABLE `truck_driver` (
   `id` int(11) NOT NULL,
   `id_truck` int(11) NOT NULL,
@@ -15352,6 +15375,8 @@ INSERT INTO `truck_driver` (`id`, `id_truck`, `id_driver1`, `id_driver2`) VALUES
 --
 -- Table structure for table `truck_type`
 --
+
+DROP TABLE IF EXISTS `truck_type`;
 
 CREATE TABLE `truck_type` (
   `id` int(11) NOT NULL,
