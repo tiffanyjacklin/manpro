@@ -13,8 +13,9 @@ if (isset($_POST['id_barang'])) {
   $sql_item_complete = "UPDATE `item` SET `status` = 2, `order_completed` = current_timestamp() WHERE `id` = ".$id_barang.";";
   mysqli_query($con, $sql_item_complete);
 
-  $sql_distance =  "SELECT t.`id` AS `id`, t.`fuel_now`, t.`km_per_liter`, s.`id_location_from`, s.`id_location_dest`, c.`distance_m`, td.`id_driver1` AS `id_driver1`, td.`id_driver2` AS `id_driver2`
+  $sql_distance =  "SELECT t.`id` AS `id`, t.`fuel_capacity`, t.`fuel_now`, t.`km_per_liter`, f.`cost_per_liter`,  s.`id_location_from`, s.`id_location_dest`, c.`distance_m`, td.`id_driver1` AS `id_driver1`, td.`id_driver2` AS `id_driver2`
                     FROM `truck` t 
+                    JOIN `fuel` f ON t.`id_fuel` = f.`id`
                     JOIN `truck_driver` td ON t.`id` = td.`id_truck`
                     JOIN `schedule` s ON td.`id` = s.`id_schedule`
                     JOIN `country_map` c ON (s.`id_location_from` = c.`id_location_from`) AND (s.`id_location_dest` = c.`id_location_to`)
@@ -23,7 +24,18 @@ if (isset($_POST['id_barang'])) {
   if (mysqli_num_rows($res_distance) > 0) {
     while ($row_product = mysqli_fetch_array($res_distance)) {
       $id_truck = $row_product['id'];
-      $sql_truck_fuel = "UPDATE `truck` SET `id_location` = ".$row_product['id_location_from'].", `fuel_now` = ".($row_product['fuel_now']-(($row_product['distance_m']/1000)/$row_product['km_per_liter'])).", `total_distance` = ".($row_product['distance_m']/1000)." WHERE `id` = ".$row_product['id'].";";   
+
+      if (($row_product['fuel_now']-(($row_product['distance_m']/1000)/$row_product['km_per_liter'])) < 0){
+        $fuel_now = ($row_product['fuel_now']-(($row_product['distance_m']/1000)/$row_product['km_per_liter'])) + $row_product['fuel_capacity'];
+        $fuel_cost = ($row_product['fuel_capacity'] * $row_product['cost_per_liter']);
+
+        $sql_fuel_transaction = "INSERT INTO `transaction` (`status`, `date_time`, `nominal`, `id_truck`) VALUES (2,current_timestamp(),".$fuel_cost.",".$row_product['id'].");";
+        mysqli_query($con,$sql_fuel_transaction);
+
+        $sql_truck_fuel = "UPDATE `truck` SET `id_location` = ".$row_product['id_location_from'].", `fuel_now` = ".$fuel_now.", `total_distance` = ".($row_product['distance_m']/1000)." WHERE `id` = ".$row_product['id'].";";   
+      }else{
+        $sql_truck_fuel = "UPDATE `truck` SET `id_location` = ".$row_product['id_location_from'].", `fuel_now` = ".($row_product['fuel_now']-(($row_product['distance_m']/1000)/$row_product['km_per_liter'])).", `total_distance` = ".($row_product['distance_m']/1000)." WHERE `id` = ".$row_product['id'].";";   
+      }
       mysqli_query($con,$sql_truck_fuel);
       $sql_driver1_dist = "UPDATE `driver` SET `total_distance` = (`total_distance`+".($row_product['distance_m']/1000).") WHERE `id` = ".$row_product['id_driver1'].";";
       mysqli_query($con,$sql_driver1_dist);
