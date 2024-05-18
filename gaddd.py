@@ -1,4 +1,5 @@
 import random
+from fit_pair import Pair
 
 class GenAlgo:
 
@@ -17,12 +18,6 @@ class GenAlgo:
             truck_fuel = truck.fuel - 20
             truck_vol = truck.volume - 20
             for item in items:
-                # print("weight: ", truck.weight, item.weight, truck.max_weight)
-                # print("len: ", truck.length, item.length)
-                # print("width: ", truck.width, item.width)
-                # print("height: ", truck.height, item.height)
-                # print("fuel: ", truck.fuel, item.dest.distance)
-                # print("route: ", truck.route)
                 if (truck.weight + item.weight < truck.max_weight and
                     truck_vol > item.volume and
                     truck_fuel > (item.dest.distance/truck.km_liter) and
@@ -43,9 +38,19 @@ class GenAlgo:
         for truck, items in zip (trucks, chrom):
             total_distance += truck.cost
 
-        # print("END___________________________________________")
         return 1/abs(total_distance)
 
+    def pair(population, fitness):
+        pairs = []
+        for i in range(len(population)):
+            if fitness is None:
+                solution = Pair(population[i], None)
+            else : 
+                if not isinstance(population[i], list):
+                    population[i] = population[i].get_chrom()
+                solution = Pair(population[i], fitness[i])
+            pairs.append(solution)
+        return pairs
 
     def mutate(chrom, products):
         mutated_chrom = chrom[:]  # Copy the chromosome to avoid modifying the original
@@ -67,27 +72,42 @@ class GenAlgo:
         
         return mutated_chrom
 
-    def crossover(parent1, parent2):
-        crossover_point = random.randint(1, min(len(parent1), len(parent2)) - 1)
+    def crossover(parent1, parent2, parent3):
+
+        # single point
+        # crossover_point = random.randint(1, min(len(parent1), len(parent2)) - 1)
+        # print(1, parent1)
+        # print(2, parent2)
         
-        child1 = parent1[:crossover_point] + parent2[crossover_point:]
-        child2 = parent2[:crossover_point] + parent1[crossover_point:]
+        # child1 = parent1[:crossover_point] + parent2[crossover_point:]
+        # child2 = parent2[:crossover_point] + parent1[crossover_point:]
 
-        # crossover two points
-        # crossover_points = sorted(random.sample(range(1, min(len(parent1), len(parent2)) - 1), 2))
-        # crossover_point1, crossover_point2 = crossover_points
+        # uniform
+        child1 = []
+        child2 = []
+        child3 = []
 
-        # child1 = parent1[:crossover_point1] + parent2[crossover_point1:crossover_point2] + parent1[crossover_point2:]
-        # child2 = parent2[:crossover_point1] + parent1[crossover_point1:crossover_point2] + parent2[crossover_point2:]
+        for i in range(min(len(parent1), len(parent2), len(parent3))):
+            if random.random() < 0.33:
+                child1.append(parent1[i])
+                child2.append(parent2[i])
+                child3.append(parent3[i])
+            elif random.random() >= 0.33 and random.random() < 0.66:
+                child1.append(parent3[i])
+                child2.append(parent1[i])
+                child3.append(parent2[i])
+            else:
+                child1.append(parent2[i])
+                child2.append(parent3[i])
+                child3.append(parent1[i])
 
-        # if child1 == parent1 or child2 == parent2: print(True)
-        # else: print(False)
-        return child1, child2
-
+        
+        return child1, child2, child3
 
     def genetic_algorithm(population_size, num_generations, trucks, products):
         best = None
         population = [GenAlgo.init_population(len(trucks), products) for _ in range(population_size)]
+        population = GenAlgo.pair(population, None)
         # for i, sub_array_2d in enumerate(population):
         #     print(f"Layer {i}:")
         #     for j, sub_array_1d in enumerate(sub_array_2d):
@@ -96,82 +116,58 @@ class GenAlgo:
         #             print(f"    Object ID: {item.id}, Value: {item}")
         
         for generation in range(num_generations):
-            # print(population)
-            # Evaluate fitness for each individual in the population
-            fitness_values = [GenAlgo.fitness(chrom, trucks) for chrom in population]
-            # print(fitness_values)
-            # Select parents for crossover using tournament selection
-            selected_parents = GenAlgo.selection(population, fitness_values, tournament_size=5)
+            fitness_values = [GenAlgo.fitness(chrom.chrom, trucks) for chrom in population]
+            pairs = GenAlgo.pair(population, fitness_values)
+
+            selected_parents = GenAlgo.selection(pairs, tournament_size=5)
             # selected_parents = GenAlgo.selection(pairs)
-            # for i, sub_array_2d in enumerate(selected_parents):
-            #     print(f"Layer {i}:")
-            #     for j, sub_array_1d in enumerate(sub_array_2d):
-            #         print(f"  Row {j}:")
-            #         for k, item in enumerate(sub_array_1d):
-            #             print(f"    Object ID: {item.id}, Value: {item}")
             
-            # Perform crossover to generate offspring
             offspring = []
-            for i in range(0, len(selected_parents), 2):
-                parent1, parent2 = selected_parents[i], selected_parents[i+1]
-                child1, child2 = GenAlgo.crossover(parent1, parent2)
+            for i in range(0, len(selected_parents)-2, 3):
+                parent1, parent2, parent3 = selected_parents[i].chrom, selected_parents[i+1].chrom, selected_parents[i+2].chrom
+                child1, child2, child3 = GenAlgo.crossover(parent1, parent2, parent3)
                 child1 = GenAlgo.mutate(child1, products)
                 child2 = GenAlgo.mutate(child2, products)
-                offspring.extend([child1, child2])
+                child3 = GenAlgo.mutate(child3, products)
+                offspring.extend([child1, child2, child3])
                 
-            # Apply mutation to offspring
             mutated_offspring = [GenAlgo.mutate(chrom, products) for chrom in offspring]
+            mutated_fitval = [GenAlgo.fitness(chrom, trucks) for chrom in mutated_offspring]
+            mut_pairs = GenAlgo.pair(mutated_offspring, mutated_fitval)
 
             # best_mutated = mutated_offspring[mutated_fitness_values.index(min(mutated_fitness_values))]
-            # Replace old population with new population (elitism: keep the best individual)
-            best = min(population, key=lambda chrom: GenAlgo.fitness(chrom, trucks))
-            if GenAlgo.check_valid(best, trucks) == 0:
-                best_individual = best
-                best_fitness = GenAlgo.fitness(best_individual, trucks)
-                return best_individual, best_fitness
+            best = max(mut_pairs, key=lambda chrom: chrom.fitness)
+            if GenAlgo.check_valid(best.get_chrom(), trucks) == 0:
+                return best
             
             old = population[:]
             # population = [min(population, key=lambda chrom: GenAlgo.fitness(chrom, trucks))] + mutated_offspring[:-1]
-            best_individuals = sorted(population, key=lambda chrom: GenAlgo.fitness(chrom, trucks))[:5]
-            population = best_individuals + mutated_offspring[:-1]
+            best_individual = sorted(pairs, key=lambda chrom: chrom.fitness, reverse=True)[:5]
+            population = best_individual + mut_pairs[:-1]
+
             
         # best_individual = min(population, key=lambda chrom: GenAlgo.fitness(chrom, trucks))
         # best_fitness = GenAlgo.fitness(best_individual, trucks)
-        sorted_population = sorted(population, key=lambda chrom: GenAlgo.fitness(chrom, trucks))
-        best_individuals = []
-        j = None
-        for i in sorted_population:
-            if i == j:
-                print(True)
-            else: print(False)
+        sorted_population = sorted(population, key=lambda chrom: chrom.fitness, reverse=True)
+        best_individuals = sorted_population[:3]
 
-            j = i
+        # j = []
+        # for i in best_individuals:
+        #     if i.chrom not in j:
+        #         j.append(i.chrom)
+        #     else : print(False)
 
-        for individual in sorted_population:
-            if individual not in best_individuals and len(best_individuals) < 3:
-                best_individuals.append(individual)
-            elif len(best_individuals) == 3:
-                break
-
-        best_fitness = [GenAlgo.fitness(chrom, trucks) for chrom in best_individuals]
-        return best_individuals, best_fitness
+        return best_individuals
 
     def init_population(num_trucks, products):
         return [random.sample(products, random.randint(1, len(products))) for _ in range(num_trucks)]
 
-    def selection(population, fitness_values, tournament_size):
-        # for i, sub_array_2d in enumerate(population):
-        #     print(f"Layer {i}:")
-        #     for j, sub_array_1d in enumerate(sub_array_2d):
-        #         print(f"  Row {j}:")
-        #         for k, item in enumerate(sub_array_1d):
-        #             print(f"    Object ID: {item.id}, Value: {item}")
+    def selection(pairs, tournament_size):
         selected_parents = []
-        for _ in range(len(population)):
-            tournament = random.sample(range(len(population)), tournament_size)
-            winner = min(tournament, key=lambda x: fitness_values[x])
-            selected_parents.append(population[winner])
-        # print(selected_parents)
+        for _ in range(len(pairs)):
+            tournament = random.sample(pairs, tournament_size)
+            winner = max(tournament, key=lambda x: x.fitness)
+            selected_parents.append(winner)
         return selected_parents
 
     def check_valid(pop, trucks):

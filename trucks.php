@@ -65,6 +65,8 @@ require "connect.php";
                     $stat = "Available";
                 }else if ($status_lama == 2){
                     $stat = "Maintenance";
+                }else if ($status_lama == 3){
+                    $stat = "Delivering";
                 }else{
                     $stat = "Unavailable";
                 }
