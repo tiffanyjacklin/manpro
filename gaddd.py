@@ -4,13 +4,9 @@ from fit_pair import Pair
 class GenAlgo:
 
     def fitness(chrom, trucks):
-        total_distance = 0
-        # print(chrom, type(chrom))
-        # for truck in trucks:
-        #     truck.weight = 0
-        #     truck.route = []
-        #     truck_fuel = truck.fuel
-        #     truck_vol = truck.volume
+        fitness = 0
+        for truck in trucks:
+            truck.fit = 0
         
         for truck, items in zip(trucks, chrom):
             truck.weight = 0
@@ -26,19 +22,19 @@ class GenAlgo:
                     truck.weight += item.weight
                     truck.route.append(item)
                     truck_vol -= item.volume
+                    truck_fuel -= item.dest.distance / truck.km_liter
 
-                    truck.cost += item.weight * item.dest.distance * item.volume
-                    truck_fuel -= item.dest.distance/truck.km_liter
-
-                    # total_distance += item.dest.distance
-            # print(truck.route[0])
+                    truck.fit += item.weight * item.dest.distance * item.volume
+                    
+            dist = 0
             for route in truck.route:
-                truck.cost -= (route.dest.distance / truck.fuel)
+                dist += route.dest.distance
+            truck.fit -= (dist / (truck.fuel * truck.km_liter))
 
         for truck, items in zip (trucks, chrom):
-            total_distance += truck.cost
+            fitness += truck.fit
 
-        return 1/abs(total_distance)
+        return fitness
 
     def pair(population, fitness):
         pairs = []
@@ -53,34 +49,51 @@ class GenAlgo:
         return pairs
 
     def mutate(chrom, products):
-        mutated_chrom = chrom[:]  # Copy the chromosome to avoid modifying the original
-        mutation_type = random.choice(["single", "double"])
+        mutated_chrom = chrom[:]  
+        mutation_type = random.choice(["single", "double", "random"])
         if mutation_type == "single":
             selected_truck = random.choice(mutated_chrom)
             if len(selected_truck) >= 2:
                 idx1, idx2 = random.sample(range(len(selected_truck)), 2)
                 selected_truck[idx1], selected_truck[idx2] = selected_truck[idx2], selected_truck[idx1]
 
+        elif mutation_type == "double":
+            idx1, idx2 = random.sample(range(len(mutated_chrom)), 2)
+            truck1, truck2 = mutated_chrom[idx1], mutated_chrom[idx2]
+            if truck1 and truck2:  
+                item1 = random.choice(truck1)
+                item2 = random.choice(truck2)
+                if item1 not in truck2 and item2 not in truck1:  
+                    truck1[truck1.index(item1)], truck2[truck2.index(item2)] = item2, item1
         else:
             idx1, idx2 = random.sample(range(len(mutated_chrom)), 2)
             truck1, truck2 = mutated_chrom[idx1], mutated_chrom[idx2]
-            if truck1 and truck2:  # Make sure both trucks are not empty
-                item1 = random.choice(truck1)
-                item2 = random.choice(truck2)
-                if item1 not in truck2 and item2 not in truck1:  # Ensure items are not already in the other truck
-                    truck1[truck1.index(item1)], truck2[truck2.index(item2)] = item2, item1
+
+            if truck1 and truck2:
+                idx_t1 = random.randint(0, len(truck1) - 1)
+                idx_t2 = random.randint(0, len(truck2) - 1)
+
+                t1_none, t2_none = [],[]
+                t1,t2 = set(), set()
+                for truck in mutated_chrom:
+                    for item in truck:
+                        if item not in truck1 and item.id not in t1:
+                            t1_none.append(item)
+                            t1.add(item.id)
+                        if item not in truck2 and item.id not in t2:
+                            t2_none.append(item)
+                            t2.add(item.id)
+
+                if t1_none and t2_none:
+                    item1 = random.choice(t1_none)
+                    item2 = random.choice(t2_none)
+
+                    truck1[idx_t1], truck2[idx_t2] = item1, item2
+
         
         return mutated_chrom
 
     def crossover(parent1, parent2, parent3):
-
-        # single point
-        # crossover_point = random.randint(1, min(len(parent1), len(parent2)) - 1)
-        # print(1, parent1)
-        # print(2, parent2)
-        
-        # child1 = parent1[:crossover_point] + parent2[crossover_point:]
-        # child2 = parent2[:crossover_point] + parent1[crossover_point:]
 
         # uniform
         child1 = []
@@ -101,26 +114,18 @@ class GenAlgo:
                 child2.append(parent3[i])
                 child3.append(parent1[i])
 
-        
         return child1, child2, child3
 
     def genetic_algorithm(population_size, num_generations, trucks, products):
         best = None
         population = [GenAlgo.init_population(len(trucks), products) for _ in range(population_size)]
         population = GenAlgo.pair(population, None)
-        # for i, sub_array_2d in enumerate(population):
-        #     print(f"Layer {i}:")
-        #     for j, sub_array_1d in enumerate(sub_array_2d):
-        #         print(f"  Row {j}:")
-        #         for k, item in enumerate(sub_array_1d):
-        #             print(f"    Object ID: {item.id}, Value: {item}")
         
         for generation in range(num_generations):
             fitness_values = [GenAlgo.fitness(chrom.chrom, trucks) for chrom in population]
             pairs = GenAlgo.pair(population, fitness_values)
 
             selected_parents = GenAlgo.selection(pairs, tournament_size=5)
-            # selected_parents = GenAlgo.selection(pairs)
             
             offspring = []
             for i in range(0, len(selected_parents)-2, 3):
@@ -135,27 +140,14 @@ class GenAlgo:
             mutated_fitval = [GenAlgo.fitness(chrom, trucks) for chrom in mutated_offspring]
             mut_pairs = GenAlgo.pair(mutated_offspring, mutated_fitval)
 
-            # best_mutated = mutated_offspring[mutated_fitness_values.index(min(mutated_fitness_values))]
             best = max(mut_pairs, key=lambda chrom: chrom.fitness)
             if GenAlgo.check_valid(best.get_chrom(), trucks) == 0:
                 return best
             
-            old = population[:]
-            # population = [min(population, key=lambda chrom: GenAlgo.fitness(chrom, trucks))] + mutated_offspring[:-1]
             best_individual = sorted(pairs, key=lambda chrom: chrom.fitness, reverse=True)[:5]
             population = best_individual + mut_pairs[:-1]
 
-            
-        # best_individual = min(population, key=lambda chrom: GenAlgo.fitness(chrom, trucks))
-        # best_fitness = GenAlgo.fitness(best_individual, trucks)
-        sorted_population = sorted(population, key=lambda chrom: chrom.fitness, reverse=True)
-        best_individuals = sorted_population[:3]
-
-        # j = []
-        # for i in best_individuals:
-        #     if i.chrom not in j:
-        #         j.append(i.chrom)
-        #     else : print(False)
+        best_individuals = sorted(population, key=lambda chrom: chrom.fitness, reverse=True)
 
         return best_individuals
 

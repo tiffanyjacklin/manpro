@@ -40,9 +40,12 @@ if (isset($_POST["change"])) {
         // } elseif ($status == 'Unavailable') {
         //     $status_db = 0;
         // }
-    
+        if ($status = 2){
+            $sql_input_maintenance_cost = "INSERT INTO `transaction` (`status`, `date_time`, `nominal`, `id_truck`) VALUES (2,current_timestamp(),1000000,".$id.");"; 
+            mysqli_query($con,$sql_input_maintenance_cost);
+        }
         // Lakukan pembaruan status truk sesuai dengan nilai yang dipilih
-        $sql = "UPDATE `truck` SET `t_status` = '$status', `id_fuel` = '$id_fuel', `km_per_liter` = '$km_per_liter', `unique_number` = '$unique_number'  WHERE `id` = '$id'";
+        $sql = "UPDATE `truck` SET `truck_status` = '$status', `id_fuel` = '$id_fuel', `km_per_liter` = '$km_per_liter', `unique_number` = '$unique_number'  WHERE `id` = '$id'";
     
         if ($db->query($sql)) {
             $status_message = "Status truk berhasil diubah";
@@ -92,6 +95,13 @@ if (isset($_POST["change"])) {
     <div class="main-content">
       <div class="container">
         <i><?= $status_message ?></i>
+        <!-- <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="trucks.php">Truck</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Truck</li>
+            </ol>
+        </nav> -->
         <table class="table table-hover fixed-size-table table-generate" id="table-truck">
           <thead>
             <tr>
@@ -104,8 +114,8 @@ if (isset($_POST["change"])) {
                 <th>KM per Liter</th>
                 <th>Jenis Bahan Bakar</th>
                 <th>Lokasi</th>
-                <th>Nama Driver 1</th>
-                <th>Nama Driver 2</th>
+                <!-- <th>Nama Driver 1</th>
+                <th>Nama Driver 2</th> -->
             </tr>
           </thead>
           <tbody>  
@@ -114,24 +124,22 @@ if (isset($_POST["change"])) {
             // $con = mysqli_connect("localhost", "root", "", "projek_manpro");
 
             // Query untuk mendapatkan data truk beserta informasi lainnya
-            $query = "SELECT truck.*, fuel.fuel_type, fuel.cost_per_liter, location.alamat, location.kota_kabupaten, location.kecamatan, location.kelurahan_desa, location.kode_pos, location.latitude, location.longitude, driver1.driver_name AS driver1_name, driver2.driver_name AS driver2_name
+            $query = "SELECT truck.*, fuel.fuel_type, fuel.cost_per_liter, location.alamat, location.kota_kabupaten, location.kecamatan, location.kelurahan_desa, location.kode_pos, location.latitude, location.longitude
                       FROM truck
                       LEFT JOIN fuel ON truck.id_fuel = fuel.id
                       LEFT JOIN location ON truck.id_location = location.id
-                      LEFT JOIN truck_driver td1 ON truck.id = td1.id_truck AND td1.position = '1'
-                      LEFT JOIN driver driver1 ON td1.id_driver = driver1.id
-                      LEFT JOIN truck_driver td2 ON truck.id = td2.id_truck AND td2.position = '2'
-                      LEFT JOIN driver driver2 ON td2.id_driver = driver2.id 
                       WHERE truck.id = ".$id.";";
             $result = mysqli_query($con, $query);
 
             while ($row = mysqli_fetch_assoc($result)) {
-                $status_lama = $row['t_status'];
+                $status_lama = $row['truck_status'];
                 $stat = "";
                 if ($status_lama == 1){
                     $stat = "Available";
                 }else if ($status_lama == 2){
                     $stat = "Maintenance";
+                }else if ($status_lama == 3){
+                    $stat = "Delivering";
                 }else{
                     $stat = "Unavailable";
                 }
@@ -145,8 +153,8 @@ if (isset($_POST["change"])) {
                 echo "<td>{$row['km_per_liter']}</td>";
                 echo "<td>{$row['fuel_type']}</td>";
                 echo "<td>{$row['alamat']}, <br>{$row['kota_kabupaten']}, <br>{$row['kecamatan']}, <br>{$row['kelurahan_desa']}, <br>Jawa Timur {$row['kode_pos']}</td>";
-                echo "<td>{$row['driver1_name']}</td>";
-                echo "<td>{$row['driver2_name']}</td>";
+                // echo "<td>{$row['driver1_name']}</td>";
+                // echo "<td>{$row['driver2_name']}</td>";
                 echo "</tr>";
                 
                 $fuel_type = $row['id_fuel'];
@@ -169,14 +177,38 @@ if (isset($_POST["change"])) {
                         <input name="unique_number" class="form-control" value="<?php echo $unique_number; ?>"/> <!-- Include $id as a hidden input field -->
                     </div>
                     
-                    <div class="col-md-4">
-                        <label for="status" class="col-form-label">Change Truck's Status</label>
-                        <select class="form-select" name="status">
-                            <option value="1" <?php if ($status_lama == 1) echo 'selected'; ?>>Available</option>
-                            <option value="2" <?php if ($status_lama == 2) echo 'selected'; ?>>Maintenance</option>
-                            <option value="0" <?php if ($status_lama == 0) echo 'selected'; ?>>Unavailable</option>
-                        </select>
-                    </div>
+                    <?php
+                        if ($status_lama != 3){
+                            echo "<div class='col-md-4'>
+                            <label for='status' class='col-form-label'>Change Truck's Status</label>
+                            <select class='form-select' name='status'>
+                                <option value='1' ";
+                            if ($status_lama == 1) {
+                                echo 'selected';
+                            } 
+                            echo " ?>Available</option>
+                                <option value='2' ";
+                            if ($status_lama == 2) {
+                                echo 'selected';
+                            } 
+                            echo " ?>Maintenance</option>
+                               <option value='0' "; 
+                            if ($status_lama == 0) { 
+                                echo 'selected';
+                            } 
+                            echo " ?>Unavailable</option>
+                                </select>
+                            </div>";
+                        } else{
+                            echo "<div class='col-md-4'>
+                            <label for='status' class='col-form-label'>Change Truck's Status</label>
+                                <select class='form-select' name='status' disabled>
+                                    <option value='3' selected>Delivering</option>
+                                </select>
+                            </div>";
+                        }
+                    ?>
+                    
                 
                     <?php 
                      if ($type == 'CDD'){

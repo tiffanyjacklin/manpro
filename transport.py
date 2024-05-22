@@ -11,7 +11,7 @@ class Transportation:
         self.km_liter = km_liter
         self.total_distance = total_distance
         self.weight = 0
-        self.cost = 0
+        self.fit = 0
         self.used_volume = 0
         self.route = []
     
@@ -20,9 +20,7 @@ class Transportation:
         self.weight += item.weight
 
     def get_truckid(truck_list):
-        temp = []
-        for tr in truck_list:
-            temp.append(tr.id)
+        temp = [tr.id for tr in truck_list]
         return temp
 
         
@@ -31,4 +29,5 @@ class Driver:
         self.id_dr = id
         self.dist_dr = distance
         self.exp_dr = experience
+
         

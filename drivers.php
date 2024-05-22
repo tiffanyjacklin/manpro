@@ -14,10 +14,11 @@ require "connect.php";
     ?>
 
     <div class="main-content">
-    
+      <div class="container">
+        <button type="button" class="btn btn-outline-info" onclick="window.location.href='calculate_salary.php'" style="margin-top:20px;">Pay Salary</button>
 
 
-
+      </div>
     <?php
       include('footer.php');
     ?>

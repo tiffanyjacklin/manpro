@@ -67,8 +67,8 @@ if (isset($_POST["add"])){
         // }
         
         // Create and execute the SQL query
-        $sql = "INSERT INTO truck (unique_number, capacity_kg, panjang, lebar, tinggi, truck_status, fuel_capacity, fuel_now, km_per_liter, id_fuel, id_location) 
-        VALUES ('$unique_number', '$capacity', $panjang, $lebar, $tinggi, $truck_status, $fuel_capacity, $fuel_now, $km_per_liter, $id_fuel, '$id_location')";
+        $sql = "INSERT INTO truck (unique_number, total_distance, capacity_kg, panjang, lebar, tinggi, truck_status, fuel_capacity, fuel_now, km_per_liter, id_fuel, id_location) 
+        VALUES ('$unique_number', 0, '$capacity', $panjang, $lebar, $tinggi, $truck_status, $fuel_capacity, $fuel_now, $km_per_liter, $id_fuel, '$id_location')";
         if($db->query($sql)){
             $add_message = "Truck berhasil ditambahkan";
             // $id_sql = "SELECT id FROM `truck` ORDER BY `truck`.`id` DESC LIMIT 1;";

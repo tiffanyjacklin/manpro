@@ -8,7 +8,6 @@ if (isset($_POST['id_barang'])) {
 
   $sql_complete = "UPDATE `schedule` SET `status` = 2, `date_time` = current_timestamp() WHERE `id_barang` = '".$id_barang."';";
   mysqli_query($con, $sql_complete);
-
   
   $sql_item_complete = "UPDATE `item` SET `status` = 2, `order_completed` = current_timestamp() WHERE `id` = ".$id_barang.";";
   mysqli_query($con, $sql_item_complete);
@@ -41,6 +40,58 @@ if (isset($_POST['id_barang'])) {
       mysqli_query($con,$sql_driver1_dist);
       $sql_driver2_dist = "UPDATE `driver` SET `total_distance` = (`total_distance`+".($row_product['distance_m']/1000).") WHERE `id` = ".$row_product['id_driver2'].";";
       mysqli_query($con,$sql_driver2_dist);
+
+      // Execute the SELECT query to check for NULL
+      $select_query = "SELECT `id_location_from`
+                        FROM `schedule` s JOIN `truck_driver` td ON s.`id_schedule` = td.`id`
+                        WHERE td.`id_truck` = ".$id_truck." AND `status` = 1
+                        ORDER BY `id_schedule`
+                        LIMIT 1";
+      $result = mysqli_query($con, $select_query);
+
+      // Check if the SELECT query returned any rows
+      if ($result && mysqli_num_rows($result) > 0) {
+        // The SELECT query returned a non-NULL value
+        // Proceed with the UPDATE query
+        $sql_update_truck_location = "UPDATE `truck`
+                      SET `id_location` = (
+                          SELECT `id_location_from`
+                          FROM `schedule` s JOIN `truck_driver` td ON s.`id_schedule` = td.`id`
+                          WHERE td.`id_truck` = ".$id_truck." AND `status` = 1
+                          ORDER BY `id_schedule`
+                          LIMIT 1
+                      )
+                      WHERE id = $id_truck";
+        mysqli_query($con, $sql_update_truck_location);
+      }
+
+
+      $sql_cek_masih_kirim = "SELECT * FROM `schedule` 
+                              WHERE `id_schedule` = (SELECT DISTINCT `id_schedule` FROM `schedule`
+                                                    WHERE `id_barang` = ".$id_barang." AND `schedule_status` = 1) 
+                              AND `schedule_status` = 1 AND `status` = 1;";
+      $res_cek_masih_kirim = mysqli_query($con, $sql_cek_masih_kirim);
+      if (mysqli_num_rows($res_cek_masih_kirim) == 0) {
+        $sql_truck_status_done = "UPDATE `truck` SET `truck_status` = 1 WHERE `id` = ".$id_truck.";";
+        mysqli_query($con,$sql_truck_status_done);
+
+        $sql_cek_total_distance = "SELECT `total_distance`  FROM `truck` 
+                                  JOIN `truck_driver` ON `truck`.`id` = `truck_driver`.`id_truck`
+                                  JOIN `schedule` ON `schedule`.`id_schedule` = `truck_driver`.`id`
+                                  WHERE `schedule`.`id_barang`=".$id_barang.";";
+        $res_cek_total_distance = mysqli_query($con, $sql_cek_total_distance);
+        if (mysqli_num_rows($res_cek_total_distance) > 0) {
+          $row = mysqli_fetch_assoc($res_cek_total_distance);
+          $total_distance = $row['total_distance'];
+          if ($total_distance >= 10000){
+            $sql_input_maintenance_cost = "INSERT INTO `transaction` (`status`, `date_time`, `nominal`, `id_truck`) VALUES (2,current_timestamp(),1000000,".$id_truck.");"; 
+            mysqli_query($con,$sql_input_maintenance_cost);
+            $sql_truck_distance_new = "UPDATE `truck` SET `total_distance` = 0, `truck_status` = 3, WHERE `id` = ".$id_truck.";";
+            mysqli_query($con,$sql_truck_distance_new);
+          }
+
+        }
+      } 
     }
   }
 
@@ -54,30 +105,7 @@ if (isset($_POST['id_barang'])) {
     }
   }
 
-  // Execute the SELECT query to check for NULL
-  $select_query = "SELECT `id_location_from`
-                    FROM `schedule` s JOIN `truck_driver` td ON s.`id_schedule` = td.`id`
-                    WHERE td.`id_truck` = ".$id_truck." AND `status` = 1
-                    ORDER BY `id_schedule`
-                    LIMIT 1";
-  $result = mysqli_query($con, $select_query);
-
-  // Check if the SELECT query returned any rows
-  if ($result && mysqli_num_rows($result) > 0) {
-  // The SELECT query returned a non-NULL value
-  // Proceed with the UPDATE query
-  $sql_update_truck_location = "UPDATE `truck`
-                                SET `id_location` = (
-                                    SELECT `id_location_from`
-                                    FROM `schedule` s JOIN `truck_driver` td ON s.`id_schedule` = td.`id`
-                                    WHERE td.`id_truck` = ".$id_truck." AND `status` = 1
-                                    ORDER BY `id_schedule`
-                                    LIMIT 1
-                                )
-                                WHERE id = $id_truck";
-    mysqli_query($con, $sql_update_truck_location);
-  }
-
+  
 }
 
 ?>

@@ -2,9 +2,7 @@ from gaddd import GenAlgo
 from produk import Product, Destination
 from transport import Transportation
 import TruckAssign
-import random
 import mysql.connector
-import json
 
 mydb = mysql.connector.connect(
   host="localhost",
@@ -13,11 +11,16 @@ mydb = mysql.connector.connect(
   database="logistics_company"
 )
 
-def get_truckid(truck_list):
+def get_best(solution):
+    best = []
     temp = []
-    for tr in truck_list:
-        temp.append(tr.id)
-    return temp
+    for pair in solution:
+        if pair.get_chrom() not in temp:
+            best.append(pair)
+            temp.append(pair.get_chrom())
+        if len(best) == 3:
+            break
+    return best
 
 def longest_subarray_length(arr):
     max_length = 0
@@ -41,14 +44,11 @@ def print_sol(best_solution):
         index += 1
     
     sublist = []
-    for i, truck in enumerate(unique_sublist): 
+    for _, truck in enumerate(unique_sublist): 
         temp = []
-        # print(f"Truck {i+1}:")
         for product in truck:
             temp.append(product.id)
-            # print(f"  Product - ID: {product.id}, Name: {product.name}, Weight: {product.weight}, Length: {product.length}, Width: {product.width}, Height: {product.height}, Destination: {product.dest.dest_city}, Jarak: {product.dest.distance}")
         sublist.append(temp)
-    # print(sublist)
     return sublist
 
 def product(product_list, location_list):
@@ -78,23 +78,18 @@ def fetch_data():
 
     return product_list
 
-
-
-
-population_size = 10
-mutation_rate = 0.1
-
 product_list = fetch_data()
 trucks = TruckAssign.generate_trucks()
 
 population_size = 50
 num_generations = 100
-    
-best_solution = GenAlgo.genetic_algorithm(population_size, num_generations, trucks, product_list)
 
+best_solution = GenAlgo.genetic_algorithm(population_size, num_generations, trucks, product_list)
+best_solution = get_best(best_solution)
+
+            
 result = []
-for best in best_solution:
-    result.append(print_sol(best.get_chrom()))
-truck_id = Transportation.get_truckid(trucks)
-result.append(truck_id)
+for bestt in best_solution:
+    result.append(print_sol(bestt.get_chrom()))
+result.append(Transportation.get_truckid(trucks))
 print(result)

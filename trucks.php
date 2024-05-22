@@ -24,7 +24,8 @@ require "connect.php";
           <thead>
             <tr>
                 <th>ID</th>
-                <th>Nomor Unik</th>
+                <th>Plat Nomor</th>
+                <th>Jarak Tempuh Total (km)</th>
                 <th>Kapasitas (kg)</th>
                 <th>Dimensi</th>
                 <th>Status</th>
@@ -73,6 +74,7 @@ require "connect.php";
                 echo "<tr>";
                 echo "<td>{$row['id']}</td>";
                 echo "<td>{$row['unique_number']}</td>";
+                echo "<td>{$row['total_distance']}</td>";
                 echo "<td>{$row['capacity_kg']}</td>";
                 echo "<td>" . $row['panjang'] . " cm x " . $row['lebar'] . " cm x " . $row['tinggi'] . " cm</td>";
                 echo "<td>{$stat}</td>";
