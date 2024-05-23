@@ -24,18 +24,18 @@ require "connect.php";
           <thead>
             <tr>
                 <th>ID</th>
-                <th>Plat Nomor</th>
-                <th>Jarak Tempuh Total (km)</th>
-                <th>Kapasitas (kg)</th>
-                <th>Dimensi</th>
+                <th>Unique Number</th>
+                <th>Total Mileage (km)</th>
+                <th>Capacity (kg)</th>
+                <th>Dimensions</th>
                 <th>Status</th>
-                <th>Kapasitas Bahan Bakar</th>
+                <th>Fuel Capacity</th>
                 <th>KM per Liter</th>
-                <th>Jenis Bahan Bakar</th>
-                <th>Lokasi</th>
+                <th>Fuel Type</th>
+                <th>Location</th>
                 <!-- <th>Nama Driver 1</th>
                 <th>Nama Driver 2</th> -->
-                <th>Aksi</th>
+                <th>Action</th>
             </tr>
           </thead>
           <tbody>  
