@@ -13,38 +13,42 @@ if (isset($_GET['id'])) {
 if (isset($_POST["change"])) {
         // Ambil data dari formulir
         // $unique_number = $_POST['unique_number'];
-        // $id = $_POST['id'];
+        $id = $_POST['id'];
         $status = $_POST['status'];
-        $id_fuel = $_POST['fuel'];
+        // $id_fuel = $_POST['fuel'];
         $unique_number = $_POST['unique_number'];
 
         // Tentukan nilai id_fuel berdasarkan km_per_liter
         // $km_per_liter = $_POST['km_per_liter'];
-        if ($id_fuel == 1) {
-        //     $id_fuel = 1;
-            $km_per_liter = 13.3;
-        }else if ($id_fuel == 2){
-            $km_per_liter = 14.63;
-        }else{
+        if (isset($_POST['if_fuel'])){
+            if ($id_fuel == 1) {
+            //     $id_fuel = 1;
+                $km_per_liter = 13.3;
+            }else if ($id_fuel == 2){
+                $km_per_liter = 14.63;
+            }
+        }
+        else{
             $id_fuel = 6;
             $km_per_liter = 7;
-
         }
 
+        // echo $unique_number, $status, $id_fuel;
         // Tentukan nilai status yang akan disimpan dalam database
         // $status_db = '';
         // if ($status == 'Available') {
-        //     $status_db = 1;
+        //     $status = 1;
         // } elseif ($status == 'Maintenance') {
-        //     $status_db = 2;
+        //     $status = 2;
         // } elseif ($status == 'Unavailable') {
-        //     $status_db = 0;
+        //     $status = 0;
         // }
-        if ($status = 2){
+        if ($status == 2){
             $sql_input_maintenance_cost = "INSERT INTO `transaction` (`status`, `date_time`, `nominal`, `id_truck`) VALUES (2,current_timestamp(),1000000,".$id.");"; 
             mysqli_query($con,$sql_input_maintenance_cost);
         }
         // Lakukan pembaruan status truk sesuai dengan nilai yang dipilih
+
         $sql = "UPDATE `truck` SET `truck_status` = '$status', `id_fuel` = '$id_fuel', `km_per_liter` = '$km_per_liter', `unique_number` = '$unique_number'  WHERE `id` = '$id'";
     
         if ($db->query($sql)) {
