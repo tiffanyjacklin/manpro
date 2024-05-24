@@ -55,11 +55,14 @@ require "connect.php";
                       <td>".$row["id"]."</td>
                       <td>";
               if ($row["status"] == 0){
-                echo "Unscheduled";
+                // echo "Unscheduled";
+                echo '<span class="badge rounded-pill text-bg-danger">Unscheduled</span>';
               }else if ($row["status"] == 1){
-                echo "On-going";
+                // echo "On-going";
+                echo '<span class="badge rounded-pill text-bg-warning">Ongoing</span>';
               }else {
-                echo "Done";
+                echo '<span class="badge rounded-pill text-bg-success">Done</span>';
+                // echo "Done";
               }
                       
               echo "</td>

@@ -116,7 +116,8 @@ if (isset($_POST['item_ids_output'])) {
         <div class="container">
         <div class="generate-schedule">
         <?php
-            $item_ids_output = exec("python ./mainGA.py");
+            // $item_ids_output = exec("python ./mainGA.py");
+            $item_ids_output = exec("python ./ScheduleAssign.py");
             echo $item_ids_output;
             // echo "HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
             

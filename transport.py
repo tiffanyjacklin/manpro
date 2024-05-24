@@ -13,11 +13,25 @@ class Transportation:
         self.weight = 0
         self.fit = 0
         self.used_volume = 0
+        self.max_dest = (self.fuel - 20)*self.km_liter
         self.route = []
+
+    def can_accommodate(self, item):
+        return (self.used_volume + item.volume <= self.volume - 20 and
+                self.weight + item.weight <= self.max_weight and
+                item.dest.distance <= self.max_dest)
     
     def add_item(self,item):
         self.route.append(item)
         self.weight += item.weight
+        self.used_volume += item.volume
+        self.max_dest -= item.dest.distance
+    
+    def reset(self):
+        self.route = []
+        self.weight = 0
+        self.used_volume = 0
+        self.max_dest = (self.fuel - 20)*self.km_liter
 
     def get_truckid(truck_list):
         temp = [tr.id for tr in truck_list]

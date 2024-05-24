@@ -3,33 +3,53 @@ from fit_pair import Pair
 
 class GenAlgo:
 
+    # def fitness(chrom, trucks):
+    #     fitness = 0
+    #     for truck in trucks:
+    #         truck.fit = 0
+        
+    #     for truck, items in zip(trucks, chrom):
+    #         truck.weight = 0
+    #         truck.route = []
+    #         truck_fuel = truck.fuel - 20
+    #         truck_vol = truck.volume - 20
+    #         for item in items:
+    #             if (truck.weight + item.weight < truck.max_weight and
+    #                 truck_vol > item.volume and
+    #                 truck_fuel > (item.dest.distance/truck.km_liter) and
+    #                 item not in truck.route):
+
+    #                 truck.weight += item.weight
+    #                 truck.route.append(item)
+    #                 truck_vol -= item.volume
+    #                 truck_fuel -= item.dest.distance / truck.km_liter
+
+    #                 truck.fit += item.weight * item.dest.distance * item.volume
+                    
+    #         dist = 0
+    #         for route in truck.route:
+    #             dist += route.dest.distance
+    #         truck.fit -= (dist / (truck.fuel * truck.km_liter))
+
+    #     for truck, items in zip (trucks, chrom):
+    #         fitness += truck.fit
+
+    #     return fitness
+
     def fitness(chrom, trucks):
         fitness = 0
         for truck in trucks:
             truck.fit = 0
         
         for truck, items in zip(trucks, chrom):
-            truck.weight = 0
-            truck.route = []
-            truck_fuel = truck.fuel - 20
-            truck_vol = truck.volume - 20
+            truck.reset()
             for item in items:
-                if (truck.weight + item.weight < truck.max_weight and
-                    truck_vol > item.volume and
-                    truck_fuel > (item.dest.distance/truck.km_liter) and
-                    item not in truck.route):
-
-                    truck.weight += item.weight
-                    truck.route.append(item)
-                    truck_vol -= item.volume
-                    truck_fuel -= item.dest.distance / truck.km_liter
-
+                if truck.can_accommodate(item):
+                    truck.add_item(item)
                     truck.fit += item.weight * item.dest.distance * item.volume
                     
-            dist = 0
-            for route in truck.route:
-                dist += route.dest.distance
-            truck.fit -= (dist / (truck.fuel * truck.km_liter))
+            distance = sum(route.dest.distance for route in truck.route)
+            truck.fit -= (distance / (truck.fuel * truck.km_liter))
 
         for truck, items in zip (trucks, chrom):
             fitness += truck.fit

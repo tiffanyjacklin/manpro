@@ -1,10 +1,11 @@
 <div class="offcanvas offcanvas-start bg-body-tertiary" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="width: fit-content !important;">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title">
+            <a href="dashboard.php">
             <img src="images/logo-bt.png" style="height: 50px; display: inline-block; vertical-align: middle;" alt="Logo" >
-            <span class="button-label navbar-brand black-ops-one-regular" href="dashboard.php" >  
+            <span class="button-label navbar-brand black-ops-one-regular" >  
                 TIP LOGISTICS
-            </span>
+            </span></a>
         </h5>
         <!-- <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button> -->
     </div>
@@ -48,13 +49,13 @@
                     </div>
                     <span class="button-label">Drivers</span>
                 </button>
-                <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
+                <!-- <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
                     
                         <i class="fa-solid fa-bell" aria-pressed="false"></i>
                     </div>
                     <span class="button-label">Notification</span>
-                </button>
+                </button> -->
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
                     

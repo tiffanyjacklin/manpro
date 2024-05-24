@@ -333,9 +333,236 @@ div.dt-container div.dt-paging ul.pagination li.page-item.disabled a.page-link {
   .bd-mode-toggle .dropdown-menu .active .bi {
     display: block !important;
   }
-/* FOOTER */
 
-.footer{
+/* DASHBOARD */
+
+
+.main-content .container form.d-flex {
+    display: flex;
+    align-items: center; /* Vertical alignment */
+}
+.main-content .container form.d-flex .vertical-line {
+    border-left: 2px solid #dee2e6; /* Softer color with increased thickness */
+    height: 20px; /* Adjust the height to match the button and input box */
+    margin: 10px 5px; /* Add margin top and bottom */
+    display: flex;
+    /* color: #adb5bd; */
+    align-items: center; /* Vertical alignment */
+}
+.main-content .container form.d-flex .btn-dashboard {
+    height: 60px; /* Adjust the height as needed */
+    width: 60px; /* Adjust the height as needed */
+    margin: 10px 5px; /* Add margin top and bottom */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0 10px;
+    color: #adb5bd;
+}
+.main-content .container form.d-flex .btn-dashboard:active {
+    box-shadow: none; /* Remove shadow on focus */
+    border: none; /* Remove border on focus */
+}
+
+.main-content .container form.d-flex .btn-dashboard:hover {
+    color: #343a40;
+    background: #f8f9fa;
+
+}
+.main-content .container form.d-flex .form-control {
+    height: 60px; /* Adjust the height as needed */
+    margin: 10px 5px; /* Add margin top and bottom */
+    border: none;
+    background: transparent;
+    outline: none;
+    flex: 1;
+    color: #adb5bd;
+    padding: 0 10px;
+}
+.main-content .container form.d-flex .form-control:focus {
+    box-shadow: none; /* Remove shadow on focus */
+    border: none; /* Remove border on focus */
+    background: #f8f9fa;
+}
+
+.main-content .container .horizontal-line {
+    border-top: 2px solid #dee2e6; /* Softer color with increased thickness */
+    margin: 10px 5px; /* Add margin top and bottom */
+    display: flex;
+    align-items: center; /* Vertical alignment */
+}
+.main-content .container .d-flex .status-container .vertical-line {
+    border-left: 2px solid #dee2e6; /* Softer color with increased thickness */
+    height: 50px; /* Adjust the height to match the button and input box */
+    margin: 10px 10px; /* Add margin top and bottom */
+    display: flex;
+    /* color: #adb5bd; */
+    align-items: center; /* Vertical alignment */
+}
+.main-content .container .d-flex {
+    display: flex;
+    align-items: center;
+}
+.main-content .container .d-flex .status-container {
+    display: flex;
+    align-items: center;
+}
+.title-dashboard {
+    font-size: 14px;
+    color: #adb5bd;
+}
+.title-dashboard2 {
+    font-size: 14px;
+    color: #495057;
+}
+.title-dashboard4 {
+    font-size: 12px;
+    color: #adb5bd;
+}
+.title-dashboard3 {
+    font-size: 14px;
+    color: #495057;
+    font-weight: bold;
+    align-items: start;
+}
+.main-content .container .d-flex.justify-content-between .status-container .status-item {
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    text-align: end;
+}
+.main-content .container .d-flex.justify-content-between .status-container .status-item .statusnya{
+    color: #adb5bd;
+
+}
+.main-content .container .d-flex.justify-content-between .status-container .status-item .statusnya .fa-triangle-exclamation{
+    color:#e35d6a;
+}
+.main-content .container .d-flex.justify-content-between .status-container .status-item .statusnya .fa-truck-fast{
+    color:#a370f7;
+}
+.main-content .container .d-flex.justify-content-between .status-container .status-item .statusnya .fa-square-check{
+    color:#6edff6;
+}
+.main-content .container .d-flex.justify-content-between .status-container .status-item .row {
+    width: 125px;
+}
+
+.main-content .container .col-md-12 .card{
+    background: #f8f9fa;
+    border: none;
+}
+/* SEARCH */
+.main-content .container hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.main-content .container .d-flex.justify-content-between .container .status-search {
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    text-align: start;
+
+}
+.main-content .container .d-flex.justify-content-between .container .status-search .statusnya{
+    color: #adb5bd;
+
+}
+
+.main-content .container .d-flex .container .vertical-line {
+    border-left: 2px solid #dee2e6; /* Softer color with increased thickness */
+    height: 100px; /* Adjust the height to match the button and input box */
+    margin: 10px 10px; /* Add margin top and bottom */
+    display: flex;
+    /* color: #adb5bd; */
+    align-items: center;
+}
+
+.not-found {
+    font-size: 20px;
+    text-align: center;
+}
+
+.list-group-flush {
+    list-style: none;
+    padding: 0;
+}
+
+.list-group-flush .list-group-item {
+    border-left: 2px solid #dee2e6; /* Adjust the color of the vertical line */
+    padding-left: 10px; /* Adjust the left padding */
+    position: relative;
+}
+
+.list-group-flush .list-group-item::before {
+    content: '';
+    position: absolute;
+    top: 50%; /* Position the bullet in the middle vertically */
+    left: -4px; /* Adjust the position of the bullet */
+    transform: translateY(-50%); /* Adjust to center vertically */
+    width: 6px; /* Adjust the size of the bullet */
+    height: 6px; /* Adjust the size of the bullet */
+    background-color: #dee2e6; /* Adjust the color of the bullet */
+    border-radius: 50%;
+}
+
+
+
+.list-group-flush .list-group-item:first-child {
+    border-top: none; /* Remove top border for the first item */
+}
+
+.list-group-flush .list-group-item:last-child {
+    border-bottom: none; /* Remove bottom border for the last item */
+}
+.search-font {
+    padding-bottom: 10px;
+}
+.title-item {
+    font-size: 20px;
+    font-weight: bold;
+    color: #90e2ec;
+    margin-bottom: 20px;
+}
+
+.accordion-button {
+    min-width: 100% !important;
+    width: 100% !important;
+}
+.accordion-button.collapse {
+    background-color: white;
+}
+.accordion-button:not(.collapsed) {
+    color: black;
+    background-color: #B2EBF2;
+    box-shadow: none;
+}
+.accordion-button:not(.collapsed)::after {
+    background-image: var(--bs-accordion-btn-active-icon);
+    transform: var(--bs-accordion-btn-icon-transform);
+}
+.accordion-button:focus {
+    box-shadow: none;
+    width: 100% !important;
+    min-width: 100% !important;
+}
+.custom-accordion-header {
+    min-width: 310px;
+    width: 100% !important; /* Adjust the minimum height as needed */
+  }
+
+/* FOOTER */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.footer {
+    flex-shrink: 0; /* Don't shrink footer when content is short */
+    margin-top: auto; /* Push footer to bottom */
     margin-right: 20px;
     padding-bottom: 20px;
+    padding: 20px 0; /* Adjust padding as needed */
+    text-align: center; /* Align content in the center */
 }

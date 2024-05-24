@@ -63,13 +63,17 @@ require "connect.php";
                 $status_lama = $row['truck_status'];
                 $stat = "";
                 if ($status_lama == 1){
-                    $stat = "Available";
+                    // $stat = "Available";
+                    $stat = '<span class="badge rounded-pill text-bg-success">Available</span>';
                 }else if ($status_lama == 2){
-                    $stat = "Maintenance";
+                    // $stat = "Maintenance";
+                    $stat = '<span class="badge rounded-pill text-bg-warning">Maintenance</span>';
                 }else if ($status_lama == 3){
-                    $stat = "Delivering";
+                    // $stat = "Delivering";
+                    $stat = '<span class="badge rounded-pill text-bg-dark">Delivering</span>';
                 }else{
-                    $stat = "Unavailable";
+                    // $stat = "Unavailable";
+                    $stat = '<span class="badge rounded-pill text-bg-danger">Unavailable</span>';
                 }
                 echo "<tr>";
                 echo "<td>{$row['id']}</td>";
