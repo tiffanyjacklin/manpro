@@ -124,6 +124,24 @@ if (isset($_POST['id_barang'])) {
 
     <div class="main-content">
       <ul class="nav nav-tabs">
+      
+          <?php
+              $nodriver_sql = "SELECT COUNT(*) FROM `truck_driver` WHERE `id_driver1` IS NULL OR `id_driver2` IS NULL;";
+              $nodriver_res = mysqli_query($con, $nodriver_sql);
+              if (mysqli_num_rows($nodriver_res) > 0) {
+                // Loop through the fetched rows and display them
+                while ($nodriver_row = mysqli_fetch_array($nodriver_res)) {
+                  if ($nodriver_row['COUNT(*)'] > 0){
+                    echo '<li class="nav-item">
+                    <a class="nav-link" href="#assigndriver">Assign Driver
+                    <span class="badge text-bg-custom">'.$nodriver_row['COUNT(*)'].'</span></a>
+                    </li>';
+                    
+                  }
+                }
+              }
+              ?>
+          
         <li class="nav-item">
           <a class="nav-link" href="#on-going">On Going</a>
         </li>
@@ -150,9 +168,161 @@ if (isset($_POST['id_barang'])) {
       </ul>
 
       <div class="tab-content">
+        <div class="tab-pane fade" id="assigndriver">
+          <button type="button" class="btn btn-outline-info" onclick="window.location.href='generate-driver.php'">Generate Driver</button>
+
+          <?php
+            $sql = "SELECT `schedule`.* FROM `schedule` JOIN `truck_driver` ON `schedule`.`id_schedule` = `truck_driver`.`id`
+                    WHERE `truck_driver`.`id_driver1` IS NULL OR `truck_driver`.`id_driver2` IS NULL;";
+            $res = mysqli_query($con, $sql);
+
+            echo '<table class="table table-hover fixed-size-table table-assigndriver" id="table-assigndriver">';
+            echo '<thead>';
+            echo '<tr>';
+            echo '<th scope="col">ID</th>';
+            echo '<th scope="col">Schedule ID</th>';
+            echo '<th scope="col">Product</th>';
+            echo '<th scope="col">Truck</th>';
+            echo '<th scope="col">Origin Address</th>';
+            echo '<th scope="col">Destination Address</th>';
+            echo '</tr>';
+            echo '</thead>';
+            echo '<tbody class="table-group-divider">';
+            // Check if there are items to display
+            if (mysqli_num_rows($res) > 0) {
+              // Loop through the fetched rows and display them
+              while ($row = mysqli_fetch_array($res)) {
+                  echo '<tr>';
+                  echo '<th>' . $row['id'] . '</th>';
+                  echo '<td>' . $row['id_schedule'] . '</td>';
+                  $sql_product = "SELECT * FROM `item` WHERE id = ".$row['id_barang'].";";
+                  $res_product = mysqli_query($con, $sql_product);
+                  if (mysqli_num_rows($res_product) > 0) {
+                    while ($row_product = mysqli_fetch_array($res_product)) {
+                      echo '<td>';
+
+                      echo '
+                  <div class="modal" id="productDetailsModal'.$row['id_barang'].'" tabindex="-1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title title-form">Product Details</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="productDetailsModalBody">';
+                            $modal_sql = "SELECT * FROM `schedule` 
+                                          LEFT JOIN `truck_driver` ON `schedule`.`id_schedule` = `truck_driver`.`id` 
+                                          LEFT JOIN `item` ON `schedule`.`id_barang` = `item`.`id`
+                                          LEFT JOIN `truck` ON `truck_driver`.`id_truck` = `truck`.`id`
+                                          WHERE `id_schedule` IN (SELECT `id_schedule` FROM `schedule` WHERE `id_barang` = ".$row['id_barang'].")   
+                                          ORDER BY `schedule`.`schedule_status` , `schedule`.`id_barang`;";
+                            // $modal_sql = "SELECT *
+                            //               FROM `schedule` JOIN `truck` ON `schedule`.`id_truk` = `truck`.`id` JOIN `item` ON `schedule`.`id_barang` = `item`.`id`
+                            //               WHERE `id_schedule` IN (SELECT `id_schedule` FROM `schedule` WHERE `id_barang` = ".$row['id_barang'].")   
+                            //               ORDER BY `schedule`.`schedule_status` , `schedule`.`id_barang`;";
+                            
+                            $modal_res = mysqli_query($con, $modal_sql);
+                            $schedule_status_lama = 0;
+                            $count = 1;
+                            if (mysqli_num_rows($modal_res) > 0) {
+                              while ($modal_row = mysqli_fetch_array($modal_res)) {
+                                $plate = $modal_row['unique_number'];
+                                if ($modal_row['schedule_status'] != $schedule_status_lama){
+                                  if ($count != 1){
+                                    // echo "<strong>Truck's Unique Number:".$plate."</strong><br>";
+
+                                    echo '</tbody>
+                                        </table>';
+                                  }
+                                  echo "<strong>Output GA Terbaik Ke-".$count.":</strong><br>";                                
+                                  $count++;
+                                  $schedule_status_lama = $modal_row['schedule_status'];
+                                  echo '<table class="table table-hover fixed-size-table">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">ID</th>
+                                      <th scope="col">Product Name</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>';
+                                }
+                                if ($modal_row['id_barang'] == $row['id_barang']){
+                                  echo '<tr>';
+                                  // Display the ID in the first column
+                                  echo '<td><strong>' . $modal_row['id_barang'] . '</strong></td>';
+                                  // Display the item name in the second column
+                                  echo '<td><strong>' . $modal_row['item_name'] . '</strong></td>';
+                                  // Close the row
+                                  echo '</tr>';
+                                }else{
+                                  echo '<tr>';
+                                  // Display the ID in the first column
+                                  echo '<td>' . $modal_row['id_barang'] . '</td>';
+                                  // Display the item name in the second column
+                                  echo '<td>' . $modal_row['item_name'] . '</td>';
+                                  // Close the row
+                                  echo '</tr>';                                
+                                }
+                                
+                              }
+                            }
+
+                  echo '</tbody>
+                      </table>                   
+                    </div>
+                  </div>
+                </div>
+              </div>';
+
+                      echo '
+                              Product ID: '.$row_product['id'].' <br>
+                              Product: '.$row_product['item_name'].' <br>
+                              Dimension: ' . $row_product['panjang'] . 'cm x ' . $row_product['lebar'] . 'cm x ' . $row_product['tinggi'] . 'cm <br>
+                              Order received: '.$row_product['order_received'].'<br>
+                              <button type="button" class="btn btn-outline-info btn-sm product-details-btn" data-product-id="' . $row_product['id'] . '" style="margin-top:10px;">Show More</button>
+                            </td>
+                            ';     
+                          
+                      
+                    }
+                  }
+                  
+                  $sql_truck = "SELECT `truck`.`unique_number` AS `unique_number` 
+                                FROM `schedule` 
+                                JOIN `truck_driver` ON `schedule`.`id_schedule` = `truck_driver`.`id` 
+                                JOIN `truck` ON `truck_driver`.`id_truck` = `truck`.`id`
+                                WHERE `schedule`.`id_barang` = ".$row['id_barang']." ;";
+                  // $sql_truck = "SELECT * FROM `truck` WHERE id = ".$row['id_truk'].";";
+                  $res_truck = mysqli_query($con, $sql_truck);
+                  if (mysqli_num_rows($res_truck) > 0) {
+                    while ($row_truck = mysqli_fetch_array($res_truck)) {
+                      echo '<td>
+                              Unique number: ' . $row_truck['unique_number'].'<br>';
+                      echo '</td>';                      
+                    }
+                  }
+                  
+
+                  // Fetch origin and destination addresses
+                  $address_sql = "SELECT * FROM `location` WHERE id = " . $row['id_location_from'] . " OR id = " . $row['id_location_dest'];
+                  $address_res = mysqli_query($con, $address_sql);
+                  if (mysqli_num_rows($address_res) > 0) {
+                      while ($address_row = mysqli_fetch_array($address_res)) {
+                          echo '<td>' . $address_row['alamat'] . ',<br>' . $address_row['kelurahan_desa'] . ',<br>' . $address_row['kecamatan'] . ',<br>' . $address_row['kota_kabupaten'] . ',<br> Jawa Timur ' . $address_row['kode_pos'] . '</td>';
+                      }
+                  }
+                  echo '</tr>';
+              }
+            } 
+
+            echo '</tbody>';
+            echo '</table>';
+          ?>    
+        </div>
         <div class="tab-pane fade" id="on-going">
         <?php
-            $sql = "SELECT * FROM `schedule` WHERE `date_time` IS NULL AND `schedule_status` = 1;";
+            $sql = "SELECT `schedule`.* FROM `schedule` JOIN `truck_driver` ON `schedule`.`id_schedule` = `truck_driver`.`id`
+                    WHERE `schedule`.`date_time` IS NULL AND `schedule`.`schedule_status` = 1 AND (`truck_driver`.`id_driver1` IS NOT NULL OR `truck_driver`.`id_driver2` IS NOT NULL);";
             $res = mysqli_query($con, $sql);
 
             echo '<table class="table table-hover fixed-size-table table-on-going" id="table-on-going">';
@@ -316,6 +486,9 @@ if (isset($_POST['id_barang'])) {
           ?>
         
         </div>
+        
+        
+
         <div class="tab-pane fade" id="completed">
         <?php
             $sql = "SELECT * FROM `schedule` WHERE `date_time` IS NOT NULL AND `schedule_status` = 1;";
@@ -501,6 +674,11 @@ if (isset($_POST['id_barang'])) {
               "autoWidth": true,
               "dom": '<"c8tableTools01"lfB><"c8tableBody"t><"c8tableTools02"ipr>'
           });
+          $('#table-assigndriver').DataTable({
+              "pageLength": 10,
+              "autoWidth": true,
+              "dom": '<"c8tableTools01"lfB><"c8tableBody"t><"c8tableTools02"ipr>'
+          });
           // Handle tab click event
           $('.nav-link').click(function(e) {
             e.preventDefault(); // Prevent default anchor behavior
@@ -517,9 +695,26 @@ if (isset($_POST['id_barang'])) {
           var tabParam = urlParams.get('tab');
 
           // If the tab parameter is not explicitly set, add 'active' class to the "On Going" tab and tab pane
-          if (!tabParam) {
-            $('a[href="#on-going"]').addClass('active');
-            $('#on-going').addClass('show active');
+         // If the tab parameter is set, open the corresponding tab
+          if (tabParam) {
+              $('.nav-link[href="#' + tabParam + '"]').addClass('active');
+              $('#' + tabParam).addClass('show active');
+          } else {
+              <?php
+              $nodriver_sql = "SELECT COUNT(*) FROM `truck_driver` WHERE `id_driver1` IS NULL OR `id_driver2` IS NULL;";
+              $nodriver_res = mysqli_query($con, $nodriver_sql);
+              if (mysqli_num_rows($nodriver_res) > 0) {
+                  while ($nodriver_row = mysqli_fetch_array($nodriver_res)) {
+                      if ($nodriver_row['COUNT(*)'] > 0){
+                          echo "$('a[href=\"#assigndriver\"]').addClass('active');\n";
+                          echo "$('#assigndriver').addClass('show active');\n";
+                      } else {
+                          echo "$('a[href=\"#on-going\"]').addClass('active');\n";
+                          echo "$('#on-going').addClass('show active');\n";
+                      }
+                  }
+              }
+              ?>
           }
         });
 

@@ -3,39 +3,6 @@ from fit_pair import Pair
 
 class GenAlgo:
 
-    # def fitness(chrom, trucks):
-    #     fitness = 0
-    #     for truck in trucks:
-    #         truck.fit = 0
-        
-    #     for truck, items in zip(trucks, chrom):
-    #         truck.weight = 0
-    #         truck.route = []
-    #         truck_fuel = truck.fuel - 20
-    #         truck_vol = truck.volume - 20
-    #         for item in items:
-    #             if (truck.weight + item.weight < truck.max_weight and
-    #                 truck_vol > item.volume and
-    #                 truck_fuel > (item.dest.distance/truck.km_liter) and
-    #                 item not in truck.route):
-
-    #                 truck.weight += item.weight
-    #                 truck.route.append(item)
-    #                 truck_vol -= item.volume
-    #                 truck_fuel -= item.dest.distance / truck.km_liter
-
-    #                 truck.fit += item.weight * item.dest.distance * item.volume
-                    
-    #         dist = 0
-    #         for route in truck.route:
-    #             dist += route.dest.distance
-    #         truck.fit -= (dist / (truck.fuel * truck.km_liter))
-
-    #     for truck, items in zip (trucks, chrom):
-    #         fitness += truck.fit
-
-    #     return fitness
-
     def fitness(chrom, trucks):
         fitness = 0
         for truck in trucks:
@@ -93,16 +60,11 @@ class GenAlgo:
                 idx_t1 = random.randint(0, len(truck1) - 1)
                 idx_t2 = random.randint(0, len(truck2) - 1)
 
-                t1_none, t2_none = [],[]
-                t1,t2 = set(), set()
-                for truck in mutated_chrom:
-                    for item in truck:
-                        if item not in truck1 and item.id not in t1:
-                            t1_none.append(item)
-                            t1.add(item.id)
-                        if item not in truck2 and item.id not in t2:
-                            t2_none.append(item)
-                            t2.add(item.id)
+                t1 = set(truck1)
+                t2 = set(truck2)
+
+                t1_none = [item for truck in mutated_chrom for item in truck if item not in t1]
+                t2_none = [item for truck in mutated_chrom for item in truck if item not in t2]
 
                 if t1_none and t2_none:
                     item1 = random.choice(t1_none)

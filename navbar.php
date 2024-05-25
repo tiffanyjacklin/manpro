@@ -47,7 +47,7 @@
                     <div class="btn-icon">
                         <i class="fa-solid fa-person-praying" aria-pressed="false"></i>
                     </div>
-                    <span class="button-label">Drivers</span>
+                    <span class="button-label">Driver</span>
                 </button>
                 <!-- <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
@@ -58,14 +58,14 @@
                 </button> -->
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
-                    
                         <i class="fa-solid fa-address-card" aria-pressed="false"></i>
                     </div>
-                    <span class="button-label">Profile</span>
+                    <span class="button-label">Admin</span>
                 </button>
+                
+                
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
-                    
                         <i class="fa-solid fa-right-from-bracket" aria-pressed="false"></i>
                     </div>
                     <span class="button-label">Logout</span>

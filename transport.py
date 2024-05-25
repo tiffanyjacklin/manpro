@@ -36,6 +36,12 @@ class Transportation:
     def get_truckid(truck_list):
         temp = [tr.id for tr in truck_list]
         return temp
+    
+    def truck(truck_list):
+        truck_lists = []
+        for truck in truck_list:
+            truck_lists.append(Transportation(truck["id"], truck["unique_number"], truck["capacity_kg"], truck["fuel_capacity"], truck["km_per_liter"], truck["total_distance"]))
+        return truck_lists
 
         
 class Driver:
@@ -43,5 +49,24 @@ class Driver:
         self.id_dr = id
         self.dist_dr = distance
         self.exp_dr = experience
+    
+    def driver(dr_list):
+        dr_lists = []
+        for driver in dr_list:
+            dr_lists.append(Driver(driver["id"], driver["total_distance"], driver["experience"]))
+        return dr_lists
+    
+    def get_id(solution):
+        sol = []
+        temp_tr = []
+        for truck, drivers in solution:
+            temp_tr.append(truck)
+            temp = []
+            for driver in drivers:
+                if isinstance (driver, Driver):
+                    temp.append(driver.id_dr)
+            sol.append(temp)
+        sol.insert(0, temp_tr)
+        return sol
 
         

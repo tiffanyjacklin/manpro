@@ -16,7 +16,14 @@ require "connect.php";
 
     <div class="main-content">
     
-
+      <div class="container">
+      </div>
+    <div class="alert alert-warning" role="alert">
+      A simple warning alert—check it out!
+    </div>
+    <div class="alert alert-info" role="alert">
+      A simple info alert—check it out!
+    </div>
 
 
     <?php

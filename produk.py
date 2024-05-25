@@ -12,25 +12,47 @@ class Product:
     def product_dest(self, dest):
         self.dest = dest
 
+    def product(product_list, location_list):
+        product_lists = []
+        for products in product_list:
+            for location in location_list:
+                if products["id_location_from"] == location["id_location_from"] and products["id_location_to"] == location["id_location_to"]:
+                    dist = float(location["distance_m"])
 
-    def print_best_solution(best_solution):
+            produk = Product(products["id"], products["item_name"], products["weight_kg"], products["panjang"], products["lebar"], products["tinggi"])
+            produk.product_dest(Destination(dist/1000))
+            product_lists.append(produk)
+        return product_lists        
+    
+    def longest_subarray_length(arr):
+        max_length = 0
+        for sub_array in arr:
+            length = len(sub_array)
+            if length > max_length:
+                max_length = length
+        return max_length
+
+    def print_sol(best_solution):
         unique_elements = set()
-        best_solutions = []
-
-        for truck in best_solution:
-            unique_sublist = []
-            for item in truck:
-                if item not in unique_elements:
-                    unique_sublist.append(item)
-                    unique_elements.add(item)
-            best_solutions.append(unique_sublist)
-        # print(best_solution)
-
-        for i, truck in enumerate(best_solutions):
-            print(f"Truck {i+1}:")
-            for item in truck:
-                print(f"  Product - ID: {item.id}, Name: {item.name},Weight: {item.weight}, Length: {item.length}, Width: {item.width}, Height: {item.height}, Destination: {item.dest.dest_city}")
-
+        unique_sublist = [[] for _ in range(len(best_solution))]
+        index = 0
+        while index <= Product.longest_subarray_length(best_solution):
+            for truck in best_solution:
+                for item in truck:
+                    if item not in unique_elements:
+                        unique_elements.add(item)
+                        unique_sublist[best_solution.index(truck)].append(item)
+                        break
+            index += 1
+        
+        sublist = []
+        for _, truck in enumerate(unique_sublist): 
+            temp = []
+            for product in truck:
+                temp.append(product.id)
+            sublist.append(temp)
+        return sublist
+    
 class Destination:
     def __init__(self, distance):
         # self.fee = fee
