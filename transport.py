@@ -55,18 +55,16 @@ class Driver:
         for driver in dr_list:
             dr_lists.append(Driver(driver["id"], driver["total_distance"], driver["experience"]))
         return dr_lists
-    
-    def get_id(solution):
+
+    def get_ids(solution):
         sol = []
         temp_tr = []
         for truck, drivers in solution:
             temp_tr.append(truck)
-            temp = []
-            for driver in drivers:
-                if isinstance (driver, Driver):
-                    temp.append(driver.id_dr)
-            sol.append(temp)
+            if drivers[1].exp_dr > drivers[0].exp_dr:
+                sol.append([drivers[1].id_dr, drivers[0].id_dr])
+            else: 
+                sol.append([drivers[0].id_dr, drivers[1].id_dr])
         sol.insert(0, temp_tr)
         return sol
-
         

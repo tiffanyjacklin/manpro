@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2024 at 06:10 PM
+-- Generation Time: May 25, 2024 at 03:38 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -46,7 +46,9 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `username`, `password`, `position`, `name`, `phone_number`, `address`) VALUES
 (1, 'admin', '$2y$10$2T5uaYdwB5vES7CTD9rMk.rFnFZ4FfADBUuIra.zzzojWb/l95NLa', 1, 'Fiola', '081111111111', 'Jemursari Sel. IV No.1 Jemur Wonosari, Wonocolo, Surabaya, Jawa Timur 60237'),
-(2, 'admin2', '$2y$10$IB7/wtHOP.jjLpxpuqEZUeWvHdiris5MVrHlZpYziVHZS1RTRnPVy', 2, 'Tiffany', '089999999999', 'Demak Timur No.28, Gundih, Bubutan, Surabaya, Jawa Timur 60172');
+(2, 'admin2', '$2y$10$IB7/wtHOP.jjLpxpuqEZUeWvHdiris5MVrHlZpYziVHZS1RTRnPVy', 2, 'Tiffany', '089999999999', 'Demak Timur No.28, Gundih, Bubutan, Surabaya, Jawa Timur 60172'),
+(10, 'kth', '$2y$10$Gt0xVjqKBmb8my.d6SnAaOUkSabwj2EedqV0x4zvT9sbmCrm2gTua', 1, 'Kim Taehyung', '081233333333', 'Raya Kendalsari No.94, Penjaringan Sari, Rungkut, Surabaya, Jawa Timur 60297'),
+(11, 'swifts', '$2y$10$q4Z/pXtI0NzIBu9EJi.mzeKVEn6pANMnOQGu8H6djDPNp5gsxWOtS', 2, 'Taylor Swift', '081231231231', 'Raya Kendalsari No.94, Penjaringan Sari, Rungkut, Surabaya, Jawa Timur 60297');
 
 -- --------------------------------------------------------
 
@@ -14887,35 +14889,35 @@ CREATE TABLE `driver` (
 --
 
 INSERT INTO `driver` (`id`, `driver_name`, `phone_number`, `total_distance`, `experience`, `driver_status`) VALUES
-(1, 'Budi Setiawan', '081234567890', 40, 1, 1),
-(2, 'Andika Pratama', '082345678901', 481, 4, 1),
-(3, 'Dwi Santoso', '083456789012', 40, 4, 1),
-(4, 'Fahmi Susanto', '084567890123', 40, 4, 1),
-(5, 'Hadi Nugroho', '085678901234', 40, 8, 1),
-(6, 'Joko Wibowo', '086789012345', 40, 9, 1),
-(7, 'Aditya Kusuma', '087890123456', 40, 8, 1),
-(8, 'Rizky Saputra', '088901234567', 40, 4, 1),
-(9, 'Dito Hermawan', '089012345678', 40, 6, 1),
-(10, 'Arya Wijaya', '081123456789', 40, 3, 1),
+(1, 'Budi Setiawan', '081234567890', 0, 1, 1),
+(2, 'Andika Pratama', '082345678901', 0, 4, 1),
+(3, 'Dwi Santoso', '083456789012', 0, 4, 1),
+(4, 'Fahmi Susanto', '084567890123', 0, 4, 1),
+(5, 'Hadi Nugroho', '085678901234', 0, 8, 1),
+(6, 'Joko Wibowo', '086789012345', 0, 9, 1),
+(7, 'Aditya Kusuma', '087890123456', 0, 8, 1),
+(8, 'Rizky Saputra', '088901234567', 0, 4, 1),
+(9, 'Dito Hermawan', '089012345678', 0, 6, 1),
+(10, 'Arya Wijaya', '081123456789', 0, 3, 1),
 (11, 'Bayu Wardhana', '082234567890', 40, 5, 1),
 (12, 'Bagus Santoso', '083345678901', 204, 4, 1),
 (13, 'Doni Firmansyah', '084456789012', 40, 10, 1),
-(14, 'Eko Suryanto', '085567890123', 40, 7, 1),
+(14, 'Eko Suryanto', '085567890123', 189.931, 7, 1),
 (15, 'Fajar Ramadhan', '086678901234', 40, 6, 1),
-(16, 'Gede Wirawan', '087789012345', 40, 3, 1),
+(16, 'Gede Wirawan', '087789012345', 213.229, 3, 1),
 (17, 'Hafiz Maulana', '088890123456', 40, 2, 1),
-(18, 'Irfan Prasetyo', '089901234567', 40, 5, 1),
+(18, 'Irfan Prasetyo', '089901234567', 85.334, 5, 1),
 (19, 'Jaka Putra', '081012345678', 40, 10, 1),
 (20, 'Kurniawan Satria', '082123456789', 40, 3, 1),
-(21, 'Lutfi Hidayat', '083234567890', 40, 8, 1),
-(22, 'Maulana Akbar', '084345678901', 40, 10, 1),
+(21, 'Lutfi Hidayat', '083234567890', 133.516, 8, 1),
+(22, 'Maulana Akbar', '084345678901', 213.229, 10, 1),
 (23, 'Nanda Pratama', '085456789012', 40, 8, 1),
 (24, 'Oktavianus Surya', '086567890123', 40, 3, 1),
 (25, 'Panji Adi Nugroho', '087678901234', 40, 4, 1),
 (26, 'Rizal Hadianto', '088789012345', 481, 7, 1),
 (27, 'Satria Wijaya', '089890123456', 40, 7, 1),
 (28, 'Taufik Setiawan', '081901234567', 40, 7, 1),
-(29, 'Umar Ramdhani', '082012345678', 40, 6, 1),
+(29, 'Umar Ramdhani', '082012345678', 189.931, 6, 1),
 (30, 'Vicky Saputro', '083123456789', 204, 9, 1),
 (31, 'Wahyu Santoso', '084234567890', 40, 9, 1),
 (32, 'Yuda Nugroho', '085345678901', 40, 8, 1);
@@ -14983,8 +14985,8 @@ INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `
 (1, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-01-13 10:29:53', '2024-01-15 23:52:15', 2, 'Tiffany', '081888888888', 1, 'Lucky', '081111111111'),
 (2, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-01-16 13:56:48', '2024-04-17 00:06:04', 2, 'Tiffany', '081888888888', 1, 'Lucky', '081111111111'),
 (3, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-16 14:15:11', '2024-05-16 21:15:11', 22, 'Tiffany', '081888888888', 70, 'Lucky', '081111111111'),
-(4, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-02-11 07:55:23', '2024-04-17 00:00:46', 74, 'Tiffany', '081888888888', 79, 'Lucky', '081111111111'),
-(5, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-02-12 11:34:11', '2024-04-17 00:06:31', 28, 'Tiffany', '081888888888', 57, 'Lucky', '081111111111'),
+(4, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-17 10:43:47', '2024-05-17 17:43:47', 74, 'Tiffany', '081888888888', 79, 'Lucky', '081111111111'),
+(5, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-20 09:39:21', '2024-05-20 16:39:21', 28, 'Tiffany', '081888888888', 57, 'Lucky', '081111111111'),
 (6, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-02-13 08:16:00', '2024-04-17 00:06:31', 46, 'Tiffany', '081888888888', 15, 'Lucky', '081111111111'),
 (7, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-16 17:11:48', '2024-04-17 00:11:48', 106, 'Tiffany', '081888888888', 121, 'Lucky', '081111111111'),
 (8, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-29 14:26:11', '2024-04-29 21:26:11', 115, 'Tiffany', '081888888888', 40, 'Lucky', '081111111111'),
@@ -14993,10 +14995,10 @@ INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `
 (11, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-16 16:01:47', '2024-05-16 23:01:47', 36, 'Tiffany', '081888888888', 66, 'Lucky', '081111111111'),
 (12, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-03-19 16:56:53', NULL, 86, 'Tiffany', '081888888888', 88, 'Lucky', '081111111111'),
 (13, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-16 15:10:32', '2024-05-16 22:10:32', 90, 'Tiffany', '081888888888', 67, 'Lucky', '081111111111'),
-(14, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-03-24 00:24:45', NULL, 77, 'Tiffany', '081888888888', 53, 'Lucky', '081111111111'),
+(14, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-20 09:31:24', '2024-05-20 16:31:24', 77, 'Tiffany', '081888888888', 53, 'Lucky', '081111111111'),
 (15, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-16 16:01:52', '2024-05-16 23:01:52', 108, 'Tiffany', '081888888888', 37, 'Lucky', '081111111111'),
 (16, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-16 15:11:44', '2024-05-16 22:11:44', 85, 'Tiffany', '081888888888', 50, 'Lucky', '081111111111'),
-(17, 1, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-07 19:22:58', NULL, 64, 'Tiffany', '081888888888', 113, 'Lucky', '081111111111'),
+(17, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-17 10:30:11', '2024-05-17 17:30:11', 64, 'Tiffany', '081888888888', 113, 'Lucky', '081111111111'),
 (18, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-04-30 06:23:54', '2024-04-30 13:23:54', 108, 'Tiffany', '081888888888', 59, 'Lucky', '081111111111'),
 (19, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-16 15:10:56', '2024-05-16 22:10:56', 86, 'Tiffany', '081888888888', 27, 'Lucky', '081111111111'),
 (20, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-06 09:46:38', '2024-05-06 16:46:38', 9, 'Tiffany', '081888888888', 97, 'Lucky', '081111111111'),
@@ -15006,7 +15008,7 @@ INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `
 (24, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
 (25, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
 (26, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
-(27, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
+(27, 2, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-05-20 09:39:24', '2024-05-20 16:39:24', 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
 (28, 1, 'parfum', 20, 10, 15, 2, 1, 105000, '2024-04-29 14:24:11', NULL, 6, 'Fiola', '081999999999', 52, 'Tiffany', '081888888888'),
 (29, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
 (30, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
@@ -15015,13 +15017,13 @@ INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `
 (33, 1, 'Petite Avenue Perfume', 20, 10, 15, 2, 1, 131000, '2024-04-29 14:24:11', NULL, 2, 'Fiola', '081999999999', 54, 'Tiffany', '081888888888'),
 (34, 1, 'Petite Avenue Perfume', 30, 10, 10, 3, 1, 52000, '2024-05-06 09:46:02', NULL, 7, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888'),
 (35, 1, 'Petite Avenue Perfume', 30, 10, 10, 3, 1, 52000, '2024-05-06 09:46:02', NULL, 7, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888'),
-(36, 0, 'Kulkas', 50, 50, 150, 20, 3, 161000, '2024-05-16 15:58:36', NULL, 6, 'Fiola', '081999999999', 2, 'Tiffany', '081888888888'),
-(37, 0, 'Mesin Cuci', 70, 40, 80, 15, 3, 200000, '2024-05-16 15:58:36', NULL, 4, 'Fiola', '081999999999', 11, 'Tiffany', '081888888888'),
-(38, 0, 'Meja', 70, 50, 50, 10, 3, 119000, '2024-05-16 15:58:36', NULL, 5, 'Fiola', '081999999999', 16, 'Tiffany', '081888888888'),
-(39, 0, 'Petite Avenue Perfume', 10, 10, 15, 1, 1, 422000, '2024-05-16 15:58:36', NULL, 110, 'Fiola', '081999999999', 67, 'Tiffany', '081888888888'),
-(40, 0, 'Kulkas', 10, 10, 10, 10, 3, 402000, '2024-05-16 15:58:36', NULL, 115, 'Fiola', '081999999999', 105, 'Tiffany', '081888888888'),
-(41, 0, 'Petite Avenue Perfume', 10, 10, 10, 1, 1, 424000, '2024-05-16 15:58:36', NULL, 67, 'Fiola', '081999999999', 107, 'Tiffany', '081888888888'),
-(42, 0, 'Botol', 20, 20, 50, 1, 2, 59000, '2024-05-16 15:58:36', NULL, 2, 'Fiola', '081999999999', 6, 'Tiffany', '081888888888');
+(36, 0, 'Kulkas', 50, 50, 150, 20, 3, 161000, '2024-05-25 13:13:06', NULL, 6, 'Fiola', '081999999999', 2, 'Tiffany', '081888888888'),
+(37, 0, 'Mesin Cuci', 70, 40, 80, 15, 3, 200000, '2024-05-25 13:13:06', NULL, 4, 'Fiola', '081999999999', 11, 'Tiffany', '081888888888'),
+(38, 0, 'Meja', 70, 50, 50, 10, 3, 119000, '2024-05-25 13:13:06', NULL, 5, 'Fiola', '081999999999', 16, 'Tiffany', '081888888888'),
+(39, 0, 'Petite Avenue Perfume', 10, 10, 15, 1, 1, 422000, '2024-05-25 13:13:06', NULL, 110, 'Fiola', '081999999999', 67, 'Tiffany', '081888888888'),
+(40, 0, 'Kulkas', 10, 10, 10, 10, 3, 402000, '2024-05-25 13:13:06', NULL, 115, 'Fiola', '081999999999', 105, 'Tiffany', '081888888888'),
+(41, 0, 'Petite Avenue Perfume', 10, 10, 10, 1, 1, 424000, '2024-05-25 13:13:06', NULL, 67, 'Fiola', '081999999999', 107, 'Tiffany', '081888888888'),
+(42, 0, 'Botol', 20, 20, 50, 1, 2, 59000, '2024-05-25 13:13:06', NULL, 2, 'Fiola', '081999999999', 6, 'Tiffany', '081888888888');
 
 -- --------------------------------------------------------
 
@@ -15029,14 +15031,12 @@ INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `
 -- Table structure for table `location`
 --
 
-DROP TABLE IF EXISTS `location`;
-
 CREATE TABLE `location` (
   `id` int(11) NOT NULL,
   `alamat` varchar(300) NOT NULL,
-  `kota_kabupaten` varchar(50) NOT NULL,
-  `kecamatan` varchar(50) NOT NULL,
   `kelurahan_desa` varchar(50) NOT NULL,
+  `kecamatan` varchar(50) NOT NULL,
+  `kota_kabupaten` varchar(50) NOT NULL,
   `kode_pos` int(5) NOT NULL,
   `latitude` varchar(100) NOT NULL,
   `longitude` varchar(100) NOT NULL
@@ -15046,129 +15046,129 @@ CREATE TABLE `location` (
 -- Dumping data for table `location`
 --
 
-INSERT INTO `location` (`id`, `alamat`, `kota_kabupaten`, `kecamatan`, `kelurahan_desa`, `kode_pos`, `latitude`, `longitude`) VALUES
-(1, 'Kedung Cowek Viii No. 1A', 'Surabaya', 'Bulak', 'Kedung Cowek', 60124, '-7.219096', '112.777034'),
-(2, 'Kenjeran No.438', 'Surabaya', 'Tambaksari', 'Gading', 60134, '-7.2485679', '112.7770085'),
-(3, 'Demak Timur No.28', 'Surabaya', 'Bubutan', 'Gundih', 60172, '-7.2485241', '112.7059558'),
-(4, 'Kalianak No.151-A', 'Surabaya', 'Krembangan', 'Morokrembangan', 60178, '-7.2303649', '112.7108015'),
-(5, 'Manukan Rejo No.7', 'Surabaya', 'Tandes', 'Manukan Kulon', 60185, '-7.3804819', '112.3509438'),
-(6, 'Jemursari Sel. Iv No.1', 'Surabaya', 'Wonocolo', 'Jemur Wonosari', 60237, '-7.3485607', '112.6533519'),
-(7, 'Puri Niaga No.G31', 'Surabaya', 'Gn. Anyar', 'Rungkut Menanggal', 60293, '-7.3390877', '112.7653919'),
-(8, 'Wonorejo Selatan Blok C20', 'Surabaya', 'Rungkut', 'Wonorejo', 60296, '-7.3177963', '112.6234889'),
-(9, 'Raya Kendalsari No.94', 'Surabaya', 'Rungkut', 'Penjaringan Sari', 60297, '-7.313199', '112.786019'),
-(10, 'Kyai Sahlan 7 No.10', 'Gresik', 'Manyar', 'Manyarejo', 61151, '-7.1195922', '112.4713494'),
-(11, 'Raya Brak Tebaloan No.60', 'Gresik', 'Duduksampeyan', 'Samirplapan', 61162, '-7.3784565', '112.1520755'),
-(12, 'Raya Cerme Lor No.146', 'Gresik', 'Cerme', 'Cerme Lor', 61171, '-7.2197877', '112.4371576'),
-(13, 'Raya Taman Pinang Indah No.44', 'Sidoarjo', 'Sidoarjo', 'Banjarbendo', 61225, '-7.3960369', '112.5408202'),
-(14, 'Payan Daleman No.36D', 'Sidoarjo', 'Pabean', 'Daras', 61253, '-7.3767247', '112.668488'),
-(15, 'Raya Bandara Juanda No.80', 'Sidoarjo', 'Sedati', 'Sedati Agung', 61253, '-7.3808588', '112.7496241'),
-(16, 'Zainal Abidin No.72', 'Sidoarjo', 'Waru', 'Tambaksumur', 61256, '-7.2789398', '112.6605492'),
-(17, 'Raya Wonoayu No.32', 'Sidoarjo', 'Wonoayu', 'Wonoayu', 61261, '-7.1802808', '111.6637546'),
-(18, 'R.A Basuni', 'Mojokerto', 'Sooko', 'Japan', 61361, '-7.4934335', '112.2483817'),
-(19, 'Babat - Jombang', 'Jombang', 'Kabuh', 'Kabuh', 61455, '-7.4714988', '111.2534388'),
-(20, 'Arjuno No.31-37', 'Jombang', 'Ngoro', 'Ngoro', 61473, '-7.8836994', '111.9286966'),
-(21, 'Teuku Umar No.35', 'Bojonegoro', 'Bojonegoro', 'Kadipaten', 62111, '-7.1527097', '111.8679068'),
-(22, 'Untung Suropati No.150', 'Bojonegoro', 'Bojonegoro', 'Klangon', 62113, '-7.1002285', '111.7012566'),
-(23, 'Pemuda Timur No.32', 'Bojonegoro', 'Bojonegoro', 'Ngrowo', 62119, '-7.2383998', '111.6954373'),
-(24, 'Beringin Mulya No.4A', 'Lamongan', 'Lamongan', 'Tumenggungan', 62214, '-7.1164789', '112.1032343'),
-(25, 'Nasional 1', 'Lamongan', 'Sukodadi', 'Sidogembul', 62253, '-7.0505497', '112.2465383'),
-(26, 'Raya Maduran', 'Lamongan', 'Maduran', 'Maduran', 62261, '-6.9721221', '112.1176934'),
-(27, 'Tanggul Rejo Babat', 'Lamongan', 'Babat', 'Babat', 62271, '-7.0730956', '112.0629394'),
-(28, 'Basuki Rachmad No.172', 'Tuban', 'Tuban', 'Ronggomulyo', 62312, '-6.9105416', '111.9965575'),
-(29, 'Jatirogo No.08', 'Tuban', 'Jatirogo', 'Paseyan', 62363, '-7.6473168', '111.1870169'),
-(30, 'S. Parman No.44', 'Madiun', 'Kartoharjo', 'Oro-oro Ombo', 63119, '-7.6561318', '111.3917799'),
-(31, 'Mt Haryono No.41', 'Madiun', 'Taman', 'Mojorejo', 63132, '-7.8186461', '111.3362904'),
-(32, 'Salak No.17', 'Madiun', 'Mejayan', 'Krajan', 63153, '-7.7394954', '111.4669146'),
-(33, 'Lembu Ameseno 2', 'Madiun', 'Pilangkenceng', 'Kedungbanteng', 63154, '-7.5308931', '111.3496971'),
-(34, 'Ir. Soekarno', 'Ngawi', 'Geneng', 'Klitik', 63216, '-7.513194', '111.0448265'),
-(35, 'Raya Maospati', 'Magetan', 'Magetan', 'Purwosari', 63319, '-7.625842', '111.1166028'),
-(36, 'Raya Sarangan', 'Magetan', 'Plaosan', 'Plaosan', 63361, '-7.6727588', '111.256739'),
-(37, 'Soekarno Hatta No.399', 'Ponorogo', 'Ponorogo', 'Keniten', 63412, '-7.7582031', '111.2938623'),
-(38, 'Parang Kusuma No.42', 'Ponorogo', 'Babadan', 'Patihan Wetan', 63491, '-8.0949972', '110.7299174'),
-(39, 'Niken Gandini.108', 'Ponorogo', 'Jenangan', 'Setono', 63492, '-7.8663683', '111.4151871'),
-(40, 'Tentara Pelajar', 'Pacitan', 'Pacitan', 'Widoro', 63518, '-8.1085188', '110.8672716'),
-(41, 'Lawu', 'Kediri', 'Mojoroto', 'Pojok', 64116, '-7.6946263', '111.5101301'),
-(42, 'Semeru No.288', 'Kediri', 'Mojoroto', 'Tamanan', 64116, '-7.8583122', '111.9321232'),
-(43, 'Hos. Cokroaminoto No.209', 'Kediri', 'Pesantren', 'Burengan', 64131, '-7.7400481', '111.7743193'),
-(44, 'Raya Kandat', 'Kediri', 'Kandat', 'Galuhan', 64173, '-7.9460913', '111.8822533'),
-(45, 'Wates Pare', 'Kediri', 'Wates', 'Tawang', 64174, '-8.1045686', '111.8602233'),
-(46, 'Raya Tugurejo No.9A', 'Kediri', 'Ngasem', 'Tugurejo', 64182, '-7.8773735', '111.9002649'),
-(47, 'Semeru', 'Nganjuk', 'Baron', 'Kemaduh', 64315, '-7.5825545', '112.0818691'),
-(48, 'Panglima Sudirman', 'Nganjuk', 'Baron', 'Baron', 64394, '-7.6897164', '111.7595657'),
-(49, 'Letjen S. Parman Iii No.24', 'Nganjuk', 'Nganjuk', 'Cangkringan', 64415, '-7.6837585', '111.5583058'),
-(50, 'Bromo V No.11-19', 'Nganjuk', 'Loceret', 'Tanjungrejo', 64417, '-7.6208067', '111.8963666'),
-(51, 'A. Yani No.100', 'Nganjuk', 'Nganjuk', 'Payaman', 64418, '-7.6963919', '111.6075228'),
-(52, 'Raden Panji Suroso No.8', 'Malang', 'Blimbing', 'Purwodadi', 65126, '-7.942419', '112.6483833'),
-(53, 'Raya Sawojajar No.10', 'Malang', 'Kedungkandang', 'Sawojajar', 65126, '-7.9754869', '112.6526248'),
-(54, 'Mayjen Sungkono 82', 'Malang', 'Kedungkandang', 'Wonokoyo', 65135, '-7.998619', '112.5980324'),
-(55, 'Ki Ageng Gribig 496-486', 'Malang', 'Kedungkandang', 'Kedungkandang', 65137, '-7.9831358', '112.6317074'),
-(56, 'Soekarno Hatta No.37', 'Malang', 'Lowokwaru', 'Mojolangu', 65142, '-7.9392562', '112.6269865'),
-(57, 'Puncak Jaya No. 11 Rt 4/Rw 2', 'Malang', 'Sukun', 'Pisang Candi', 65146, '-7.9708823', '112.6099247'),
-(58, 'Janti Bar. No.11', 'Malang', 'Sukun', 'Bandungrejosari', 65148, '-8.0009553', '112.6194425'),
-(59, 'Raya Bamban No.22', 'Malang', 'Pakis', 'Asrikaton', 65154, '-7.9603124', '112.6807797'),
-(60, 'Nasional 23', 'Malang', 'Kepanjen', 'Ngadilangkung', 65163, '-8.074545', '112.4285101'),
-(61, 'Ps. No.128', 'Malang', 'Pagak', 'Sumbermanjing Kulon', 65168, '-8.303221', '112.4951673'),
-(62, 'Singajaya No.102', 'Malang', 'Gondanglegi', 'Putat Kidul', 65174, '-8.1726165', '112.6449702'),
-(63, 'Semeru Sel. No.7', 'Malang', 'Dampit', 'Dampit', 65181, '-8.2121399', '112.7492164'),
-(64, 'Trunojoyo Gang V No.3', 'Batu', 'Batu', 'Songgokerto', 65312, '-7.8637646', '112.5039953'),
-(65, 'Ciliwung No.178', 'Blitar', 'Kepanjenkidul', 'Tanggung', 66115, '-8.1230163', '112.0052671'),
-(66, 'Kawi No.16-6', 'Blitar', 'Sukorejo', 'Sukorejo', 66121, '-8.0862557', '112.1095694'),
-(67, 'Anggrek No.29-31', 'Blitar', 'Sukorejo', 'Sukorejo', 66121, '-8.0903572', '112.0550216'),
-(68, 'Nasional', 'Blitar', 'Kesamben', 'Pagerwojo', 66191, '-8.2231008', '112.188276'),
-(69, 'Tundo Wijoyo', 'Blitar', 'Binangun', 'Birowo', 66193, '-8.2229983', '112.360633'),
-(70, 'Pahlawan No.243', 'Tulungagung', 'Kedungwaru', 'Ngujang', 66225, '-8.0383254', '111.9009787'),
-(71, 'Kimangun Sarkoro Iv', 'Tulungagung', 'Boyolangu', 'Beji', 66233, '-8.0779311', '111.8820397'),
-(72, 'Raya Trenggalek - Ponorogo', 'Trenggalek', 'Trenggalek', 'Tamanan', 66312, '-8.1548421', '111.5082553'),
-(73, 'Dokter Wahidin Sudiro Husodo No.42', 'Pasuruan', 'Panggungrejo', 'Petamanan', 67126, '-7.6616784', '112.8277213'),
-(74, 'Raden Patah', 'Pasuruan', 'Gadingrejo', 'Gentong', 67139, '-7.6434918', '112.8921216'),
-(75, 'Raya Gondanglegi 5', 'Pasuruan', 'Beji', 'Cangkringmalang', 67154, '-7.6767039', '112.6432464'),
-(76, 'Raya Malang - Gempol No.184', 'Pasuruan', 'Pandaan', 'Petungasri', 67156, '-7.659158', '112.6898252'),
-(77, 'Raya Surabaya - Malang', 'Pasuruan', 'Sukorejo', 'Ngadimulyo', 67161, '-7.6914743', '112.7089858'),
-(78, 'Kedawung - Banyu Biru', 'Pasuruan', 'Winongan', 'Bandaran', 67184, '-7.7206413', '112.9717452'),
-(79, 'Hos Cokroaminoto No.53', 'Probolinggo', 'Kanigaran', 'Kebonsari Kulon', 67214, '-7.7643122', '113.2019045'),
-(80, 'Brantas 14', 'Probolinggo', 'Kademangan', 'Kademangan', 67225, '-7.8296068', '113.0872862'),
-(81, 'Mastrip No. 18', 'Probolinggo', 'Kedopok', 'Jrebeng Wetan', 67239, '-7.7784098', '113.2124016'),
-(82, 'Raya Lumbang', 'Probolinggo', 'Sukapura', 'Ngepung', 67254, '-7.8722684', '112.837584'),
-(83, 'Raya Tegal Siwalan', 'Probolinggo', 'Banyuanyar', 'Liprak Kulon', 67275, '-7.866356', '113.1840039'),
-(84, 'Raya Panglima Sudirman', 'Probolinggo', 'Kraksaan', 'Kebonagung', 67282, '-7.8034629', '113.385574'),
-(85, 'Dr Sutomo No 21 Rt 001 Rw 001', 'Probolinggo', 'Kraksaan', 'Sumberlele', 67282, '-7.840246', '113.3725563'),
-(86, 'Pandean Dusun Sukun', 'Probolinggo', 'Paiton', 'Alastengah', 67291, '-7.8943349', '113.3517428'),
-(87, 'Panglima Besar Sudirman No.132', 'Lumajang', 'Lumajang', 'Tompokersan', 67316, '-8.1361908', '113.1885325'),
-(88, 'Raya Wates Wetan', 'Lumajang', 'Ranuyoso', 'Ranuyoso', 67357, '-7.8805133', '113.167552'),
-(89, 'Yos Sudarso No.6', 'Lumajang', 'Tempeh', 'Tempeh Tengah', 67371, '-8.211092', '113.1782731'),
-(90, 'Raya Kebonsari Jarit No.41', 'Lumajang', 'Candipuro', 'Jarit', 67373, '-8.2067986', '113.0343387'),
-(91, 'Teuku Umar No.69', 'Jember', 'Kaliwates', 'Tegal Besar', 68133, '-8.1549941', '113.6307894'),
-(92, 'Basuki Rahmat No.2', 'Jember', 'Kaliwates', 'Tegal Besar', 68133, '-8.1970689', '113.636976'),
-(93, 'Raya Lumajang - Jember 135', 'Jember', 'Tanggul', 'Tanggul Wetan', 68155, '-8.1879401', '113.3351377'),
-(94, 'Balung Mulukan 99', 'Jember', 'Wuluhan', 'Tj. Rejo', 68162, '-8.3060858', '113.4744937'),
-(95, 'Manggar', 'Jember', 'Wuluhan', 'Kesilir', 68162, '-8.3435587', '113.5872183'),
-(96, 'Krakatau No.134', 'Jember', 'Kencong', 'Kencong', 68167, '-8.2691922', '113.3611568'),
-(97, 'Argopuro No.40', 'Jember', 'Ajung', 'Klompangan', 68175, '-8.2192503', '113.5745132'),
-(98, 'Chairil Anwar', 'Jember', 'Sukowono', 'Sukowono', 68194, '-8.0091116', '113.7830012'),
-(99, 'Dr. Sutomo No.2A', 'Bondowoso', 'Bondowoso', 'Badean', 68214, '-7.9141485', '113.8028134'),
-(100, 'Mastrip No. 36 Kel. Nangkaan', 'Bondowoso', 'Bondowoso', 'Nangkaan', 68215, '-7.932557', '113.8139367'),
-(101, 'Raya Situbondo', 'Bondowoso', 'Tapen', 'Jatian', 68283, '-7.8745939', '113.8248602'),
-(102, 'Raya Pasir Putih', 'Situbondo', 'Besuki', 'Demung', 68356, '-7.9378615', '113.3723422'),
-(103, 'Raya Asembagus', 'Situbondo', 'Asembagus', 'Trigonco', 68373, '-7.8764346', '114.0713398'),
-(104, 'Adi Sucipto No.9', 'Banyuwangi', 'Banyuwangi', 'Tukangkayu', 68416, '-8.2347176', '114.3398079'),
-(105, 'Dr. Sutomo No.40', 'Banyuwangi', 'Banyuwangi', 'Panderejo', 68416, '-8.3878193', '113.9173535'),
-(106, 'Villa Bukit Mas No.108', 'Banyuwangi', 'Giri', 'Pengantigan', 68423, '-8.2222132', '114.3048823'),
-(107, 'Raya Jember No.13', 'Banyuwangi', 'Kabat', 'Labanasem', 68461, '-8.2873083', '114.2447755'),
-(108, 'Diponegoro No.50', 'Banyuwangi', 'Genteng', 'Genteng Kulon', 68465, '-8.3377773', '114.0173478'),
-(109, 'Glagah Agung - Grajagan', 'Banyuwangi', 'Purwoharjo', 'Purwoharjo', 68483, '-8.426006', '114.0596492'),
-(110, 'Sambirejo', 'Banyuwangi', 'Bangorejo', 'Gn. Sari', 68487, '-8.5084052', '114.1600345'),
-(111, 'K.H.Hasyim Asyari No.14-7', 'Bangkalan', 'Bangkalan', 'Demangan', 69115, '-7.0519062', '112.7028852'),
-(112, 'Halim Perdana Kusuma No.12', 'Bangkalan', 'Burneh', 'Langkap', 69121, '-7.0545084', '112.7196661'),
-(113, 'Raya Sepulu', 'Bangkalan', 'Sepulu', 'Banyior', 69154, '-6.8974571', '112.9663232'),
-(114, 'Raya Telang Permai', 'Bangkalan', 'Kamal', 'Telang', 69162, '-7.0951004', '112.6774516'),
-(115, 'Raya Blega No.16', 'Bangkalan', 'Blega', 'Baban Barat', 69174, '-7.1296812', '113.0564546'),
-(116, 'Raya Kamoning Baban Ii', 'Sampang', 'Sampang', 'Pangelen', 69216, '-7.1437911', '113.2359902'),
-(117, 'Raya Ketapang No.542', 'Sampang', 'Ketapang', 'Ketapang Laok', 69261, '-6.91305', '113.276546'),
-(118, 'Buk Batang', 'Sampang', 'Sokobanah', 'Tamberu Bar.', 69262, '-6.8963757', '113.4780525'),
-(119, 'Nasional', 'Sampang', 'Jrengik', 'Plakaran', 69272, '-7.1452696', '113.1839722'),
-(120, 'Joko Tole 28 Pamekasan', 'Pamekasan', 'Pamekasan', 'Budagan', 69323, '-7.1623162', '113.4994081'),
-(121, 'Raya Pakong – Waru Tobalang I', 'Pamekasan', 'Waru', 'Waru Barat', 69353, '-6.9896467', '113.538681'),
-(122, 'Raya Tama Rentar Barat', 'Sumenep', 'Ganding', 'Ganding', 69462, '-7.0406987', '113.6966162');
+INSERT INTO `location` (`id`, `alamat`, `kelurahan_desa`, `kecamatan`, `kota_kabupaten`, `kode_pos`, `latitude`, `longitude`) VALUES
+(1, 'Kedung Cowek Viii No. 1A', 'Kedung Cowek', 'Bulak', 'Surabaya', 60124, '-7.219096', '112.777034'),
+(2, 'Kenjeran No.438', 'Gading', 'Tambaksari', 'Surabaya', 60134, '-7.2485679', '112.7770085'),
+(3, 'Demak Timur No.28', 'Gundih', 'Bubutan', 'Surabaya', 60172, '-7.2485241', '112.7059558'),
+(4, 'Kalianak No.151-A', 'Morokrembangan', 'Krembangan', 'Surabaya', 60178, '-7.2303649', '112.7108015'),
+(5, 'Manukan Rejo No.7', 'Manukan Kulon', 'Tandes', 'Surabaya', 60185, '-7.3804819', '112.3509438'),
+(6, 'Jemursari Sel. Iv No.1', 'Jemur Wonosari', 'Wonocolo', 'Surabaya', 60237, '-7.3485607', '112.6533519'),
+(7, 'Puri Niaga No.G31', 'Rungkut Menanggal', 'Gn. Anyar', 'Surabaya', 60293, '-7.3390877', '112.7653919'),
+(8, 'Wonorejo Selatan Blok C20', 'Wonorejo', 'Rungkut', 'Surabaya', 60296, '-7.3177963', '112.6234889'),
+(9, 'Raya Kendalsari No.94', 'Penjaringan Sari', 'Rungkut', 'Surabaya', 60297, '-7.313199', '112.786019'),
+(10, 'Kyai Sahlan 7 No.10', 'Manyarejo', 'Manyar', 'Gresik', 61151, '-7.1195922', '112.4713494'),
+(11, 'Raya Brak Tebaloan No.60', 'Samirplapan', 'Duduksampeyan', 'Gresik', 61162, '-7.3784565', '112.1520755'),
+(12, 'Raya Cerme Lor No.146', 'Cerme Lor', 'Cerme', 'Gresik', 61171, '-7.2197877', '112.4371576'),
+(13, 'Raya Taman Pinang Indah No.44', 'Banjarbendo', 'Sidoarjo', 'Sidoarjo', 61225, '-7.3960369', '112.5408202'),
+(14, 'Payan Daleman No.36D', 'Daras', 'Pabean', 'Sidoarjo', 61253, '-7.3767247', '112.668488'),
+(15, 'Raya Bandara Juanda No.80', 'Sedati Agung', 'Sedati', 'Sidoarjo', 61253, '-7.3808588', '112.7496241'),
+(16, 'Zainal Abidin No.72', 'Tambaksumur', 'Waru', 'Sidoarjo', 61256, '-7.2789398', '112.6605492'),
+(17, 'Raya Wonoayu No.32', 'Wonoayu', 'Wonoayu', 'Sidoarjo', 61261, '-7.1802808', '111.6637546'),
+(18, 'R.A Basuni', 'Japan', 'Sooko', 'Mojokerto', 61361, '-7.4934335', '112.2483817'),
+(19, 'Babat - Jombang', 'Kabuh', 'Kabuh', 'Jombang', 61455, '-7.4714988', '111.2534388'),
+(20, 'Arjuno No.31-37', 'Ngoro', 'Ngoro', 'Jombang', 61473, '-7.8836994', '111.9286966'),
+(21, 'Teuku Umar No.35', 'Kadipaten', 'Bojonegoro', 'Bojonegoro', 62111, '-7.1527097', '111.8679068'),
+(22, 'Untung Suropati No.150', 'Klangon', 'Bojonegoro', 'Bojonegoro', 62113, '-7.1002285', '111.7012566'),
+(23, 'Pemuda Timur No.32', 'Ngrowo', 'Bojonegoro', 'Bojonegoro', 62119, '-7.2383998', '111.6954373'),
+(24, 'Beringin Mulya No.4A', 'Tumenggungan', 'Lamongan', 'Lamongan', 62214, '-7.1164789', '112.1032343'),
+(25, 'Nasional 1', 'Sidogembul', 'Sukodadi', 'Lamongan', 62253, '-7.0505497', '112.2465383'),
+(26, 'Raya Maduran', 'Maduran', 'Maduran', 'Lamongan', 62261, '-6.9721221', '112.1176934'),
+(27, 'Tanggul Rejo Babat', 'Babat', 'Babat', 'Lamongan', 62271, '-7.0730956', '112.0629394'),
+(28, 'Basuki Rachmad No.172', 'Ronggomulyo', 'Tuban', 'Tuban', 62312, '-6.9105416', '111.9965575'),
+(29, 'Jatirogo No.08', 'Paseyan', 'Jatirogo', 'Tuban', 62363, '-7.6473168', '111.1870169'),
+(30, 'S. Parman No.44', 'Oro-oro Ombo', 'Kartoharjo', 'Madiun', 63119, '-7.6561318', '111.3917799'),
+(31, 'Mt Haryono No.41', 'Mojorejo', 'Taman', 'Madiun', 63132, '-7.8186461', '111.3362904'),
+(32, 'Salak No.17', 'Krajan', 'Mejayan', 'Madiun', 63153, '-7.7394954', '111.4669146'),
+(33, 'Lembu Ameseno 2', 'Kedungbanteng', 'Pilangkenceng', 'Madiun', 63154, '-7.5308931', '111.3496971'),
+(34, 'Ir. Soekarno', 'Klitik', 'Geneng', 'Ngawi', 63216, '-7.513194', '111.0448265'),
+(35, 'Raya Maospati', 'Purwosari', 'Magetan', 'Magetan', 63319, '-7.625842', '111.1166028'),
+(36, 'Raya Sarangan', 'Plaosan', 'Plaosan', 'Magetan', 63361, '-7.6727588', '111.256739'),
+(37, 'Soekarno Hatta No.399', 'Keniten', 'Ponorogo', 'Ponorogo', 63412, '-7.7582031', '111.2938623'),
+(38, 'Parang Kusuma No.42', 'Patihan Wetan', 'Babadan', 'Ponorogo', 63491, '-8.0949972', '110.7299174'),
+(39, 'Niken Gandini.108', 'Setono', 'Jenangan', 'Ponorogo', 63492, '-7.8663683', '111.4151871'),
+(40, 'Tentara Pelajar', 'Widoro', 'Pacitan', 'Pacitan', 63518, '-8.1085188', '110.8672716'),
+(41, 'Lawu', 'Pojok', 'Mojoroto', 'Kediri', 64116, '-7.6946263', '111.5101301'),
+(42, 'Semeru No.288', 'Tamanan', 'Mojoroto', 'Kediri', 64116, '-7.8583122', '111.9321232'),
+(43, 'Hos. Cokroaminoto No.209', 'Burengan', 'Pesantren', 'Kediri', 64131, '-7.7400481', '111.7743193'),
+(44, 'Raya Kandat', 'Galuhan', 'Kandat', 'Kediri', 64173, '-7.9460913', '111.8822533'),
+(45, 'Wates Pare', 'Tawang', 'Wates', 'Kediri', 64174, '-8.1045686', '111.8602233'),
+(46, 'Raya Tugurejo No.9A', 'Tugurejo', 'Ngasem', 'Kediri', 64182, '-7.8773735', '111.9002649'),
+(47, 'Semeru', 'Kemaduh', 'Baron', 'Nganjuk', 64315, '-7.5825545', '112.0818691'),
+(48, 'Panglima Sudirman', 'Baron', 'Baron', 'Nganjuk', 64394, '-7.6897164', '111.7595657'),
+(49, 'Letjen S. Parman Iii No.24', 'Cangkringan', 'Nganjuk', 'Nganjuk', 64415, '-7.6837585', '111.5583058'),
+(50, 'Bromo V No.11-19', 'Tanjungrejo', 'Loceret', 'Nganjuk', 64417, '-7.6208067', '111.8963666'),
+(51, 'A. Yani No.100', 'Payaman', 'Nganjuk', 'Nganjuk', 64418, '-7.6963919', '111.6075228'),
+(52, 'Raden Panji Suroso No.8', 'Purwodadi', 'Blimbing', 'Malang', 65126, '-7.942419', '112.6483833'),
+(53, 'Raya Sawojajar No.10', 'Sawojajar', 'Kedungkandang', 'Malang', 65126, '-7.9754869', '112.6526248'),
+(54, 'Mayjen Sungkono 82', 'Wonokoyo', 'Kedungkandang', 'Malang', 65135, '-7.998619', '112.5980324'),
+(55, 'Ki Ageng Gribig 496-486', 'Kedungkandang', 'Kedungkandang', 'Malang', 65137, '-7.9831358', '112.6317074'),
+(56, 'Soekarno Hatta No.37', 'Mojolangu', 'Lowokwaru', 'Malang', 65142, '-7.9392562', '112.6269865'),
+(57, 'Puncak Jaya No. 11 Rt 4/Rw 2', 'Pisang Candi', 'Sukun', 'Malang', 65146, '-7.9708823', '112.6099247'),
+(58, 'Janti Bar. No.11', 'Bandungrejosari', 'Sukun', 'Malang', 65148, '-8.0009553', '112.6194425'),
+(59, 'Raya Bamban No.22', 'Asrikaton', 'Pakis', 'Malang', 65154, '-7.9603124', '112.6807797'),
+(60, 'Nasional 23', 'Ngadilangkung', 'Kepanjen', 'Malang', 65163, '-8.074545', '112.4285101'),
+(61, 'Ps. No.128', 'Sumbermanjing Kulon', 'Pagak', 'Malang', 65168, '-8.303221', '112.4951673'),
+(62, 'Singajaya No.102', 'Putat Kidul', 'Gondanglegi', 'Malang', 65174, '-8.1726165', '112.6449702'),
+(63, 'Semeru Sel. No.7', 'Dampit', 'Dampit', 'Malang', 65181, '-8.2121399', '112.7492164'),
+(64, 'Trunojoyo Gang V No.3', 'Songgokerto', 'Batu', 'Batu', 65312, '-7.8637646', '112.5039953'),
+(65, 'Ciliwung No.178', 'Tanggung', 'Kepanjenkidul', 'Blitar', 66115, '-8.1230163', '112.0052671'),
+(66, 'Kawi No.16-6', 'Sukorejo', 'Sukorejo', 'Blitar', 66121, '-8.0862557', '112.1095694'),
+(67, 'Anggrek No.29-31', 'Sukorejo', 'Sukorejo', 'Blitar', 66121, '-8.0903572', '112.0550216'),
+(68, 'Nasional', 'Pagerwojo', 'Kesamben', 'Blitar', 66191, '-8.2231008', '112.188276'),
+(69, 'Tundo Wijoyo', 'Birowo', 'Binangun', 'Blitar', 66193, '-8.2229983', '112.360633'),
+(70, 'Pahlawan No.243', 'Ngujang', 'Kedungwaru', 'Tulungagung', 66225, '-8.0383254', '111.9009787'),
+(71, 'Kimangun Sarkoro Iv', 'Beji', 'Boyolangu', 'Tulungagung', 66233, '-8.0779311', '111.8820397'),
+(72, 'Raya Trenggalek - Ponorogo', 'Tamanan', 'Trenggalek', 'Trenggalek', 66312, '-8.1548421', '111.5082553'),
+(73, 'Dokter Wahidin Sudiro Husodo No.42', 'Petamanan', 'Panggungrejo', 'Pasuruan', 67126, '-7.6616784', '112.8277213'),
+(74, 'Raden Patah', 'Gentong', 'Gadingrejo', 'Pasuruan', 67139, '-7.6434918', '112.8921216'),
+(75, 'Raya Gondanglegi 5', 'Cangkringmalang', 'Beji', 'Pasuruan', 67154, '-7.6767039', '112.6432464'),
+(76, 'Raya Malang - Gempol No.184', 'Petungasri', 'Pandaan', 'Pasuruan', 67156, '-7.659158', '112.6898252'),
+(77, 'Raya Surabaya - Malang', 'Ngadimulyo', 'Sukorejo', 'Pasuruan', 67161, '-7.6914743', '112.7089858'),
+(78, 'Kedawung - Banyu Biru', 'Bandaran', 'Winongan', 'Pasuruan', 67184, '-7.7206413', '112.9717452'),
+(79, 'Hos Cokroaminoto No.53', 'Kebonsari Kulon', 'Kanigaran', 'Probolinggo', 67214, '-7.7643122', '113.2019045'),
+(80, 'Brantas 14', 'Kademangan', 'Kademangan', 'Probolinggo', 67225, '-7.8296068', '113.0872862'),
+(81, 'Mastrip No. 18', 'Jrebeng Wetan', 'Kedopok', 'Probolinggo', 67239, '-7.7784098', '113.2124016'),
+(82, 'Raya Lumbang', 'Ngepung', 'Sukapura', 'Probolinggo', 67254, '-7.8722684', '112.837584'),
+(83, 'Raya Tegal Siwalan', 'Liprak Kulon', 'Banyuanyar', 'Probolinggo', 67275, '-7.866356', '113.1840039'),
+(84, 'Raya Panglima Sudirman', 'Kebonagung', 'Kraksaan', 'Probolinggo', 67282, '-7.8034629', '113.385574'),
+(85, 'Dr Sutomo No 21 Rt 001 Rw 001', 'Sumberlele', 'Kraksaan', 'Probolinggo', 67282, '-7.840246', '113.3725563'),
+(86, 'Pandean Dusun Sukun', 'Alastengah', 'Paiton', 'Probolinggo', 67291, '-7.8943349', '113.3517428'),
+(87, 'Panglima Besar Sudirman No.132', 'Tompokersan', 'Lumajang', 'Lumajang', 67316, '-8.1361908', '113.1885325'),
+(88, 'Raya Wates Wetan', 'Ranuyoso', 'Ranuyoso', 'Lumajang', 67357, '-7.8805133', '113.167552'),
+(89, 'Yos Sudarso No.6', 'Tempeh Tengah', 'Tempeh', 'Lumajang', 67371, '-8.211092', '113.1782731'),
+(90, 'Raya Kebonsari Jarit No.41', 'Jarit', 'Candipuro', 'Lumajang', 67373, '-8.2067986', '113.0343387'),
+(91, 'Teuku Umar No.69', 'Tegal Besar', 'Kaliwates', 'Jember', 68133, '-8.1549941', '113.6307894'),
+(92, 'Basuki Rahmat No.2', 'Tegal Besar', 'Kaliwates', 'Jember', 68133, '-8.1970689', '113.636976'),
+(93, 'Raya Lumajang - Jember 135', 'Tanggul Wetan', 'Tanggul', 'Jember', 68155, '-8.1879401', '113.3351377'),
+(94, 'Balung Mulukan 99', 'Tj. Rejo', 'Wuluhan', 'Jember', 68162, '-8.3060858', '113.4744937'),
+(95, 'Manggar', 'Kesilir', 'Wuluhan', 'Jember', 68162, '-8.3435587', '113.5872183'),
+(96, 'Krakatau No.134', 'Kencong', 'Kencong', 'Jember', 68167, '-8.2691922', '113.3611568'),
+(97, 'Argopuro No.40', 'Klompangan', 'Ajung', 'Jember', 68175, '-8.2192503', '113.5745132'),
+(98, 'Chairil Anwar', 'Sukowono', 'Sukowono', 'Jember', 68194, '-8.0091116', '113.7830012'),
+(99, 'Dr. Sutomo No.2A', 'Badean', 'Bondowoso', 'Bondowoso', 68214, '-7.9141485', '113.8028134'),
+(100, 'Mastrip No. 36 Kel. Nangkaan', 'Nangkaan', 'Bondowoso', 'Bondowoso', 68215, '-7.932557', '113.8139367'),
+(101, 'Raya Situbondo', 'Jatian', 'Tapen', 'Bondowoso', 68283, '-7.8745939', '113.8248602'),
+(102, 'Raya Pasir Putih', 'Demung', 'Besuki', 'Situbondo', 68356, '-7.9378615', '113.3723422'),
+(103, 'Raya Asembagus', 'Trigonco', 'Asembagus', 'Situbondo', 68373, '-7.8764346', '114.0713398'),
+(104, 'Adi Sucipto No.9', 'Tukangkayu', 'Banyuwangi', 'Banyuwangi', 68416, '-8.2347176', '114.3398079'),
+(105, 'Dr. Sutomo No.40', 'Panderejo', 'Banyuwangi', 'Banyuwangi', 68416, '-8.3878193', '113.9173535'),
+(106, 'Villa Bukit Mas No.108', 'Pengantigan', 'Giri', 'Banyuwangi', 68423, '-8.2222132', '114.3048823'),
+(107, 'Raya Jember No.13', 'Labanasem', 'Kabat', 'Banyuwangi', 68461, '-8.2873083', '114.2447755'),
+(108, 'Diponegoro No.50', 'Genteng Kulon', 'Genteng', 'Banyuwangi', 68465, '-8.3377773', '114.0173478'),
+(109, 'Glagah Agung - Grajagan', 'Purwoharjo', 'Purwoharjo', 'Banyuwangi', 68483, '-8.426006', '114.0596492'),
+(110, 'Sambirejo', 'Gn. Sari', 'Bangorejo', 'Banyuwangi', 68487, '-8.5084052', '114.1600345'),
+(111, 'K.H.Hasyim Asyari No.14-7', 'Demangan', 'Bangkalan', 'Bangkalan', 69115, '-7.0519062', '112.7028852'),
+(112, 'Halim Perdana Kusuma No.12', 'Langkap', 'Burneh', 'Bangkalan', 69121, '-7.0545084', '112.7196661'),
+(113, 'Raya Sepulu', 'Banyior', 'Sepulu', 'Bangkalan', 69154, '-6.8974571', '112.9663232'),
+(114, 'Raya Telang Permai', 'Telang', 'Kamal', 'Bangkalan', 69162, '-7.0951004', '112.6774516'),
+(115, 'Raya Blega No.16', 'Baban Barat', 'Blega', 'Bangkalan', 69174, '-7.1296812', '113.0564546'),
+(116, 'Raya Kamoning Baban Ii', 'Pangelen', 'Sampang', 'Sampang', 69216, '-7.1437911', '113.2359902'),
+(117, 'Raya Ketapang No.542', 'Ketapang Laok', 'Ketapang', 'Sampang', 69261, '-6.91305', '113.276546'),
+(118, 'Buk Batang', 'Tamberu Bar.', 'Sokobanah', 'Sampang', 69262, '-6.8963757', '113.4780525'),
+(119, 'Nasional', 'Plakaran', 'Jrengik', 'Sampang', 69272, '-7.1452696', '113.1839722'),
+(120, 'Joko Tole 28 Pamekasan', 'Budagan', 'Pamekasan', 'Pamekasan', 69323, '-7.1623162', '113.4994081'),
+(121, 'Raya Pakong – Waru Tobalang I', 'Waru Barat', 'Waru', 'Pamekasan', 69353, '-6.9896467', '113.538681'),
+(122, 'Raya Tama Rentar Barat', 'Ganding', 'Ganding', 'Sumenep', 69462, '-7.0406987', '113.6966162');
 
 -- --------------------------------------------------------
 
@@ -15177,6 +15177,7 @@ INSERT INTO `location` (`id`, `alamat`, `kota_kabupaten`, `kecamatan`, `keluraha
 --
 
 DROP TABLE IF EXISTS `schedule`;
+
 
 CREATE TABLE `schedule` (
   `id` int(11) NOT NULL,
@@ -15210,11 +15211,11 @@ INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_location_from`, `i
 (14, 12, 16, 85, 50, 2, 1, '2024-05-16 22:11:44'),
 (15, 13, 11, 36, 66, 2, 1, '2024-05-16 23:01:47'),
 (16, 14, 15, 108, 37, 2, 1, '2024-05-16 23:01:52'),
-(17, 15, 17, 64, 113, 1, 1, NULL),
-(18, 16, 4, 74, 79, 1, 1, NULL),
-(19, 17, 14, 77, 53, 1, 1, NULL),
-(20, 18, 5, 28, 57, 1, 1, NULL),
-(21, 19, 27, 3, 52, 1, 1, NULL),
+(17, 15, 17, 64, 113, 2, 1, '2024-05-17 17:30:11'),
+(18, 16, 4, 74, 79, 2, 1, '2024-05-17 17:43:47'),
+(19, 17, 14, 77, 53, 2, 1, '2024-05-20 16:31:24'),
+(20, 18, 5, 28, 57, 2, 1, '2024-05-20 16:39:21'),
+(21, 19, 27, 3, 52, 2, 1, '2024-05-20 16:39:24'),
 (22, 19, 34, 7, 3, 1, 1, NULL),
 (23, 19, 22, 3, 52, 1, 1, NULL),
 (24, 19, 30, 3, 52, 1, 1, NULL),
@@ -15229,7 +15230,7 @@ INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_location_from`, `i
 (33, 21, 28, 6, 52, 1, 1, NULL),
 (34, 21, 21, 6, 3, 1, 1, NULL),
 (35, 21, 24, 3, 52, 1, 1, NULL),
-(36, 22, 27, 3, 52, 0, 2, NULL),
+(36, 22, 27, 3, 52, 2, 2, '2024-05-20 16:39:24'),
 (37, 22, 34, 7, 3, 0, 2, NULL),
 (38, 22, 22, 3, 52, 0, 2, NULL),
 (39, 22, 29, 3, 52, 0, 2, NULL),
@@ -15244,7 +15245,7 @@ INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_location_from`, `i
 (48, 24, 24, 3, 52, 0, 2, NULL),
 (49, 24, 28, 6, 52, 0, 2, NULL),
 (50, 24, 35, 7, 3, 0, 2, NULL),
-(51, 25, 27, 3, 52, 0, 3, NULL),
+(51, 25, 27, 3, 52, 2, 3, '2024-05-20 16:39:24'),
 (52, 25, 34, 7, 3, 0, 3, NULL),
 (53, 25, 22, 3, 52, 0, 3, NULL),
 (54, 25, 30, 3, 52, 0, 3, NULL),
@@ -15258,8 +15259,7 @@ INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_location_from`, `i
 (62, 27, 33, 2, 54, 0, 3, NULL),
 (63, 27, 29, 3, 52, 0, 3, NULL),
 (64, 27, 32, 9, 2, 0, 3, NULL),
-(65, 27, 28, 6, 52, 0, 3, NULL),
-(66, 28, 38, 5, 16, 1, 1, NULL);
+(65, 27, 28, 6, 52, 0, 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -15300,7 +15300,24 @@ INSERT INTO `transaction` (`id`, `status`, `date_time`, `nominal`, `id_item`, `i
 (14, 1, '2024-05-16 15:11:44', 30000, 16, NULL, NULL),
 (15, 1, '2024-05-16 16:01:47', 30000, 11, NULL, NULL),
 (16, 1, '2024-05-16 16:01:52', 30000, 15, NULL, NULL),
-(17, 1, '2024-05-17 10:30:11', 30000, 17, NULL, NULL);
+(17, 1, '2024-05-17 10:30:11', 30000, 17, NULL, NULL),
+(18, 1, '2024-05-17 10:43:47', 30000, 4, NULL, NULL),
+(19, 1, '2024-05-20 08:46:58', 30000, 14, NULL, NULL),
+(25, 1, '2024-05-20 09:35:20', 30000, 5, NULL, NULL),
+(26, 1, '2024-05-20 09:39:21', 30000, 5, NULL, NULL),
+(27, 1, '2024-05-20 09:39:24', 30000, 27, NULL, NULL),
+(28, 2, '2024-05-20 09:43:24', 1000000, NULL, 21, NULL),
+(29, 2, '2024-05-20 10:58:16', 32000, NULL, NULL, 1),
+(30, 2, '2024-05-20 10:58:16', 384800, NULL, NULL, 2),
+(31, 2, '2024-05-20 10:58:16', 106813, NULL, NULL, 3),
+(32, 2, '2024-05-20 10:58:16', 68267, NULL, NULL, 4),
+(33, 2, '2024-05-20 10:58:16', 32000, NULL, NULL, 5),
+(34, 2, '2024-05-20 10:58:16', 32000, NULL, NULL, 6),
+(35, 2, '2024-05-20 10:58:16', 32000, NULL, NULL, 7),
+(36, 2, '2024-05-20 10:58:16', 32000, NULL, NULL, 8),
+(37, 2, '2024-05-20 10:58:16', 352954, NULL, NULL, 9),
+(38, 2, '2024-05-20 10:58:16', 352954, NULL, NULL, 10),
+(39, 2, '2024-05-24 14:09:11', 1000000, NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -15331,24 +15348,25 @@ CREATE TABLE `truck` (
 --
 
 INSERT INTO `truck` (`id`, `unique_number`, `total_distance`, `capacity_kg`, `panjang`, `lebar`, `tinggi`, `truck_status`, `fuel_capacity`, `fuel_now`, `km_per_liter`, `id_fuel`, `id_location`) VALUES
-(1, 'AE 7001 AB', 1, 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 110),
-(2, 'AE 8002 CD', 0, 1000, 230, 140, 124, 1, 43, 43, 14.63, 2, 4),
-(3, 'AG 8003 EF', 0, 2000, 310, 175, 185, 1, 70, 70, 7, 6, 7),
-(4, 'AG 9004 GH', 0, 1000, 230, 140, 124, 2, 43, 41.1682, 13.3, 1, 115),
-(5, 'L 9005 IJ ', 0, 2000, 310, 175, 185, 2, 70, 31.342, 7, 6, 108),
-(6, 'L 8006 KL ', 0, 1000, 230, 140, 124, 2, 43, 28.9043, 13.3, 1, 9),
-(7, 'M 9007 MN ', 0, 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 22),
-(8, 'M 8008 OP ', 147.299, 2000, 310, 175, 185, 2, 70, 48.9573, 7, 6, 90),
-(9, 'N 9009 QR ', 213.335, 1000, 230, 140, 124, 2, 43, 26.9598, 13.3, 1, 86),
-(10, 'N 8010 ST ', 229.607, 1000, 230, 140, 124, 2, 43, 25.7363, 13.3, 1, 85),
-(11, 'P 7011 UV ', 163.921, 2000, 310, 175, 185, 2, 70, -0.251886, 7, 6, 36),
-(12, 'P 8012 WX ', 440.807, 1000, 230, 140, 124, 2, 43, 9.85662, 13.3, 1, 108),
-(13, 'S 8013 YZ ', 0, 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 64),
-(14, 'S 9014 AB ', 0, 2000, 310, 175, 185, 2, 70, 70, 7, 6, 74),
-(15, 'W 8015 CD ', 0, 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 77),
-(16, 'W 9016 EF ', 0, 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 28),
+(1, 'AE 7001 AB', 93.516, 1000, 230, 140, 124, 2, 43, 35.9687, 14.63, 2, 7),
+(2, 'AE 8002 CD', 0, 1000, 230, 140, 124, 3, 43, 43, 14.63, 2, 5),
+(3, 'AG 8003 EF', 0, 2000, 310, 175, 185, 3, 70, 70, 7, 6, 2),
+(4, 'AG 9004 GH', 0, 1000, 230, 140, 124, 1, 43, 41.1682, 13.3, 1, 4),
+(5, 'L 9005 IJ ', 0, 2000, 310, 175, 185, 1, 70, 31.342, 7, 6, 115),
+(6, 'L 8006 KL ', 0, 1000, 230, 140, 124, 1, 43, 28.9043, 13.3, 1, 6),
+(7, 'M 9007 MN ', 0, 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 67),
+(8, 'M 8008 OP ', 147.299, 2000, 310, 175, 185, 1, 70, 48.9573, 7, 6, 90),
+(9, 'N 9009 QR ', 213.335, 1000, 230, 140, 124, 1, 43, 26.9598, 13.3, 1, 86),
+(10, 'N 8010 ST ', 229.607, 1000, 230, 140, 124, 1, 43, 25.7363, 13.3, 1, 85),
+(11, 'P 7011 UV ', 163.921, 2000, 310, 175, 185, 1, 70, 69.7481, 7, 6, 36),
+(12, 'P 8012 WX ', 440.807, 1000, 230, 140, 124, 1, 43, 9.85662, 13.3, 1, 108),
+(13, 'S 8013 YZ ', 173.229, 1000, 230, 140, 124, 2, 43, 29.9753, 13.3, 1, 64),
+(14, 'S 9014 AB ', 45.334, 2000, 310, 175, 185, 1, 70, 63.5237, 7, 6, 74),
+(15, 'W 8015 CD ', 0, 1000, 230, 140, 124, 1, 43, 31.7269, 13.3, 1, 110),
+(16, 'W 9016 EF ', 200.596, 1000, 230, 140, 124, 1, 43, 12.8352, 13.3, 1, 28),
 (20, 'L 8123 FM', 0, 1000, 230, 140, 124, 2, 43, 43, 14.63, 2, 3),
-(21, 'L 8123 FI', 0, 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 8);
+(21, 'L 8123 FI', 0, 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 8),
+(22, 'L 8123 TA', 0, 2000, 310, 175, 185, 0, 70, 70, 7, 6, 66);
 
 -- --------------------------------------------------------
 
@@ -15361,8 +15379,8 @@ DROP TABLE IF EXISTS `truck_driver`;
 CREATE TABLE `truck_driver` (
   `id` int(11) NOT NULL,
   `id_truck` int(11) NOT NULL,
-  `id_driver1` int(11) NOT NULL,
-  `id_driver2` int(11) NOT NULL
+  `id_driver1` int(11) DEFAULT NULL,
+  `id_driver2` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -15390,8 +15408,7 @@ INSERT INTO `truck_driver` (`id`, `id_truck`, `id_driver1`, `id_driver2`) VALUES
 (18, 16, 9, 10),
 (19, 1, 21, 3),
 (20, 2, 6, 24),
-(21, 3, 31, 8),
-(28, 1, 21, 3);
+(21, 3, 31, 8);
 
 -- --------------------------------------------------------
 
@@ -15513,7 +15530,7 @@ ALTER TABLE `truck_driver`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -15555,25 +15572,25 @@ ALTER TABLE `location`
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `truck`
 --
 ALTER TABLE `truck`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `truck_driver`
 --
 ALTER TABLE `truck_driver`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- Constraints for dumped tables
