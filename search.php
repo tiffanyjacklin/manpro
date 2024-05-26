@@ -14,38 +14,74 @@ if (isset($_POST['id'])) {
 
         $res_cek_schedule = mysqli_query($con, $cek_schedule);
         if (mysqli_num_rows($res_cek_schedule) > 0) {
-            
-            $query = "SELECT `item`.*, `truck`.*, d1.`driver_name` AS `driver1_name`, d1.`phone_number` AS `driver1_phone`, d2.`driver_name` AS `driver2_name`, d2.`phone_number` AS `driver2_phone`, 
-                    CONCAT(
-                            COALESCE(l1.`alamat`, ''), ',\n', 
-                            COALESCE(l1.`kelurahan_desa`, ''), ',\n', 
-                            COALESCE(l1.`kecamatan`, ''), ',\n', 
-                            COALESCE(l1.`kota_kabupaten`, ''), ',\n', 
-                            'Jawa Timur ', COALESCE(l1.`kode_pos`, '')
-                    ) AS location_from, 
-                    CONCAT(
-                            COALESCE(l2.`alamat`, ''), ',\n', 
-                            COALESCE(l2.`kelurahan_desa`, ''), ',\n', 
-                            COALESCE(l2.`kecamatan`, ''), ',\n', 
-                            COALESCE(l2.`kota_kabupaten`, ''), ',\n', 
-                            'Jawa Timur ', COALESCE(l2.`kode_pos`, '')
-                    ) AS location_to FROM `item` JOIN `schedule` ON `schedule`.`id_barang` = `item`.`id`
-                                        JOIN `truck_driver` ON `truck_driver`.`id` = `schedule`.`id_schedule`
-                                        JOIN `truck` ON `truck`.`id` = `truck_driver`.`id_truck`
-                                        JOIN `driver` d1 ON d1.`id` = `truck_driver`.`id_driver1`
-                                        JOIN `driver` d2 ON d2.`id` = `truck_driver`.`id_driver2`
-                                        JOIN `location` l1 ON l1.`id` = `item`.`id_location_from`
-                                        JOIN `location` l2 ON l2.`id` = `item`.`id_location_to`
-                                        WHERE `item`.`id`=".$id.";";
+            $row_cek_schedule = mysqli_fetch_assoc($res_cek_schedule);
 
-            $res = mysqli_query($con, $query);
-            if (mysqli_num_rows($res) > 0) {
-                $row = mysqli_fetch_assoc($res);
-                if ($row['status'] == 2){
-                    $status_item = "Delivered";
-                }
-                else if ($row['status'] == 1){
-                    $status_item = "Delivering";
+            $cek_driver = "SELECT * FROM `truck_driver` WHERE `id` = ".$row_cek_schedule['id_schedule'].";";
+            $res_cek_driver = mysqli_query($con, $cek_driver);
+            if (mysqli_num_rows($res_cek_driver) > 0) {
+                $row_cek_driver = mysqli_fetch_assoc($res_cek_driver);
+                if ((!isset($row_cek_driver['id_driver1'])) OR (!isset($row_cek_driver['id_driver2']))){
+                    $query = "SELECT `item`.*, `truck`.*, 
+                                CONCAT(
+                                        COALESCE(l1.`alamat`, ''), ',\n', 
+                                        COALESCE(l1.`kelurahan_desa`, ''), ',\n', 
+                                        COALESCE(l1.`kecamatan`, ''), ',\n', 
+                                        COALESCE(l1.`kota_kabupaten`, ''), ',\n', 
+                                        'Jawa Timur ', COALESCE(l1.`kode_pos`, '')
+                                ) AS location_from, 
+                                CONCAT(
+                                        COALESCE(l2.`alamat`, ''), ',\n', 
+                                        COALESCE(l2.`kelurahan_desa`, ''), ',\n', 
+                                        COALESCE(l2.`kecamatan`, ''), ',\n', 
+                                        COALESCE(l2.`kota_kabupaten`, ''), ',\n', 
+                                        'Jawa Timur ', COALESCE(l2.`kode_pos`, '')
+                                ) AS location_to FROM `item` JOIN `schedule` ON `schedule`.`id_barang` = `item`.`id`
+                                                    JOIN `truck_driver` ON `truck_driver`.`id` = `schedule`.`id_schedule`
+                                                    JOIN `truck` ON `truck`.`id` = `truck_driver`.`id_truck`
+                                                    JOIN `location` l1 ON l1.`id` = `item`.`id_location_from`
+                                                    JOIN `location` l2 ON l2.`id` = `item`.`id_location_to`
+                                                    WHERE `item`.`id`=".$id.";";
+
+                    $res = mysqli_query($con, $query);
+                    if (mysqli_num_rows($res) > 0) {
+                        $row = mysqli_fetch_assoc($res);
+                        $status_item = "No Driver Assigned";
+                    }
+                }else{
+                    $query = "SELECT `item`.*, `truck`.*, d1.`driver_name` AS `driver1_name`, d1.`phone_number` AS `driver1_phone`, d2.`driver_name` AS `driver2_name`, d2.`phone_number` AS `driver2_phone`, 
+                                CONCAT(
+                                        COALESCE(l1.`alamat`, ''), ',\n', 
+                                        COALESCE(l1.`kelurahan_desa`, ''), ',\n', 
+                                        COALESCE(l1.`kecamatan`, ''), ',\n', 
+                                        COALESCE(l1.`kota_kabupaten`, ''), ',\n', 
+                                        'Jawa Timur ', COALESCE(l1.`kode_pos`, '')
+                                ) AS location_from, 
+                                CONCAT(
+                                        COALESCE(l2.`alamat`, ''), ',\n', 
+                                        COALESCE(l2.`kelurahan_desa`, ''), ',\n', 
+                                        COALESCE(l2.`kecamatan`, ''), ',\n', 
+                                        COALESCE(l2.`kota_kabupaten`, ''), ',\n', 
+                                        'Jawa Timur ', COALESCE(l2.`kode_pos`, '')
+                                ) AS location_to FROM `item` JOIN `schedule` ON `schedule`.`id_barang` = `item`.`id`
+                                                    JOIN `truck_driver` ON `truck_driver`.`id` = `schedule`.`id_schedule`
+                                                    JOIN `truck` ON `truck`.`id` = `truck_driver`.`id_truck`
+                                                    JOIN `driver` d1 ON d1.`id` = `truck_driver`.`id_driver1`
+                                                    JOIN `driver` d2 ON d2.`id` = `truck_driver`.`id_driver2`
+                                                    JOIN `location` l1 ON l1.`id` = `item`.`id_location_from`
+                                                    JOIN `location` l2 ON l2.`id` = `item`.`id_location_to`
+                                                    WHERE `item`.`id`=".$id.";";
+
+                    $res = mysqli_query($con, $query);
+                    if (mysqli_num_rows($res) > 0) {
+                        $row = mysqli_fetch_assoc($res);
+                        if ($row['status'] == 2){
+                            $status_item = "Delivered";
+                        }
+                        else if ($row['status'] == 1){
+                            $status_item = "Delivering";
+                        }
+
+                    }
                 }
             }
         }
@@ -197,7 +233,7 @@ if (isset($_POST['id'])) {
                             <div class="search-font">'.$row['receiver_phone_num'].'</div>
                         </div>
                     </div>';
-                if ($status_item == "Delivering" OR $status_item == "Delivered"){
+                if ($status_item == "Delivered" OR $status_item == "Delivering"){
                     echo '<div class="col-md-4">
                     <div class="container">
                         <div class="title-dashboard4">Truck</div>
@@ -212,7 +248,14 @@ if (isset($_POST['id'])) {
                         <div class="search-font">'.$row['driver2_phone'].'</div>                        
                     </div>
                 </div>';
-                } else{
+                } else if ($status_item == "No Driver Assigned"){
+                    echo '<div class="col-md-4">
+                    <div class="container">
+                        <div class="title-dashboard4">Truck</div>
+                        <div class="search-font">'.$row['unique_number'].'</div>            
+                    </div>
+                </div>';
+                }else{
                     echo '<div class="col-md-4">
                     <div class="container">
                         

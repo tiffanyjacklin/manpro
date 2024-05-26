@@ -110,7 +110,7 @@ if (isset($_POST["change"])) {
           <thead>
             <tr>
                 <th>ID</th>
-                <th>Nomor Unik</th>
+                <th>Plat Nomor</th>
                 <th>Kapasitas (kg)</th>
                 <th>Dimensi</th>
                 <th>Status</th>

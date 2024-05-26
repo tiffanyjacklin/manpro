@@ -24,9 +24,23 @@ if (isset($_POST['id_barang'])) {
     while ($row_product = mysqli_fetch_array($res_distance)) {
       $id_truck = $row_product['id'];
 
-      if (($row_product['fuel_now']-(($row_product['distance_m']/1000)/$row_product['km_per_liter'])) < 0){
-        $fuel_now = ($row_product['fuel_now']-(($row_product['distance_m']/1000)/$row_product['km_per_liter'])) + $row_product['fuel_capacity'];
-        $fuel_cost = ($row_product['fuel_capacity'] * $row_product['cost_per_liter']);
+      if (($row_product['fuel_now']-(($row_product['distance_m']/1000)/$row_product['km_per_liter'])) <= 20){
+        $input_fuel = 0;
+        $fuel_now = ($row_product['fuel_now']-(($row_product['distance_m']/1000)/$row_product['km_per_liter']));
+        $fuel_capacity = $row_product['fuel_capacity'];
+        while ($fuel_now < $fuel_capacity){
+          if ($fuel_now + $fuel_capacity > $fuel_capacity){
+            $input_fuel = $fuel_capacity - $fuel_now;
+            $fuel_now = $fuel_capacity;
+          }else if ($fuel_now + $fuel_capacity == $fuel_capacity) {
+            $input_fuel = $fuel_capacity;
+            $fuel_now = $fuel_capacity;
+          }else{
+            $input_fuel = $fuel_capacity;
+            $fuel_now = $fuel_now + $fuel_capacity;
+          }
+        }
+        $fuel_cost = ($input_fuel * $row_product['cost_per_liter']);
 
         $sql_fuel_transaction = "INSERT INTO `transaction` (`status`, `date_time`, `nominal`, `id_truck`) VALUES (2,current_timestamp(),".$fuel_cost.",".$row_product['id'].");";
         mysqli_query($con,$sql_fuel_transaction);

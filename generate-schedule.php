@@ -86,7 +86,8 @@ if (isset($_POST['item_ids_output'])) {
             $count++;
         }
     }
-    header("Location: schedule.php");
+    // header("Location: schedule.php");
+    header("Location: generate-driver.php");
     exit;
 }
 ?>
@@ -107,9 +108,9 @@ if (isset($_POST['item_ids_output'])) {
         <div class="container">
         <div class="generate-schedule">
         <?php
-            // $item_ids_output = exec("python ./mainGA.py");
-            $item_ids_output = exec("python ./ScheduleAssign.py");
-            echo $item_ids_output;
+            $item_ids_output = exec("python ./mainGA.py");
+            // $item_ids_output = exec("python ./ScheduleAssign.py");
+            // echo $item_ids_output;
             // echo "HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
             
             $item_ids_by_trucks = json_decode($item_ids_output);

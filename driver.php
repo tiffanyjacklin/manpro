@@ -13,6 +13,19 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Fetch the current user's data
+$user_id = $_SESSION['user_id'];
+$query = $conn->prepare("SELECT * FROM admin WHERE id = ?");
+$query->bind_param("i", $user_id);
+$query->execute();
+$result = $query->get_result();
+$manager = $result->fetch_assoc();
+
+// Fetch all drivers
+$sql = "SELECT * FROM driver";
+$result = $conn->query($sql);
+
+
 $update_message = "";
 
 // Handle form submission for updating driver details
@@ -20,11 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_driver'])) {
     $driver_id = $_POST['driver_id'];
     $driver_name = $_POST['driver_name'];
     $phone_number = $_POST['phone_number'];
-    $total_distance = $_POST['total_distance'];
+    // $total_distance = $_POST['total_distance'];
     $experience = $_POST['experience'];
     $driver_status = $_POST['driver_status'];
 
-    $sql = "UPDATE driver SET driver_name='$driver_name', phone_number='$phone_number', total_distance='$total_distance', experience='$experience', driver_status='$driver_status' WHERE id='$driver_id'";
+    $sql = "UPDATE driver SET driver_name='$driver_name', phone_number='$phone_number', experience='$experience', driver_status='$driver_status' WHERE id='$driver_id'";
 
     if ($conn->query($sql) === TRUE) {
         $update_message = "Driver details updated successfully";
@@ -33,9 +46,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_driver'])) {
     }
 }
 
-// Fetch all drivers
-$sql = "SELECT * FROM driver";
-$result = $conn->query($sql);
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -126,8 +139,10 @@ $result = $conn->query($sql);
     <div class="main-content">
 
         <div class="container">
-
-            <button type="button" class="btn btn-outline-info" onclick="window.location.href='calculate_salary.php'" style="margin-top:20px;">Pay Salary</button>
+            <?php if ($manager['position'] == 1): ?>
+                <button type="button" class="btn btn-outline-info" onclick="window.location.href='calculate_salary.php'" style="margin-top:20px;">Pay Salary</button>
+            <?php endif; ?>              
+            
             <div class="title-form">Driver Details</div>
             <table>
                 <tr>
@@ -150,7 +165,7 @@ $result = $conn->query($sql);
                             <td>{$row['experience']}</td>
                             <td>{$row['driver_status']}</td>
                             <td>
-                                <button class='btn btn-outline-dark'  onclick=\"showEditForm('{$row['id']}', '{$row['driver_name']}', '{$row['phone_number']}', '{$row['total_distance']}', '{$row['experience']}', '{$row['driver_status']}')\">Edit</button>
+                                <button class='btn btn-outline-dark'  onclick=\"showEditForm('{$row['id']}', '{$row['driver_name']}', '{$row['phone_number']}', '{$row['experience']}', '{$row['driver_status']}')\">Edit</button>
                             </td>
                         </tr>";
                     }
@@ -177,10 +192,10 @@ $result = $conn->query($sql);
                     <label for="phone_number">Phone Number:</label>
                     <input class="form-control" type="text" id="phone_number" name="phone_number" required>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="total_distance">Total Distance:</label>
                     <input class="form-control" type="text" id="total_distance" name="total_distance" required>
-                </div>
+                </div> -->
                 <div class="form-group">
                     <label for="experience">Experience:</label>
                     <input class="form-control" type="text" id="experience" name="experience" required>
@@ -207,7 +222,7 @@ $result = $conn->query($sql);
             document.getElementById('driver_id').value = id;
             document.getElementById('driver_name').value = name;
             document.getElementById('phone_number').value = phone;
-            document.getElementById('total_distance').value = distance;
+            // document.getElementById('total_distance').value = distance;
             document.getElementById('experience').value = experience;
             document.getElementById('driver_status').value = status;
             document.getElementById('editModal').style.display = 'block';

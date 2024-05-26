@@ -80,7 +80,7 @@ if (isset($_POST['item_ids_output'])) {
         <div class="generate-schedule">
         <?php
             $item_ids_output = exec("python ./DriverAssign.py");
-            echo $item_ids_output;
+            // echo $item_ids_output;
 
             $item_ids_by_trucks = json_decode($item_ids_output, true);
 

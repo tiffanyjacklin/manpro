@@ -40,16 +40,17 @@ def fetch_data():
     mycursor.execute(sql_driver)
     mydriver = mycursor.fetchall()
 
+    sql_truck = """
+    SELECT truck.* FROM truck
+    JOIN truck_driver ON truck.id = truck_driver.id_truck
+    WHERE truck_driver.id_driver1 IS NULL
+    AND truck_driver.id_driver2 IS NULL;
+    """
     # sql_truck = """
     # SELECT *
-    # FROM truck_driver
-    # WHERE id_driver1 AND id_driver2 IS NULL
+    # FROM truck
+    # WHERE truck_status = 1
     # """
-    sql_truck = """
-    SELECT *
-    FROM truck
-    WHERE truck_status = 1
-    """
     mycursor.execute(sql_truck)
     mytruck = mycursor.fetchall()
  
