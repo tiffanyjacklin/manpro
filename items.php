@@ -1,6 +1,13 @@
 <?php
 session_start();
 require "connect.php";
+
+$user_id = $_SESSION['user_id'];
+$query = $con->prepare("SELECT * FROM admin WHERE id = ?");
+$query->bind_param("i", $user_id);
+$query->execute();
+$result = $query->get_result();
+$manager = $result->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,9 +23,11 @@ require "connect.php";
     <div class="main-content">
     <div class="container">
         <div style="margin-top:20px;">
-
+          <?php if ($manager['position'] == 2): ?>
             <button class="btn btn-outline-info" onclick="redirectToNewPage()">Add Item</button>
-        </div>
+          <?php endif; ?>
+        
+          </div>
       <?php
       include "database.php";
       $sql = "SELECT * FROM item";
@@ -64,7 +73,17 @@ require "connect.php";
                 echo '<span class="badge rounded-pill text-bg-success">Done</span>';
                 // echo "Done";
               }
-                      
+              $sql_cek_bisa_edit = "SELECT * FROM `log` JOIN `item` ON `log`.`id_item` = `item`.`id` WHERE `item`.`status` = 0 AND `id_item` = ".$row['id']." AND `id_admin` = ".$user_id." ;";
+              $res_cek_bisa_edit = mysqli_query($con, $sql_cek_bisa_edit);
+              if (mysqli_num_rows($res_cek_bisa_edit) > 0) {
+                echo '<form action="edit_item.php" method="POST" style="padding-top: 50px;">
+                        <input type="hidden" name="id_edit" value="'.$row['id'].'">
+                        <button class="btn btn-outline-info">Edit Item</button>
+                      </form>';
+                
+              }
+              
+              
               echo "</td>
                       <td>".$row["item_name"]."</td>
                       <td>" . $row['panjang'] . "cm x " . $row['lebar'] . "cm x " . $row['tinggi'] . "cm </td>
@@ -106,6 +125,10 @@ require "connect.php";
       function redirectToNewPage() {
           // Redirect to the new page when the "Add" button is clicked
           window.location.href = "add_item.php";
+      }
+      function redirectToEditPage() {
+          // Redirect to the new page when the "Add" button is clicked
+          window.location.href = "edit_item.php";
       }
       $(document).ready(function() {
           $('#table-items').DataTable({

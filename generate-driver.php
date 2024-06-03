@@ -1,6 +1,7 @@
 <?php
 session_start();
 require "connect.php";
+$user_id = $_SESSION['user_id'];
 
 if (isset($_POST['item_ids_output'])) {
     $item_ids_output = $_POST['item_ids_output'];
@@ -40,6 +41,8 @@ if (isset($_POST['item_ids_output'])) {
                             }
                             $count++;
                         }
+                        mysqli_query($con, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `detail_action`, `timestamp`) VALUES ($user_id, 4, 4, 'ID Schedule: ".$row['id']."', current_timestamp()); ");
+
                     }
                 } else {
                     echo "No matching truck_driver record found for truck ID: $truck_id";

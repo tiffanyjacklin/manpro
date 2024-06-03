@@ -27,6 +27,13 @@
                 </button>
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
+                    <i class="fa-solid fa-route" aria-pressed="false"></i>
+                    </div>
+                    <span class="button-label">Route</span>
+                </button>
+                
+                <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
+                    <div class="btn-icon">
                         <i class="fa-solid fa-coins" aria-pressed="false"></i>
                     </div>
                     <span class="button-label">Transaction</span>
@@ -47,7 +54,7 @@
                     <div class="btn-icon">
                         <i class="fa-solid fa-person-praying" aria-pressed="false"></i>
                     </div>
-                    <span class="button-label">Driver</span>
+                    <span class="button-label">Drivers</span>
                 </button>
                 <!-- <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
@@ -56,20 +63,36 @@
                     </div>
                     <span class="button-label">Notification</span>
                 </button> -->
+                <?php 
+                    // Fetch the current user's data
+                    $user_id = $_SESSION['user_id'];
+                    $query = $con->prepare("SELECT * FROM admin WHERE id = ?");
+                    $query->bind_param("i", $user_id);
+                    $query->execute();
+                    $result = $query->get_result();
+                    $manager = $result->fetch_assoc();
+                ?>
+                <?php if ($manager['position'] == 1): ?>
+                <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
+                    <div class="btn-icon">
+                        <i class="fa-solid fa-clipboard-list" aria-pressed="false"></i>
+                    </div>
+                    <span class="button-label">Log</span>
+                </button>
+                <?php endif; ?>
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
                         <i class="fa-solid fa-address-card" aria-pressed="false"></i>
                     </div>
                     <span class="button-label">Admin</span>
                 </button>
-                
-                
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
                         <i class="fa-solid fa-right-from-bracket" aria-pressed="false"></i>
                     </div>
                     <span class="button-label">Logout</span>
                 </button>
+
                 <!-- <form action="" method="POST"> -->
                 <!-- <button type="submit" name="logout" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false">
                     <div class="btn-icon">

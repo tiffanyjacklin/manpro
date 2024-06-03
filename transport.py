@@ -1,11 +1,11 @@
 class Transportation:
-    def __init__(self, id, license, max_weight, fuel, km_liter, total_distance):
+    def __init__(self, id, license, max_weight, length, width, height, fuel, km_liter, total_distance):
         self.id = id
         self.license = license
         self.max_weight = max_weight
-        self.length = 560
-        self.width = 220
-        self.height = 200
+        self.length = length
+        self.width = width
+        self.height = height
         self.volume = self.length * self.width * self.height
         self.fuel = fuel
         self.km_liter = km_liter
@@ -40,7 +40,7 @@ class Transportation:
     def truck(truck_list):
         truck_lists = []
         for truck in truck_list:
-            truck_lists.append(Transportation(truck["id"], truck["unique_number"], truck["capacity_kg"], truck["fuel_capacity"], truck["km_per_liter"], truck["total_distance"]))
+            truck_lists.append(Transportation(truck["id"], truck["unique_number"], truck["capacity_kg"], truck["panjang"], truck["lebar"], truck["tinggi"], truck["fuel_now"], truck["km_per_liter"], truck["total_distance"]))
         return truck_lists
 
         

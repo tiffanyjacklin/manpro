@@ -3,6 +3,7 @@ session_start();
 include "database.php";
 require "connect.php";
 
+$user_id = $_SESSION['user_id'];
 $status_message = "";
 if (isset($_POST['id'])) {
     $id = $_POST['id'];
@@ -14,18 +15,33 @@ if (isset($_POST["change"])) {
         // Ambil data dari formulir
         // $unique_number = $_POST['unique_number'];
         $id = $_POST['id'];
+        $sql_cek_truk = "SELECT * FROM `truck` WHERE `id` = ".$id.";";
+        $res_cek_truk = mysqli_query($con, $sql_cek_truk);
+        $row_cek_truk = mysqli_fetch_assoc($res_cek_truk);
+        $change = "";
         $status = $_POST['status'];
+        if ($row_cek_truk['truck_status'] != $status){
+            $status_message = $status == 0 ? "Unavailable" : ($status == 1 ? "Available" : ($status == 2 ? "Maintenance" : "Unknown"));
+            $change = $change . "Status = " . $status_message . " ";
+        }
         // $id_fuel = $_POST['fuel'];
         $unique_number = $_POST['unique_number'];
-
+        if ($row_cek_truk['unique_number'] != $unique_number){
+            $change = $change . "Unique number = " . $unique_number . " ";
+        }
         // Tentukan nilai id_fuel berdasarkan km_per_liter
         // $km_per_liter = $_POST['km_per_liter'];
-        if (isset($_POST['if_fuel'])){
+        if (isset($_POST['id_fuel'])){
             if ($id_fuel == 1) {
             //     $id_fuel = 1;
+                $fuel_change = "Pertalite";
                 $km_per_liter = 13.3;
             }else if ($id_fuel == 2){
                 $km_per_liter = 14.63;
+                $fuel_change = "Pertamax";
+            }
+            if ($row_cek_truk['id_fuel'] != $id_fuel){
+                $change = $change . "Fuel Type= " + $fuel_change . " ";
             }
         }
         else{
@@ -46,6 +62,8 @@ if (isset($_POST["change"])) {
         if ($status == 2){
             $sql_input_maintenance_cost = "INSERT INTO `transaction` (`status`, `date_time`, `nominal`, `id_truck`) VALUES (2,current_timestamp(),1000000,".$id.");"; 
             mysqli_query($con,$sql_input_maintenance_cost);
+            mysqli_query($con, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `detail_action`, `timestamp`) VALUES ($user_id, 6, 1, 'For Maintenance Paid: 1,000,000', current_timestamp()); ");
+
         }
         // Lakukan pembaruan status truk sesuai dengan nilai yang dipilih
 
@@ -53,6 +71,8 @@ if (isset($_POST["change"])) {
     
         if ($db->query($sql)) {
             $status_message = "Status truk berhasil diubah";
+            mysqli_query($con, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `detail_action`, `timestamp`) VALUES ($user_id, 2, 2, '$change', current_timestamp()); ");
+
             header("Location: edit_status.php?id=".$id."");
 
         } else {
@@ -99,6 +119,13 @@ if (isset($_POST["change"])) {
     <div class="main-content">
       <div class="container">
         <i><?= $status_message ?></i>
+        <form action="edit_status.php" method="POST">
+
+        <div class="col-12 d-flex justify-content-between" style="padding-top: 20px; padding-bottom: 20px;">
+            <button type="button" class="btn btn-outline-info" onclick="window.location.href='trucks.php'">Back</button>
+            <h5 class="title-form">Edit Truck Form</h5>
+            <button type="submit" name="change" class="btn btn-outline-info btn-block">Change</button>            
+        </div>
         <!-- <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
@@ -173,7 +200,6 @@ if (isset($_POST["change"])) {
           </tbody>  
         </table>
         <div class="row g-3" style="padding-top: 20px;">
-            <form action="edit_status.php" method="POST">
                 <input type="hidden" name="id" id="id" value="<?php echo $id; ?>"> <!-- Include $id as a hidden input field -->
                 <div class="row">
                     <div class="col-md-4">                    
@@ -235,13 +261,9 @@ if (isset($_POST["change"])) {
                  </div>';
                     ?>
                         
-                <div class="row justify-content-center" style="padding-top: 20px;">
-                    <div class="col-md-6 text-center">
-                        <button type="submit" name="change" class="btn btn-outline-info btn-block">Change</button>
-                    </div>
-                </div>
-            </form>
+                
         </div>
+        </form>
 
       </div>
       <script>

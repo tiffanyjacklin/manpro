@@ -1,6 +1,7 @@
 <?php
 session_start();
 require "connect.php";
+$user_id = $_SESSION['user_id'];
 
 ?>
 <!DOCTYPE html>
@@ -160,6 +161,8 @@ require "connect.php";
                         echo "<div class='alert alert-info' role='alert'>
                                 Barang berhasil ditambahkan.
                               </div>";
+                        mysqli_query($con, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `id_item`, `detail_action`, `timestamp`) VALUES ($user_id, 1, 1, (SELECT `id` FROM `item` ORDER BY `id` DESC LIMIT 1), '".$item_name."', current_timestamp());");
+                        
                         echo "<script>
                                 setTimeout(function() {
                                     $('.alert').fadeOut('slow');

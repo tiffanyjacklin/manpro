@@ -1,6 +1,7 @@
 <?php
 session_start();
 require "connect.php";
+$user_id = $_SESSION['user_id'];
 
 // Initialize notification variable
 $notification = '';
@@ -23,6 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['new_password'])) {
 
     if ($stmt->execute()) {
         $notification = '<div class="alert alert-success" role="alert">Password updated successfully!</div>';
+        mysqli_query($con, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `detail_action`, `timestamp`) VALUES ($user_id, 5, 2, 'Password changed for Admin ID ".$admin_id.".', current_timestamp()); ");
+        
     } else {
         $notification = '<div class="alert alert-danger" role="alert">Error updating password: ' . $stmt->error . '</div>';
     }

@@ -1,7 +1,8 @@
 <?php
 include "database.php";
+require "connect.php";
 session_start();
-
+$user_id = $_SESSION['user_id'];
 $add_message = "";
 
 if (isset($_POST["add"])){
@@ -30,6 +31,11 @@ if (isset($_POST["add"])){
             
             if($db->query($sql)){
                 $add_message = "Admin berhasil ditambahkan";
+                $res_admin = mysqli_query($con, "SELECT id FROM `admin` ORDER BY `id` DESC LIMIT 1");
+                if (mysqli_num_rows($res_admin)){
+                    $row_admin = mysqli_fetch_assoc($res_admin);
+                    mysqli_query($con, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `detail_action`, `timestamp`) VALUES (".$user_id.", 5, 1, 'ID: ".$row_admin['id'].", Name: ".$name."', current_timestamp()); ");
+                }
             } else {
                 $add_message = "Data admin tidak masuk";
             }

@@ -116,29 +116,29 @@ form button[type="submit"].btn-transparent:active {
     margin: 20px;
 
 }
-#table-unscheduled, #table-on-going, #table-completed, #table-items {
+#table-unscheduled, #table-on-going, #table-completed, #table-items, #table-1best, #table-2best, #table-3best, #table-driver  {
     min-width: 100%; /* Set initial minimum width to 100% */
     width: 100%; /* Ensure the table fills its container */
 }
 @media (max-width: 933px) {
-    #table-unscheduled, #table-on-going, #table-completed, #table-items {
+    #table-unscheduled, #table-on-going, #table-completed, #table-items, #table-1best, #table-2best, #table-3best, #table-driver {
     min-width: 932px; /* Set minimum width to 932px for larger screens */
     }
 }
 th, td { 
     white-space: nowrap; 
 }
-.c8tableTools01 {
+.c8tableTools01, .generate1 {
     padding-top: 10px;
     display: flex;
     justify-content: space-between;
 
 }
-.c8tableBody  {
+.c8tableBody, .generateBody {
     width: 100%;
     overflow-x: scroll;
 }
-.c8tableTools02 {
+.c8tableTools02, .generate2 {
     display: flex;
     justify-content: space-between;
 }
@@ -155,7 +155,13 @@ div.dt-container div.dt-paging ul.pagination {
     margin: 0;
     padding: 0;
 }
+.table-secondary {
+    background-color: #e2e3e5 !important;
+}
 
+.table-info {
+    background-color: #bee5eb !important;
+}
 div.dt-container div.dt-paging ul.pagination li.page-item {
     margin: 0;
     padding: 0;
@@ -197,7 +203,24 @@ div.dt-container div.dt-paging ul.pagination li.page-item.disabled a.page-link {
     border-color: #B2EBF2;
 }
 /* GENERATE SCHEDULE */
+.schedule-col {
+    display: inline-block; /* Make the select element inline */
+    width: 30%; /* Set width to 30% */
+    margin: 10px auto; /* Add margin for spacing */
+}
 
+.button-container {
+    width: 30%;
+    display: inline-flex; /* Make buttons inline */
+    justify-content: space-between; /* Distribute buttons evenly with gap */
+    margin: 10px 0; /* Add margin for spacing */
+}
+
+.bleg {
+    width: inherit; /* Inherit width from .schedule-col */
+    text-align: center; /* Center button text */
+    padding: 5px 10px; /* Adjust padding as needed */
+}
 .generate-schedule {
     margin:10px;
 }

@@ -36,6 +36,8 @@ if(isset($_POST['login'])){
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['username'] = $row['username'];
 
+            mysqli_query($conn, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `timestamp`) VALUES (".$_SESSION['user_id'].", 5, 6, current_timestamp()); ");
+            
             // Check posisi pengguna
             if($row['position'] == 1) {
                 header("Location: dashboard.php"); // Admin dapat mengakses semua tab-pane

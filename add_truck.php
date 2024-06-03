@@ -2,7 +2,7 @@
 include "database.php";
 require "connect.php";
 session_start();
-
+$user_id = $_SESSION['user_id'];
 $add_message = "";
 
 if (isset($_POST["add"])){
@@ -71,6 +71,14 @@ if (isset($_POST["add"])){
         VALUES ('$unique_number', 0, '$capacity', $panjang, $lebar, $tinggi, $truck_status, $fuel_capacity, $fuel_now, $km_per_liter, $id_fuel, '$id_location')";
         if($db->query($sql)){
             $add_message = "Truck berhasil ditambahkan";
+
+            $res_truck = mysqli_query($con, "SELECT id FROM `truck` ORDER BY `id` DESC LIMIT 1");
+            if (mysqli_num_rows($res_truck)){
+                $row_truck = mysqli_fetch_assoc($res_truck);
+                mysqli_query($con, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `detail_action`, `timestamp`) VALUES (".$user_id.", 2, 1, 'ID: ".$row_truck['id'].", Unique number: ".$unique_number."', current_timestamp()); ");
+                header("Location: trucks.php");
+                
+            }
             // $id_sql = "SELECT id FROM `truck` ORDER BY `truck`.`id` DESC LIMIT 1;";
             // $id_res = mysqli_query($con, $id_sql);
             // if ($id_res && mysqli_num_rows($id_res) > 0) {
@@ -82,7 +90,6 @@ if (isset($_POST["add"])){
             // mysqli_query($con,"INSERT INTO `truck_driver` (`id_truck`, `id_driver`, `position`) VALUES ($id_sc, $driver1, 1);");
             // mysqli_query($con,"INSERT INTO `truck_driver` (`id_truck`, `id_driver`, `position`) VALUES ($id_sc, $driver2, 2);");
             
-            header("Location: trucks.php");
         } else {
             $add_message = "Data truck tidak masuk";
         } 

@@ -67,6 +67,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($update_password_stmt->execute()) {
                 // Password successfully updated
                 $notification = '<div class="alert alert-success" role="alert">Password updated successfully!</div>';
+                mysqli_query($con, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `detail_action`, `timestamp`) VALUES ($user_id, 5, 2, 'Password changed.', current_timestamp()); ");
+
                 unset($_SESSION['verified_user_id']); // Unset verified session variable
             } else {
                 // Error updating password

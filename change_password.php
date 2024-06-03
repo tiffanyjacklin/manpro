@@ -28,6 +28,8 @@ class ChangePasswordPage {
             if ($update_password_stmt->execute()) {
                 // Password successfully updated
                 $notification = '<div class="alert alert-success" role="alert">Password updated successfully!</div>';
+                mysqli_query($con, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `detail_action`, `timestamp`) VALUES ($this->userId, 5, 2, 'Password changed for Admin ID: ".$this->userId.".', current_timestamp()); ");
+
             } else {
                 // Error updating password
                 $notification = '<div class="alert alert-danger" role="alert">Error updating password. Please try again.</div>';

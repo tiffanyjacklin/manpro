@@ -2,6 +2,13 @@
 session_start();
 require "connect.php";
 
+$user_id = $_SESSION['user_id'];
+$query = $con->prepare("SELECT * FROM admin WHERE id = ?");
+$query->bind_param("i", $user_id);
+$query->execute();
+$result = $query->get_result();
+$manager = $result->fetch_assoc();
+
 if (isset($_POST['id_barang'])) {
   
   $id_barang = $_POST['id_barang'];
@@ -12,6 +19,8 @@ if (isset($_POST['id_barang'])) {
   $sql_item_complete = "UPDATE `item` SET `status` = 2, `order_completed` = current_timestamp() WHERE `id` = ".$id_barang.";";
   mysqli_query($con, $sql_item_complete);
 
+  mysqli_query($con, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `detail_action`, `id_item`, `timestamp`) VALUES ($user_id, 1, 3, 'Item delivered', ".$id_barang.", current_timestamp()); ");
+  
   $sql_distance =  "SELECT t.`id` AS `id`, t.`fuel_capacity`, t.`fuel_now`, t.`km_per_liter`, f.`cost_per_liter`,  s.`id_location_from`, s.`id_location_dest`, c.`distance_m`, td.`id_driver1` AS `id_driver1`, td.`id_driver2` AS `id_driver2`
                     FROM `truck` t 
                     JOIN `fuel` f ON t.`id_fuel` = f.`id`
@@ -35,6 +44,7 @@ if (isset($_POST['id_barang'])) {
 
         $sql_fuel_transaction = "INSERT INTO `transaction` (`status`, `date_time`, `nominal`, `id_truck`) VALUES (2,current_timestamp(),".$fuel_cost.",".$row_product['id'].");";
         mysqli_query($con,$sql_fuel_transaction);
+        mysqli_query($con, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `detail_action`, `timestamp`) VALUES (0, 6, 1, 'Fuel payment for Truck ID: ".$row_product['id']."', current_timestamp()); ");
 
         $sql_truck_fuel = "UPDATE `truck` SET `id_location` = ".$row_product['id_location_from'].", `fuel_now` = ".$fuel_now.", `total_distance` = ".($row_product['distance_m']/1000)." WHERE `id` = ".$row_product['id'].";";   
       }else{
@@ -80,6 +90,8 @@ if (isset($_POST['id_barang'])) {
         $sql_truck_status_done = "UPDATE `truck` SET `truck_status` = 1 WHERE `id` = ".$id_truck.";";
         mysqli_query($con,$sql_truck_status_done);
 
+        mysqli_query($con, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `detail_action`, `timestamp`) VALUES (0, 2, 2, 'Truck with ID ".$id_truck."`s status changed to available', current_timestamp()); ");
+
         $sql_cek_total_distance = "SELECT `total_distance`  FROM `truck` 
                                   JOIN `truck_driver` ON `truck`.`id` = `truck_driver`.`id_truck`
                                   JOIN `schedule` ON `schedule`.`id_schedule` = `truck_driver`.`id`
@@ -93,6 +105,10 @@ if (isset($_POST['id_barang'])) {
             mysqli_query($con,$sql_input_maintenance_cost);
             $sql_truck_distance_new = "UPDATE `truck` SET `total_distance` = 0, `truck_status` = 3, WHERE `id` = ".$id_truck.";";
             mysqli_query($con,$sql_truck_distance_new);
+
+            mysqli_query($con, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `detail_action`, `timestamp`) VALUES (0, 2, 2, 'Truck with ID ".$id_truck."`s status under maintenanced.', current_timestamp()); ");
+            mysqli_query($con, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `detail_action`, `timestamp`) VALUES (0, 6, 1, 'Paid 1,000,000 for Truck ID ".$id_truck."`s maintenance.', current_timestamp()); ");
+
           }
 
         }
@@ -327,7 +343,7 @@ if (isset($_POST['id_barang'])) {
         <div class="tab-pane fade" id="on-going">
         <?php
             $sql = "SELECT `schedule`.* FROM `schedule` JOIN `truck_driver` ON `schedule`.`id_schedule` = `truck_driver`.`id`
-                    WHERE `schedule`.`date_time` IS NULL AND `schedule`.`schedule_status` = 1 AND (`truck_driver`.`id_driver1` IS NOT NULL OR `truck_driver`.`id_driver2` IS NOT NULL);";
+                    WHERE `schedule`.`date_time` IS NULL AND `schedule`.`status` = 1 AND (`truck_driver`.`id_driver1` IS NOT NULL OR `truck_driver`.`id_driver2` IS NOT NULL);";
             $res = mysqli_query($con, $sql);
 
             echo '<table class="table table-hover fixed-size-table table-on-going" id="table-on-going">';
@@ -572,7 +588,7 @@ if (isset($_POST['id_barang'])) {
             $res = mysqli_query($con, $sql);
             $rowCount = mysqli_num_rows($res);
           ?>
-
+          <?php if ($manager['position'] == 1): ?>  
           <?php if ($rowCount > 0) : ?>
               <button type="button" class="btn btn-outline-info" onclick="window.location.href='generate-schedule.php'">Generate Schedule</button>
           <?php else : ?>
@@ -580,7 +596,7 @@ if (isset($_POST['id_barang'])) {
           <?php endif; ?>
           <!-- <input type="checkbox" id="select-all" onclick="toggleCheckbox(this)">
           <label for="select-all">Select/Deselect All</label> -->
-
+          <?php endif; ?>
           <?php
           $sql = "SELECT * FROM `item` WHERE `status` = 0;";
           $res = mysqli_query($con, $sql);
@@ -596,6 +612,7 @@ if (isset($_POST['id_barang'])) {
           echo '<th scope="col">Order Received</th>';
           echo '<th scope="col">Origin Address</th>';
           echo '<th scope="col">Destination Address</th>';
+          echo '<th scope="col">Edit</th>';
           echo '</tr>';
           echo '</thead>';
           echo '<tbody class="table-group-divider">';
@@ -608,6 +625,7 @@ if (isset($_POST['id_barang'])) {
                   // echo '<td><input type="checkbox" name="selected-items[]" value="' . $row['id'] . '"></td>'; // Checkbox for each row
                   echo '<th>' . $row['id'] . '</th>';
                   echo '<td>' . $row['item_name'] . '</td>';
+                  
                   echo '<td>' . $row['panjang'] . 'cm x ' . $row['lebar'] . 'cm x ' . $row['tinggi'] . 'cm</td>';
                   echo '<td>' . $row['order_received'] . '</td>';
 
@@ -618,6 +636,19 @@ if (isset($_POST['id_barang'])) {
                       while ($address_row = mysqli_fetch_array($address_res)) {
                           echo '<td>' . $address_row['alamat'] . ',<br>' . $address_row['kelurahan_desa'] . ',<br>' . $address_row['kecamatan'] . ',<br>' . $address_row['kota_kabupaten'] . ',<br> Jawa Timur ' . $address_row['kode_pos'] . '</td>';
                       }
+                  }
+                  $sql_cek_bisa_edit = "SELECT * FROM `log` JOIN `item` ON `log`.`id_item` = `item`.`id` WHERE `item`.`status` = 0 AND `id_item` = ".$row['id']." AND `id_admin` = ".$user_id." ;";
+                  $res_cek_bisa_edit = mysqli_query($con, $sql_cek_bisa_edit);
+                  if (mysqli_num_rows($res_cek_bisa_edit) > 0) {
+                    echo '<td>
+                          <form action="edit_item.php" method="POST">
+                            <input type="hidden" name="id_edit" value="'.$row['id'].'">
+                            <button class="btn btn-outline-info">Edit Item</button>
+                          </form>
+                          </td>';
+                    
+                  } else {
+                    echo '<td>CIE G BS NGEDIT</td>';
                   }
                   echo '</tr>';
               }

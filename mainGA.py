@@ -18,7 +18,7 @@ def get_best(solution):
         if pair.get_chrom() not in temp:
             best.append(pair)
             temp.append(pair.get_chrom())
-        if len(best) == 3:
+        if len(best) == 1:
             break
     return best
 
@@ -45,17 +45,50 @@ def fetch_data(trucks):
 trucks = algo_truck.main()
 product_lists, truck_lists = fetch_data(trucks)
 
+iteration = 0
 population_size = 50
 num_generations = 100
 best_solution = []
 
-while len(best_solution) < 3:
-    best_solution = GenAlgo.genetic_algorithm(population_size, num_generations, truck_lists, product_lists)
-    best_solution = get_best(best_solution)
+check = []
+while len(best_solution) < 3 and iteration <=20:
+    solution = (GenAlgo.genetic_algorithm(population_size, num_generations, truck_lists, product_lists))[:1]
+    chrom = solution[0].get_chrom()
+    if chrom not in check:
+        best_solution.append(solution[0])
+        check.append(chrom)
+    iteration += 1
 
-            
 result = []
 for bestt in best_solution:
     result.append(Product.print_sol(bestt.get_chrom()))
+    
+    
+# best_solution1 = []
+# best_solution2 = []
+# best_solution3 = []
+
+
+# # while len(best_solution) < 3:
+# while iteration <= 20:
+#     best_solution1 = GenAlgo.genetic_algorithm(population_size, num_generations, truck_lists, product_lists)
+#     best_solution1 = get_best(best_solution1)
+#     best_solution2 = GenAlgo.genetic_algorithm(population_size, num_generations, truck_lists, product_lists)
+#     best_solution2 = get_best(best_solution2)
+#     best_solution3 = GenAlgo.genetic_algorithm(population_size, num_generations, truck_lists, product_lists)
+#     best_solution3 = get_best(best_solution3)
+#     iteration += 1
+#     # print(iteration)
+#     # print(best_solution)
+
+
+# result = []
+# for bestt in best_solution1:
+#     result.append(Product.print_sol(bestt.get_chrom()))
+# for bestt in best_solution2:
+#     result.append(Product.print_sol(bestt.get_chrom()))
+# for bestt in best_solution3:
+#     result.append(Product.print_sol(bestt.get_chrom()))
+
 result.append(Transportation.get_truckid(truck_lists))
 print(result)

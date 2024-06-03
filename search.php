@@ -248,17 +248,25 @@ if (isset($_POST['id'])) {
                         <div class="search-font">'.$row['driver2_phone'].'</div>                        
                     </div>
                 </div>';
-                } else if ($status_item == "No Driver Assigned"){
+                } else{
                     echo '<div class="col-md-4">
                     <div class="container">
                         <div class="title-dashboard4">Truck</div>
-                        <div class="search-font">'.$row['unique_number'].'</div>            
-                    </div>
-                </div>';
-                }else{
-                    echo '<div class="col-md-4">
-                    <div class="container">
-                        
+                        <div class="search-font">';
+                        if ($status_item == "No Driver Assigned"){ 
+                            echo $row['unique_number'];
+                        } else{
+                            echo "-";
+                        }
+                        echo ' </div>
+                        <div class="title-dashboard4">Driver 1`s Name</div>
+                        <div class="search-font">-</div>
+                        <div class="title-dashboard4">Driver 1`s Phone Number</div>
+                        <div class="search-font">-</div>
+                        <div class="title-dashboard4">Driver 2`s Name</div>
+                        <div class="search-font">-</div>
+                        <div class="title-dashboard4">Driver 2`s Phone Number</div>
+                        <div class="search-font">-</div>      
                     </div>
                 </div>';
                 }
