@@ -28,8 +28,22 @@ USE `logistics_company`;
 --
 -- Table structure for table `action`
 --
-
+DROP TABLE IF EXISTS `truck_driver`;
+DROP TABLE IF EXISTS `transaction`;
+DROP TABLE IF EXISTS `schedule`;
+DROP TABLE IF EXISTS `country_map`;
+DROP TABLE IF EXISTS `truck`;
+DROP TABLE IF EXISTS `driver`;
+DROP TABLE IF EXISTS `truck_type`;
+DROP TABLE IF EXISTS `admin`;
+DROP TABLE IF EXISTS `category`;
+DROP TABLE IF EXISTS `fuel`;
+DROP TABLE IF EXISTS `item`;
+DROP TABLE IF EXISTS `location`;
+DROP TABLE IF EXISTS `table_type`;
 DROP TABLE IF EXISTS `action`;
+DROP TABLE IF EXISTS `log`;
+
 CREATE TABLE IF NOT EXISTS `action` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `action_type` varchar(50) NOT NULL,
@@ -53,7 +67,6 @@ INSERT INTO `action` (`id`, `action_type`) VALUES
 -- Table structure for table `admin`
 --
 
-DROP TABLE IF EXISTS `admin`;
 CREATE TABLE IF NOT EXISTS `admin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
@@ -84,7 +97,6 @@ INSERT INTO `admin` (`id`, `username`, `password`, `position`, `name`, `phone_nu
 -- Table structure for table `category`
 --
 
-DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `max_weight_kg` int(11) NOT NULL,
@@ -108,7 +120,6 @@ INSERT INTO `category` (`id`, `max_weight_kg`, `base_price`, `multiplier_per_kg`
 -- Table structure for table `country_map`
 --
 
-DROP TABLE IF EXISTS `country_map`;
 CREATE TABLE IF NOT EXISTS `country_map` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_location_from` int(11) NOT NULL,
@@ -14903,7 +14914,6 @@ INSERT INTO `country_map` (`id`, `id_location_from`, `id_location_to`, `distance
 -- Table structure for table `driver`
 --
 
-DROP TABLE IF EXISTS `driver`;
 CREATE TABLE IF NOT EXISTS `driver` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `driver_name` varchar(45) NOT NULL,
@@ -14958,7 +14968,6 @@ INSERT INTO `driver` (`id`, `driver_name`, `phone_number`, `total_distance`, `ex
 -- Table structure for table `fuel`
 --
 
-DROP TABLE IF EXISTS `fuel`;
 CREATE TABLE IF NOT EXISTS `fuel` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fuel_type` varchar(100) NOT NULL,
@@ -14985,7 +14994,6 @@ INSERT INTO `fuel` (`id`, `fuel_type`, `cost_per_liter`) VALUES
 -- Table structure for table `item`
 --
 
-DROP TABLE IF EXISTS `item`;
 CREATE TABLE IF NOT EXISTS `item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `status` tinyint(1) NOT NULL DEFAULT 0,
@@ -15074,7 +15082,6 @@ INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `
 -- Table structure for table `location`
 --
 
-DROP TABLE IF EXISTS `location`;
 CREATE TABLE IF NOT EXISTS `location` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `alamat` varchar(300) NOT NULL,
@@ -15221,7 +15228,6 @@ INSERT INTO `location` (`id`, `alamat`, `kelurahan_desa`, `kecamatan`, `kota_kab
 -- Table structure for table `log`
 --
 
-DROP TABLE IF EXISTS `log`;
 CREATE TABLE IF NOT EXISTS `log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_admin` int(11) NOT NULL,
@@ -15309,7 +15315,6 @@ INSERT INTO `log` (`id`, `id_admin`, `id_table`, `action`, `detail_action`, `id_
 -- Table structure for table `schedule`
 --
 
-DROP TABLE IF EXISTS `schedule`;
 CREATE TABLE IF NOT EXISTS `schedule` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_schedule` int(11) NOT NULL,
@@ -15429,7 +15434,6 @@ INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_location_from`, `i
 -- Table structure for table `table_type`
 --
 
-DROP TABLE IF EXISTS `table_type`;
 CREATE TABLE IF NOT EXISTS `table_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `table_type` varchar(50) NOT NULL,
@@ -15454,7 +15458,6 @@ INSERT INTO `table_type` (`id`, `table_type`) VALUES
 -- Table structure for table `transaction`
 --
 
-DROP TABLE IF EXISTS `transaction`;
 CREATE TABLE IF NOT EXISTS `transaction` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `status` int(1) NOT NULL,
@@ -15526,7 +15529,6 @@ INSERT INTO `transaction` (`id`, `status`, `date_time`, `nominal`, `id_item`, `i
 -- Table structure for table `truck`
 --
 
-DROP TABLE IF EXISTS `truck`;
 CREATE TABLE IF NOT EXISTS `truck` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `unique_number` varchar(11) DEFAULT NULL,
@@ -15578,7 +15580,6 @@ INSERT INTO `truck` (`id`, `unique_number`, `total_distance`, `capacity_kg`, `pa
 -- Table structure for table `truck_driver`
 --
 
-DROP TABLE IF EXISTS `truck_driver`;
 CREATE TABLE IF NOT EXISTS `truck_driver` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_truck` int(11) NOT NULL,
@@ -15626,7 +15627,7 @@ INSERT INTO `truck_driver` (`id`, `id_truck`, `id_driver1`, `id_driver2`) VALUES
 -- Table structure for table `truck_type`
 --
 
-DROP TABLE IF EXISTS `truck_type`;
+
 CREATE TABLE IF NOT EXISTS `truck_type` (
   `id` int(11) NOT NULL,
   `type_name` varchar(3) NOT NULL,
@@ -15649,52 +15650,6 @@ INSERT INTO `truck_type` (`id`, `type_name`, `capacity_kg`, `panjang`, `lebar`, 
 -- Constraints for dumped tables
 --
 
---
--- Constraints for table `country_map`
---
-ALTER TABLE `country_map`
-  ADD CONSTRAINT `country_map_ibfk_1` FOREIGN KEY (`id_location_from`) REFERENCES `location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `country_map_ibfk_2` FOREIGN KEY (`id_location_to`) REFERENCES `location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `item`
---
-ALTER TABLE `item`
-  ADD CONSTRAINT `item_ibfk_1` FOREIGN KEY (`id_location_from`) REFERENCES `location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `item_ibfk_2` FOREIGN KEY (`category`) REFERENCES `category` (`id`),
-  ADD CONSTRAINT `item_ibfk_4` FOREIGN KEY (`id_location_to`) REFERENCES `location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `schedule`
---
-ALTER TABLE `schedule`
-  ADD CONSTRAINT `s_dest_1` FOREIGN KEY (`id_location_dest`) REFERENCES `location` (`id`),
-  ADD CONSTRAINT `s_from_1` FOREIGN KEY (`id_location_from`) REFERENCES `location` (`id`),
-  ADD CONSTRAINT `s_item_1` FOREIGN KEY (`id_barang`) REFERENCES `item` (`id`);
-
---
--- Constraints for table `transaction`
---
-ALTER TABLE `transaction`
-  ADD CONSTRAINT `t_driver_1` FOREIGN KEY (`id_driver`) REFERENCES `driver` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `t_item_1` FOREIGN KEY (`id_item`) REFERENCES `item` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `t_truck_1` FOREIGN KEY (`id_truck`) REFERENCES `truck` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `truck`
---
-ALTER TABLE `truck`
-  ADD CONSTRAINT `truck_ibfk_1` FOREIGN KEY (`id_location`) REFERENCES `location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `truck_if_1` FOREIGN KEY (`id_fuel`) REFERENCES `fuel` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `truck_driver`
---
-ALTER TABLE `truck_driver`
-  ADD CONSTRAINT `truck_driver_ibfk_1` FOREIGN KEY (`id_truck`) REFERENCES `truck` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `truck_driver_ibfk_2` FOREIGN KEY (`id_driver1`) REFERENCES `driver` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `truck_driver_ibfk_3` FOREIGN KEY (`id_driver2`) REFERENCES `driver` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
