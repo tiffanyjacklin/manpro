@@ -1,7 +1,6 @@
 import mysql.connector
-from deap import base, creator, tools, algorithms
 import random
-import numpy
+import numpy as np
 import math
 
 # Connect to the database
@@ -17,7 +16,7 @@ cursor = db.cursor(dictionary=True)
 # Fetch available trucks not currently delivering
 def fetch_available_trucks():
     query = """
-    SELECT DISTINCT t.id, t.unique_number, t.total_distance, t.truck_status
+    SELECT t.id, t.unique_number, t.total_distance, t.truck_status
     FROM truck t
     LEFT JOIN truck_driver td ON t.id = td.id_truck
     LEFT JOIN schedule s ON td.id = s.id_schedule
@@ -26,84 +25,90 @@ def fetch_available_trucks():
     cursor.execute(query)
     return cursor.fetchall()
 
-trucks = fetch_available_trucks()
-min_trucks = max(3, math.ceil(len(trucks) * 0.25))
+# Define the individual and population
+def create_individual(trucks, min_trucks):
+    return [random.choice(trucks) for _ in range(min_trucks)]
 
-# Define the genetic algorithm functions
-creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
-creator.create("Individual", list, fitness=creator.FitnessMin)
+def create_population(trucks, min_trucks, n):
+    return [create_individual(trucks, min_trucks) for _ in range(n)]
 
-toolbox = base.Toolbox()
-toolbox.register("attr_truck", random.choice, trucks)
-toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_truck, n=min_trucks)
-toolbox.register("population", tools.initRepeat, list, toolbox.individual)
+# Evaluate the fitness of an individual
+def eval_truck_usage(individual):
+    return sum(truck['total_distance'] for truck in individual),
 
-def evalTruckUsage(individual):
-    # Calculate the total distance of trucks in the individual
-    total_distance = sum(truck['total_distance'] for truck in individual)
-    return (total_distance,)
+# Crossover operation
+def mate(ind1, ind2):
+    size = min(len(ind1), len(ind2))
+    cxpoint1, cxpoint2 = sorted(random.sample(range(size), 2))
+    ind1[cxpoint1:cxpoint2], ind2[cxpoint1:cxpoint2] = ind2[cxpoint1:cxpoint2], ind1[cxpoint1:cxpoint2]
+    return ind1, ind2
 
-toolbox.register("evaluate", evalTruckUsage)
-toolbox.register("mate", tools.cxTwoPoint)
-toolbox.register("mutate", tools.mutShuffleIndexes, indpb=0.05)
-toolbox.register("select", tools.selTournament, tournsize=3)
+# Mutation operation
+def mutate(individual, trucks):
+    index = random.randrange(len(individual))
+    individual[index] = random.choice(trucks)
+    return individual,
 
-# Initialize a set to store the IDs of selected trucks
-selected_trucks = set()
+# Selection operation
+def select(population, k, tournsize=3):
+    chosen = []
+    for _ in range(k):
+        aspirants = [random.choice(population) for _ in range(tournsize)]
+        chosen.append(min(aspirants, key=lambda ind: eval_truck_usage(ind)))
+    return chosen
 
-# Define a custom mutation operator to prevent selecting the same truck twice
-def mutate_truck(individual):
-    for i in range(len(individual)):
-        while True:
-            # Fetch available trucks not currently delivering
-            trucks = fetch_available_trucks()
-            min_trucks = max(3, math.ceil(len(trucks) * 0.25))
-
-            # Select a random truck from the available trucks
-            truck = random.choice(trucks)
-            if truck['id'] not in selected_trucks:
-                individual[i] = truck
-                selected_trucks.add(truck['id'])
-                break
-
-toolbox.register("mutate_truck", mutate_truck)
+# Check for duplicate Truck IDs
+def has_duplicates(individual):
+    truck_ids = [truck['id'] for truck in individual]
+    return len(truck_ids) != len(set(truck_ids))
 
 # Genetic Algorithm main loop
 def main():
+    trucks = fetch_available_trucks()
+    min_trucks = max(3, math.ceil(len(trucks) * 0.25))
+
     if len(trucks) <= 3:
-        output = [truck['id'] for truck in trucks]
-        
+        output = [{"Truck ID": truck['id'], "Unique Number": truck['unique_number']} for truck in trucks]
     else:
-        population = toolbox.population(n=50)
-        hof = tools.HallOfFame(1, similar=lambda x, y: x == y)
+        while True:
+            population = create_population(trucks, min_trucks, 50)
+            n_gen = 40
+            cxpb, mutpb = 0.5, 0.2
 
-        stats = tools.Statistics(lambda ind: ind.fitness.values)
-        stats.register("avg", numpy.mean)
-        stats.register("std", numpy.std)
-        stats.register("min", numpy.min)
-        stats.register("max", numpy.max)
+            for gen in range(n_gen):
+                # Evaluate the population
+                fitnesses = list(map(eval_truck_usage, population))
 
-        algorithms.eaSimple(population, toolbox, cxpb=0.5, mutpb=0.2, ngen=40, stats=stats, halloffame=hof, verbose=False)
+                # Select the next generation individuals
+                offspring = select(population, len(population))
+                # Clone the selected individuals
+                offspring = list(map(list, offspring))
+
+                # Apply crossover and mutation
+                for child1, child2 in zip(offspring[::2], offspring[1::2]):
+                    if random.random() < cxpb:
+                        mate(child1, child2)
+
+                for mutant in offspring:
+                    if random.random() < mutpb:
+                        mutate(mutant, trucks)
+
+                population[:] = offspring
+
+            # Select the best individual
+            best_ind = min(population, key=lambda ind: eval_truck_usage(ind))
+
+            # Check for duplicate Truck IDs
+            if not has_duplicates(best_ind):
+                break
 
         # Store the output in an array
-        output = []
-        while True:
-            best_trucks = hof[0]
-            truck_ids = [truck['id'] for truck in best_trucks]
-            if len(set(truck_ids)) == len(truck_ids):  # Check for duplicate truck IDs
-                output = [truck['id'] for truck in best_trucks]
-                break
-            else:
-                # If there are duplicate truck IDs, re-run the genetic algorithm
-                population = toolbox.population(n=50)
-                hof = tools.HallOfFame(1, similar=lambda x, y: x == y)
-                algorithms.eaSimple(population, toolbox, cxpb=0.5, mutpb=0.2, ngen=40, stats=stats, halloffame=hof, verbose=False)
+        output = [{"Truck ID": truck['id'], "Unique Number": truck['unique_number']} for truck in best_ind]
 
     # Print the output
-    # print("\nSelected trucks that can be assigned:\n")
-    
-    # print(output)
-    return output
+    print("\nSelected trucks that can be assigned:\n")
+    for truck in output:
+        print(f"Truck ID: {truck['Truck ID']}, Unique Number: {truck['Unique Number']}")
 
 if __name__ == "__main__":
     main()
