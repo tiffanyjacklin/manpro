@@ -1,6 +1,5 @@
 import mysql.connector
 import random
-import numpy as np
 import math
 
 # Connect to the database
@@ -29,86 +28,87 @@ def fetch_available_trucks():
 def create_individual(trucks, min_trucks):
     return [random.choice(trucks) for _ in range(min_trucks)]
 
-def create_population(trucks, min_trucks, n):
-    return [create_individual(trucks, min_trucks) for _ in range(n)]
+def create_population(trucks, best_trucks_count, n):
+    return [create_individual(trucks, best_trucks_count) for _ in range(n)]
 
 # Evaluate the fitness of an individual
 def eval_truck_usage(individual):
     return sum(truck['total_distance'] for truck in individual),
-
-# Crossover operation
-def mate(ind1, ind2):
-    size = min(len(ind1), len(ind2))
-    cxpoint1, cxpoint2 = sorted(random.sample(range(size), 2))
-    ind1[cxpoint1:cxpoint2], ind2[cxpoint1:cxpoint2] = ind2[cxpoint1:cxpoint2], ind1[cxpoint1:cxpoint2]
-    return ind1, ind2
-
-# Mutation operation
-def mutate(individual, trucks):
-    index = random.randrange(len(individual))
-    individual[index] = random.choice(trucks)
-    return individual,
-
-# Selection operation
-def select(population, k, tournsize=3):
-    chosen = []
-    for _ in range(k):
-        aspirants = [random.choice(population) for _ in range(tournsize)]
-        chosen.append(min(aspirants, key=lambda ind: eval_truck_usage(ind)))
-    return chosen
 
 # Check for duplicate Truck IDs
 def has_duplicates(individual):
     truck_ids = [truck['id'] for truck in individual]
     return len(truck_ids) != len(set(truck_ids))
 
-# Genetic Algorithm main loop
+# Check for duplicate Truck IDs in an individual
+def check_duplicates(individual):
+    truck_ids = [truck['id'] for truck in individual]
+    if len(truck_ids) != len(set(truck_ids)):
+        return True
+    return False
+
+def print_available_trucks(trucks):
+    jumlah_truk_tersedia = len(trucks)
+    print("Truk yang tersedia:")
+    
+    # Buat set kosong untuk menyimpan ID truk yang sudah diprint
+    printed_truck_ids = set()
+    count = 0
+    
+    for truck in trucks:
+        # Cek apakah ID truk sudah diprint sebelumnya
+        if truck['id'] not in printed_truck_ids:
+            print(f"Truck ID: {truck['id']}, Unique Number: {truck['unique_number']}")
+            # Tambahkan ID truk ke dalam set printed_truck_ids
+            printed_truck_ids.add(truck['id'])
+            count+=1
+    
+    print('jumlah truk tersedia:', count)
+    best_trucks_count = math.ceil(0.25 * count)  # Hitung jumlah truk terbaik
+    print("Best trucks count (25% dari jumlah truk yang tersedia):", count)
+    print("25% dari jumlah truk yang tersedia (bulat ke atas):", math.ceil(0.25 * count))
+    return best_trucks_count
+            
+# Genetic Algorithm main loop with duplicate check
 def main():
     trucks = fetch_available_trucks()
-    min_trucks = max(3, math.ceil(len(trucks) * 0.25))
-
+    
+    # Print jumlah dan daftar truk yang tersedia
+    best_trucks_count = print_available_trucks(trucks)
+    
+    # Mendefinisikan ukuran populasi dan generasi
+    population_size = 10
+    generations = 20
+        
     if len(trucks) <= 3:
-        output = [{"Truck ID": truck['id'], "Unique Number": truck['unique_number']} for truck in trucks]
+        print({"Truck ID": truck['id'], "Unique Number": truck['unique_number']} for truck in trucks)
+    
     else:
         while True:
-            population = create_population(trucks, min_trucks, 50)
-            n_gen = 40
-            cxpb, mutpb = 0.5, 0.2
+            # Membuat populasi awal dengan kombinasi 3 truk yang tersedia
+            population = create_population(trucks, best_trucks_count, population_size)
 
-            for gen in range(n_gen):
-                # Evaluate the population
+            # Main loop genetik
+            for gen in range(generations):
+                # Evaluasi populasi
                 fitnesses = list(map(eval_truck_usage, population))
 
-                # Select the next generation individuals
-                offspring = select(population, len(population))
-                # Clone the selected individuals
-                offspring = list(map(list, offspring))
+                # Seleksi elitisme (ambil individu terbaik)
+                best_inds = sorted(population, key=lambda ind: eval_truck_usage(ind))[:best_trucks_count]
 
-                # Apply crossover and mutation
-                for child1, child2 in zip(offspring[::2], offspring[1::2]):
-                    if random.random() < cxpb:
-                        mate(child1, child2)
+                # Cek duplikasi Truck IDs
+                if not any(check_duplicates(ind) for ind in best_inds):
+                    # Cetak solusi terbaik
+                    print("Best trucks:")
+                    for i, ind in enumerate(best_inds):
+                        print(f"Set {i+1}:")
+                        for truck in ind:
+                            print(f"Truck ID: {truck['id']}, Unique Number: {truck['unique_number']}")
+                    break
 
-                for mutant in offspring:
-                    if random.random() < mutpb:
-                        mutate(mutant, trucks)
-
-                population[:] = offspring
-
-            # Select the best individual
-            best_ind = min(population, key=lambda ind: eval_truck_usage(ind))
-
-            # Check for duplicate Truck IDs
-            if not has_duplicates(best_ind):
+            # Keluar dari loop jika tidak ada duplikasi
+            if not any(check_duplicates(ind) for ind in best_inds):
                 break
-
-        # Store the output in an array
-        output = [{"Truck ID": truck['id'], "Unique Number": truck['unique_number']} for truck in best_ind]
-
-    # Print the output
-    print("\nSelected trucks that can be assigned:\n")
-    for truck in output:
-        print(f"Truck ID: {truck['Truck ID']}, Unique Number: {truck['Unique Number']}")
 
 if __name__ == "__main__":
     main()
