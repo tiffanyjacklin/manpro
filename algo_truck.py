@@ -33,7 +33,7 @@ def create_population(trucks, best_trucks_count, n):
 
 # Evaluate the fitness of an individual
 def eval_truck_usage(individual):
-    return sum(truck['total_distance'] for truck in individual),
+    return sum(truck['total_distance'] for truck in individual)
 
 # Check for duplicate Truck IDs
 def has_duplicates(individual):
@@ -49,7 +49,7 @@ def check_duplicates(individual):
 
 def print_available_trucks(trucks):
     jumlah_truk_tersedia = len(trucks)
-    print("Truk yang tersedia:")
+    # print("Truk yang tersedia:")
     
     # Buat set kosong untuk menyimpan ID truk yang sudah diprint
     printed_truck_ids = set()
@@ -58,15 +58,15 @@ def print_available_trucks(trucks):
     for truck in trucks:
         # Cek apakah ID truk sudah diprint sebelumnya
         if truck['id'] not in printed_truck_ids:
-            print(f"Truck ID: {truck['id']}, Unique Number: {truck['unique_number']}")
+            # print(f"Truck ID: {truck['id']}, Unique Number: {truck['unique_number']}")
             # Tambahkan ID truk ke dalam set printed_truck_ids
             printed_truck_ids.add(truck['id'])
             count+=1
     
-    print('jumlah truk tersedia:', count)
+    # print('jumlah truk tersedia:', count)
     best_trucks_count = math.ceil(0.25 * count)  # Hitung jumlah truk terbaik
-    print("Best trucks count (25% dari jumlah truk yang tersedia):", count)
-    print("25% dari jumlah truk yang tersedia (bulat ke atas):", math.ceil(0.25 * count))
+    # print("Best trucks count (25% dari jumlah truk yang tersedia):", count)
+    # print("25% dari jumlah truk yang tersedia (bulat ke atas):", math.ceil(0.25 * count))
     return best_trucks_count
             
 # Genetic Algorithm main loop with duplicate check
@@ -79,10 +79,12 @@ def main():
     # Mendefinisikan ukuran populasi dan generasi
     population_size = 10
     generations = 20
+    output_trucks = []
         
     if len(trucks) <= 3:
-        print({"Truck ID": truck['id'], "Unique Number": truck['unique_number']} for truck in trucks)
-    
+        # output_trucks = [truck['id'] for truck in trucks]
+        output_trucks.append(truck['id'])
+
     else:
         while True:
             # Membuat populasi awal dengan kombinasi 3 truk yang tersedia
@@ -95,20 +97,24 @@ def main():
 
                 # Seleksi elitisme (ambil individu terbaik)
                 best_inds = sorted(population, key=lambda ind: eval_truck_usage(ind))[:best_trucks_count]
-
                 # Cek duplikasi Truck IDs
                 if not any(check_duplicates(ind) for ind in best_inds):
                     # Cetak solusi terbaik
-                    print("Best trucks:")
+                    # print("Best trucks:")
                     for i, ind in enumerate(best_inds):
-                        print(f"Set {i+1}:")
-                        for truck in ind:
-                            print(f"Truck ID: {truck['id']}, Unique Number: {truck['unique_number']}")
+                        # print(f"Set {i+1}:")
+                        if i == 0:
+                            for truck in ind:
+                                # output_trucks = [truck['id'] for truck in trucks]
+                                output_trucks.append(truck['id'])
+                            # print(f"Truck ID: {truck['id']}, Unique Number: {truck['unique_number']}")
                     break
 
             # Keluar dari loop jika tidak ada duplikasi
             if not any(check_duplicates(ind) for ind in best_inds):
                 break
+
+    return output_trucks 
 
 if __name__ == "__main__":
     main()
