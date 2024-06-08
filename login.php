@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if(isset($_SESSION['admin'])){
     header("Location: dashboard.php");
 }
@@ -23,31 +24,31 @@ if(isset($_POST['login'])){
     if($result->num_rows > 0){
         $row = $result->fetch_assoc();
         // Verify password
-        // Setelah verifikasi kata sandi berhasil
         $hashed_password_from_db = $row['password'];
         $command = escapeshellcmd("python ./password.py check_password " . escapeshellarg($password) . " " . escapeshellarg($hashed_password_from_db));
         $output = trim(shell_exec($command));
         
         if($output === "True"){   
-        // if(password_verify($password, $row['password'])){
-
+            // Set session for admin
             $_SESSION['admin'] = $row['username'];
             // Set additional session variables
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['username'] = $row['username'];
-
-            mysqli_query($conn, "INSERT INTO `log` (`id_admin`, `id_table`, `action`, `timestamp`) VALUES (".$_SESSION['user_id'].", 5, 6, current_timestamp()); ");
-            
-            // Check posisi pengguna
+            $_SESSION['position'] = $row['position']; // Add position to session
+        
+            // Redirect to appropriate page based on user position
             if($row['position'] == 1) {
-                header("Location: dashboard.php"); // Admin dapat mengakses semua tab-pane
+                header("Location: dashboard.php"); // Admin
             } else if ($row['position'] == 2) {
-                header("Location: dashboard.php"); // Pegawai hanya dapat mengakses tab-pane profile
+                header("Location: dashboard.php"); // Employee
+            } else if ($row['position'] == 3) {
+                $_SESSION['driver_name'] = $row['username']; // Set driver name in session
+                header("Location: dashboard.php"); // Driver
             }
             exit();
         }
         else {
-            echo "<div class='alert alert-info' role='alert'>Password salah.</div>".$hashed_password_from_db;
+            echo "<div class='alert alert-info' role='alert'>Password salah.</div>";
             echo "<script>setTimeout(function() { $('.alert').fadeOut('slow'); }, 5000);</script>";
         }
     } else {
@@ -67,8 +68,6 @@ if(isset($_POST['login'])){
     <title>TIP LOGISTICS | Login Page</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
-    <!-- <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"> -->
     <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">

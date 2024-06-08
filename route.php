@@ -1,7 +1,6 @@
 <?php
 session_start();
 require "connect.php";
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,19 +20,34 @@ require "connect.php";
 
       <div class="col-md-12">
         <?php 
-          $query_id_truk = "SELECT DISTINCT `truck`.`id`, `truck`.`unique_number`, d1.`driver_name` AS driver1_name, d2.`driver_name` AS driver2_name, `schedule`.`id_schedule` FROM `truck` 
+          $admin_name = $_SESSION['username'];
+          $query_id_truk = "";
+
+          if ($admin_name == "admin") {
+            // Kondisi 1: login dengan username "admin"
+            $query_id_truk = "SELECT DISTINCT `truck`.`id`, `truck`.`unique_number`, d1.`driver_name` AS driver1_name, d2.`driver_name` AS driver2_name, `schedule`.`id_schedule` FROM `truck` 
                             JOIN `truck_driver` ON `truck`.`id` = `truck_driver`.`id_truck` 
                             JOIN `schedule` ON `schedule`.`id_schedule` = `truck_driver`.`id` 
                             JOIN `driver` d1 ON d1.id = `truck_driver`.`id_driver1`
                             JOIN `driver` d2 ON d2.id = `truck_driver`.`id_driver2`
                             WHERE `schedule`.`status` = 1;";
+          } else {
+            // Kondisi 2: login dengan username == driver_name
+            $query_id_truk = "SELECT DISTINCT `truck`.`id`, `truck`.`unique_number`, d1.`driver_name` AS driver1_name, d2.`driver_name` AS driver2_name, `schedule`.`id_schedule` FROM `truck` 
+                              JOIN `truck_driver` ON `truck`.`id` = `truck_driver`.`id_truck` 
+                              JOIN `schedule` ON `schedule`.`id_schedule` = `truck_driver`.`id` 
+                              JOIN `driver` d1 ON d1.id = `truck_driver`.`id_driver1`
+                              JOIN `driver` d2 ON d2.id = `truck_driver`.`id_driver2`
+                              WHERE `schedule`.`status` = 1
+                              AND (d1.`driver_name` = '$admin_name' OR d2.`driver_name` = '$admin_name');";
+          }
+          
           $res_id_truk = mysqli_query($con, $query_id_truk);
           $count = 1;
           $truck_list = [];
           if (mysqli_num_rows($res_id_truk) > 0) {
             echo '<div class="accordion" id="accordionExample">';
             while ($row_id_truk = mysqli_fetch_array($res_id_truk)) {
-              // echo $count;
               $truck_list[] = $row_id_truk['id'];
               $count_row = 0;
               $check = 0;
@@ -46,7 +60,6 @@ require "connect.php";
                         echo ' " type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne'.$row_id_truk['id'].'" ';
                         if ($count == 1){
                           echo 'aria-expanded="true"';
-                          // $count = $count + 1;
                         } else {
                           echo 'aria-expanded="false"';
                         }
@@ -133,17 +146,15 @@ require "connect.php";
                           }
                         echo '</tbody>
                         </table>
-                          </div>
-                        </div>
                       </div>
                     </div>
-                ';
+                  </div>
+                </div>';
             }
             echo ' </div>';
-          } else{
+          } else {
             echo '<div class="title-dashboard4">There are no trucks making deliveries.</div>';
           }
-
         ?>
                     
                   </div>
@@ -176,7 +187,5 @@ require "connect.php";
         });
       });
     </script>
-                    
-
 </body>
 </html>

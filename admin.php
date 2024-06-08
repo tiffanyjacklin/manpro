@@ -16,10 +16,11 @@ $all_admins_result = mysqli_query($con, $all_admins_query);
 
 $selected_user_id = $user_id;
 $notification = ''; // Initialize notification variable
+$responsibilities = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Process password verification
     if (isset($_POST['verify_password'])) {
-        // Process password verification
         $selected_user_id = $_POST['selected_user_id'];
         $password = $_POST['password'];
     
@@ -33,18 +34,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $hashed_password = $row['password'];
     
         if (password_verify($password, $hashed_password)) {
-            // Password is correct, enable editing
             $_SESSION['verified_user_id'] = $selected_user_id;
             header("Location: profile_password.php");
             exit();
         } else {
-            // Incorrect password
             $notification = '<div class="alert alert-danger" role="alert">Incorrect password. Please try again.</div>';
         }
     }
-}
 
+    // Process selection of driver
+    if (isset($_POST['select_driver'])) {
+        $selected_user_id = $_POST['selected_user_id'];
+        $_SESSION['selected_driver_id'] = $selected_user_id;
+        header("Location: route.php"); // Redirect to route.php after selecting a driver
+        exit();
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,9 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <a class="nav-link <?php echo isset($_GET['tab']) && $_GET['tab'] == 'pegawai' ? 'active' : ''; ?>" data-bs-toggle="tab" href="#pegawai">Pegawai</a>
                 </li>
                 <?php endif; ?>
-                <li class="nav-item">
-                    <a class="nav-link <?php echo isset($_GET['tab']) && $_GET['tab'] == 'profile' ? 'active' : ''; ?>" data-bs-toggle="tab" href="#profile">Profile</a>
-                </li>
             </ul>
 
             <div class="tab-content">
@@ -117,85 +121,99 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <?php endif; ?>
 
-                <div class="tab-pane fade <?php echo isset($_GET['tab']) && $_GET['tab'] == 'profile' ? 'show active' : ''; ?>" id="profile">
+                <?php if ($manager['position'] != 1): ?>
+                <div class="tab-pane fade <?php echo !isset($_GET['tab']) || $_GET['tab'] == 'profile' ? 'show active' : ''; ?>" id="profile">
                     <!-- Content for profile tab-panel -->
                     <h3>Profile</h3>
                     <?php echo $notification; ?>
-                    <table class="table table-hover fixed-size-table" id="table-profile">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>Position</th>
-                                <th>Name</th>
-                                <th>Phone Number</th>
-                                <th>Address</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $query = "SELECT * FROM admin";
-                            $result = mysqli_query($con, $query);
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Personal Information</h4>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>ID:</strong> <?php echo $manager['id']; ?></p>
+                            <p><strong>Username:</strong> <?php echo $manager['username']; ?></p>
+                            <p><strong>Position:</strong> 
+                                <?php 
+                                if ($manager['position'] == 1) {
+                                    echo '<span class="badge rounded-pill text-bg-info">Manager</span>';
+                                } else if ($manager['position'] == 2) {
+                                    echo '<span class="badge rounded-pill text-bg-warning">Pegawai</span>';
+                                } else if ($manager['position'] == 3) {
+                                    echo '<span class="badge rounded-pill text-bg-primary">Driver</span>';
+                                }
+                                ?>
+                            </p>
+                            <p><strong>Name:</strong> <?php echo $manager['name']; ?></p>
+                            <p><strong>Phone Number:</strong> <?php echo $manager['phone_number']; ?></p>
+                            <p><strong>Address:</strong> <?php echo $manager['address']; ?></p>
+                        </div>
+                    </div>
 
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                echo "<tr>";
-                                echo "<td>{$row['id']}</td>";
-                                echo "<td>{$row['username']}</td>";
-                                echo "<td>{$row['position']}</td>";
-                                echo "<td>{$row['name']}</td>";
-                                echo "<td>{$row['phone_number']}</td>";
-                                echo "<td>{$row['address']}</td>";
-                                echo '<td>';
-                                echo '<button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#verifyPasswordModal'.$row['id'].'">Password</button>';
-                                echo '</td>';
-                                echo "</tr>";
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h4>Edit Password</h4>
+                        </div>
+                        <div class="card-body">
+                            <!-- Button to trigger the password verification modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verifyPasswordModal<?php echo $user_id; ?>">Edit Password</button>
+                        </div>
+                    </div>
 
-                                // Password Verification Modal
-                                echo '<div class="modal fade" id="verifyPasswordModal'.$row['id'].'" tabindex="-1" aria-labelledby="verifyPasswordModalLabel'.$row['id'].'" aria-hidden="true">';
-                                echo '<div class="modal-dialog">';
-                                echo '<div class="modal-content">';
-                                echo '<div class="modal-header">';
-                                echo '<h5 class="modal-title" id="verifyPasswordModalLabel'.$row['id'].'">Verify Password</h5>';
-                                echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
-                                echo '</div>';
-                                echo '<form method="POST">';
-                                echo '<div class="modal-body">';
-                                echo '<input type="hidden" name="selected_user_id" value="'.$row['id'].'">';
-                                echo '<div class="form-group">';
-                                echo '<label for="password">Password:</label>';
-                                echo '<input type="password" class="form-control" name="password" required>';
-                                echo '</div>';
-                                echo '</div>';
-                                echo '<div class="modal-footer">';
-                                echo '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>';
-                                echo '<button type="submit" class="btn btn-primary" name="verify_password">Verify Password</button>';
-                                echo '</div>';                                                            
-                                echo '</form>';
-                                echo '</div>';
-                                echo '</div>';
-                                echo '</div>';
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h4>Job Responsibilities</h4>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST">
+                                <div class="form-group">
+                                    <label for="responsibilities">Responsibilities:</label>
+                                    <textarea class="form-control" name="responsibilities" rows="5"><?php echo htmlspecialchars($responsibilities); ?></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-2" name="update_responsibilities">Update Responsibilities</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <?php
+                    $query = "SELECT * FROM admin";
+                    $result = mysqli_query($con, $query);
+
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '<div class="modal fade" id="verifyPasswordModal'.$row['id'].'" tabindex="-1" aria-labelledby="verifyPasswordModalLabel'.$row['id'].'" aria-hidden="true">';
+                        echo '<div class="modal-dialog">';
+                        echo '<div class="modal-content">';
+                        echo '<div class="modal-header">';
+                        echo '<h5 class="modal-title" id="verifyPasswordModalLabel'.$row['id'].'">Verify Password</h5>';
+                        echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+                        echo '</div>';
+                        echo '<form method="POST">';
+                        echo '<div class="modal-body">';
+                        echo '<input type="hidden" name="selected_user_id" value="'.$row['id'].'">';
+                        echo '<div class="form-group">';
+                        echo '<label for="password">Password:</label>';
+                        echo '<input type="password" class="form-control" name="password" required>';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '<div class="modal-footer">';
+                        echo '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>';
+                        echo '<button type="submit" class="btn btn-primary" name="verify_password">Verify Password</button>';
+                        echo '</div>';                                                            
+                        echo '</form>';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '</div>';
+                    }
+                    ?>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
 
     <script>
         $(document).ready(function() {
-            $('#table-pegawai').DataTable({
-                "pageLength": 10,
-                "autoWidth": true,
-                "dom": '<"generate1"lfB><"generateBody"t><"generate2"ipr>'
-            });
-            $('#table-profile').DataTable({
-                "pageLength": 10,
-                "autoWidth": true,
-                "dom": '<"generate1"lfB><"generateBody"t><"generate2"ipr>'
-            });
             var urlParams = new URLSearchParams(window.location.search);
             var tabParam = urlParams.get('tab');
             if (tabParam) {
@@ -205,9 +223,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php if ($manager['position'] == 1): ?>
                 $('a[href="#pegawai"]').addClass('active');
                 $('#pegawai').addClass('show active');
-                <?php else: ?>
-                $('a[href="#profile"]').addClass('active');
-                $('#profile').addClass('show active');
                 <?php endif; ?>
             }
         });
@@ -216,3 +231,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include('footer.php'); ?>
 </body>
 </html>
+

@@ -4,18 +4,30 @@ require "connect.php";
 session_start();
 $user_id = $_SESSION['user_id'];
 $add_message = "";
+$generated_password = "";
 
 if (isset($_POST["add"])){
     // Check if all required fields are not empty
-    if (!empty($_POST['Username']) && !empty($_POST['Password']) && !empty($_POST['Position']) && !empty($_POST['Name']) && !empty($_POST['Phone_number']) && !empty($_POST['Address'])) {
+    if (!empty($_POST['Username']) && !empty($_POST['Position']) && !empty($_POST['Name']) && !empty($_POST['Phone_number']) && !empty($_POST['Address'])) {
         // Assign POST values to variables
-        // $id = $_POST['Id'];
         $username = $_POST['Username'];
-        $password1 = $_POST['Password'];
+        
+        // Generate a random password
+        function generateRandomPassword($length = 5) {
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $charactersLength = strlen($characters);
+            $randomPassword = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomPassword .= $characters[rand(0, $charactersLength - 1)];
+            }
+            return $randomPassword;
+        }
+        
+        $generated_password = generateRandomPassword();
         
         // Prepare the command to hash the password
         $function_name = "hash_password";
-        $command = escapeshellcmd("python ./password.py " . escapeshellarg($function_name) . " " . escapeshellarg($password1));
+        $command = escapeshellcmd("python ./password.py " . escapeshellarg($function_name) . " " . escapeshellarg($generated_password));
         $hashed_password = trim(shell_exec($command));  // Capture and trim the output
 
         // If the hashing was successful, continue
@@ -53,41 +65,46 @@ if (isset($_POST["add"])){
 <head>
     <?php include('head.php'); ?>
     <title>TIP LOGISTICS | Add Employee</title>
+    <style>
+        .hidden-password {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <?php   
-      include('navbar.php');
-    ?>
+    <?php include('navbar.php'); ?>
     <div class="main-content">
         <div class="container mt-3">
             <?php if ($add_message): ?>
                 <div class="alert <?= $add_message == 'Admin berhasil ditambahkan' ? 'alert-success' : 'alert-danger' ?>" role="alert">
                     <?= $add_message ?>
                 </div>
+                <?php if ($add_message == 'Admin berhasil ditambahkan' && !empty($generated_password)): ?>
+                    <div class="alert alert-info" role="alert">
+                        <strong>Pastikan hanya dilihat oleh Pegawai</strong><br>
+                        <button class="btn btn-info" onclick="document.getElementById('password-box').style.display='block'; this.style.display='none';">Lihat Password Baru</button>
+                        <div id="password-box" class="hidden-password">
+                            Password baru untuk pegawai adalah: <strong><?= htmlspecialchars($generated_password) ?></strong>
+                        </div>
+                    </div>
+                <?php endif; ?>
             <?php endif; ?>
             <div class="card">
                 <div class="card-header">
-                    <h3>Add Admin</h3>
+                    <h3>Add Pegawai</h3>
                 </div>
                 <div class="card-body">
                     <form action="add_employee.php" method="POST">
-                        <!-- <div class="form-group">
-                            <label for="Id">Id</label>
-                            <input type="number" class="form-control" id="Id" placeholder="Enter Id" name="Id" required>
-                        </div> -->
                         <div class="form-group">
                             <label for="Username">Username</label>
                             <input type="text" class="form-control" id="Username" placeholder="Enter Username" name="Username" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="Password">Password</label>
-                            <input type="text" class="form-control" id="Password" placeholder="Enter Password" name="Password" required>
                         </div>
                         <div class="form-group">
                             <label for="Position">Position</label>
                             <select class="form-control" id="Position" name="Position" required>
                                 <option value="1">Manager</option>
                                 <option value="2">Pegawai</option>
+                                <option value="3">Driver</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -102,16 +119,13 @@ if (isset($_POST["add"])){
                             <label for="Address">Address</label>
                             <input type="text" class="form-control" id="Address" placeholder="Enter Address" name="Address" required>
                         </div>
-                        <button type="submit" class="btn btn-info mt-3" name="add">Daftarkan Admin</button>
+                        <button type="submit" class="btn btn-info mt-3" name="add">Daftarkan Pegawai</button>
                     </form>
                     <button class="btn btn-outline-secondary mt-3" onclick="window.location.href='admin.php'">Kembali ke Halaman Admin</button>
                 </div>
             </div>
-           
         </div>
-        <?php
-            include('footer.php');
-            ?>
+        <?php include('footer.php'); ?>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
