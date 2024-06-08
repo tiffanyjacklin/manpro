@@ -83,11 +83,12 @@ class GenAlgo:
         child3 = []
 
         for i in range(min(len(parent1), len(parent2), len(parent3))):
-            if random.random() < 0.33:
+            rand = random.random()
+            if rand < 0.33:
                 child1.append(parent1[i])
                 child2.append(parent2[i])
                 child3.append(parent3[i])
-            elif random.random() >= 0.33 and random.random() < 0.66:
+            elif rand >= 0.33 and rand < 0.66:
                 child1.append(parent3[i])
                 child2.append(parent1[i])
                 child3.append(parent2[i])

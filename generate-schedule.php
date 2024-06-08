@@ -88,7 +88,7 @@ if (isset($_POST['item_ids_output']) && isset($_POST['selected_schedule'])) {
                                         $res_check_truck_schedule = mysqli_stmt_get_result($stmt_check_truck_schedule);
 
                                         if (mysqli_num_rows($res_check_truck_schedule) == 0) {
-                                            $sql_update_truck = "UPDATE `truck` SET `truck_status` = 3, `id_location` = ? WHERE `id` = ?";
+                                            $sql_update_truck = "UPDATE `truck` SET `truck_status` = 3 WHERE `id` = ?";
                                             echo $sql_update_truck; 
                                             $stmt_update_truck = mysqli_prepare($con, $sql_update_truck);
                                             mysqli_stmt_bind_param($stmt_update_truck, "ii", $row['id_location_from'], $trucks_ids[$truck_id]);
