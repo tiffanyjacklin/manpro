@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2024 at 11:01 AM
+-- Generation Time: Jun 12, 2024 at 04:49 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -44,6 +44,7 @@ DROP TABLE IF EXISTS `table_type`;
 DROP TABLE IF EXISTS `action`;
 DROP TABLE IF EXISTS `log`;
 
+DROP TABLE IF EXISTS `action`;
 CREATE TABLE IF NOT EXISTS `action` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `action_type` varchar(50) NOT NULL,
@@ -67,6 +68,7 @@ INSERT INTO `action` (`id`, `action_type`) VALUES
 -- Table structure for table `admin`
 --
 
+DROP TABLE IF EXISTS `admin`;
 CREATE TABLE IF NOT EXISTS `admin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
@@ -76,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
   `phone_number` varchar(12) NOT NULL,
   `address` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin`
@@ -89,7 +91,35 @@ INSERT INTO `admin` (`id`, `username`, `password`, `position`, `name`, `phone_nu
 (10, 'kth', '$2y$10$Gt0xVjqKBmb8my.d6SnAaOUkSabwj2EedqV0x4zvT9sbmCrm2gTua', 1, 'Kim Taehyung', '081233333333', 'Raya Kendalsari No.94, Penjaringan Sari, Rungkut, Surabaya, Jawa Timur 60297'),
 (11, 'swifts', '$2y$10$zBFi.FPU2kmQ77/mrAqIf.17bg1ZKD1nHH650LmYTi31xYGE9q1wi', 2, 'Taylor Swift', '081231231231', 'Raya Kendalsari No.94, Penjaringan Sari, Rungkut, Surabaya, Jawa Timur 60297'),
 (12, 'pegawai', '$2b$12$OQTmjpjN6mr1ZhNmg9S5NOmPLFIk7lfLNNmAC54mIcPeHnFICbjHW', 2, 'chris', '0088766', 'sby'),
-(18, 'selgom', '$2b$12$BN3mzROhRW459FSJNsWNduoKlx8.PIMLtC.NIZXUt6ypkcVp3uBwS', 1, 'Selena', '081122223333', 'Siwalankerto No.121-131, Siwalankerto, Kec. Wonocolo, Surabaya, Jawa Timur 60236');
+(18, 'selgom', '$2b$12$BN3mzROhRW459FSJNsWNduoKlx8.PIMLtC.NIZXUt6ypkcVp3uBwS', 1, 'Selena', '081122223333', 'Siwalankerto No.121-131, Siwalankerto, Kec. Wonocolo, Surabaya, Jawa Timur 60236'),
+(19, 'budisetiawan', '$2b$12$ESRTCvhquZVtqTvAhmEpuOt5xkBtgywKOEzhu2s8RAJihga/wfxE6', 3, 'Budi Setiawan', '081234567890', 'Raya Darmo No. 92, Jemursari, Wonocolo, Surabaya Selatan'),
+(20, 'andika pratama', '$2b$12$AsHRExrIl0bf5T4kltGDA.GvTE8bG590XmXI7.3OtK.zPMmBVIRe2', 3, 'Andika Pratama', '081819939392', 'Bedugul Indah IV No.50, Surabaya Utara'),
+(21, 'dwi santoso', '$2y$10$WQd1DjsqA501OafliigWseTGr1z505I/pFJAARZem27lABnFYjc8i', 3, 'Dwi Santoso', '088222773633', 'Siwalan Merpati Indah'),
+(22, 'fahmi susanto', '$2b$12$A0ga9UDRJCDJDR/yf4tP/u5fbetnESTQqTptr30NBiYyy8rSAYyDK', 3, 'Fahmi Susanto', '098811177334', 'Jl. Kutisari Selatan No.22, Wonocolo, Surabaya'),
+(23, 'hadi nugroho', '$2b$12$UmVX3hyAGcqg05eLi.utY.2ivdyflXTeV1Dqv3Bkvv9VtNUhnXaNi', 3, 'Hadi Nugroho', '081274644099', 'Jl. Padang Pasir C6, Wonocolo, Surabaya'),
+(24, 'joko wibowo', '$2b$12$ZVeCb5ysh2l9KNzbFLOCI.YJvHdBb9J1p.R50qT21dsJf1IBcgE2C', 3, 'Joko Wibowo', '011166162833', 'Jl. Sumatera Selatan No.90, Sidoarjo'),
+(25, 'aditya kusuma', '$2b$12$Qj7kJLRUqiypRu7J9rmqiOTtMJmEZPktt3dJzCRUTRz9gNga6gdZy', 3, 'Aditya Kusuma', '033884844722', 'Jl. Pondok Chandra No.339, Surabaya'),
+(26, 'rizky saputra', '$2b$12$EOP00h77b8AMdqTKNQOFIOxOXwuS9OZRNXjgFm4hsgLQ5/ZIgVboW', 3, 'Rizky Saputra', '018883366464', 'Surabaya Barat No.339'),
+(27, 'dito hermawan', '$2b$12$Vuz0jpWClOkWXlNzHhDKS.DFExa3HW4P02yC7/Kkp3A1c37k9pmJ2', 3, 'Dito Hermawan', '088822773339', 'Kutisari Selatan No.1'),
+(28, 'arya wijaya', '$2b$12$/uQIvPbSomsSCXs5/jsTEewg2f2YTN3t.5pXEsXo.Qvp2rbfRXu/C', 3, 'Arya Wijaya', '628100228474', 'Kutisari Utara No.2'),
+(29, 'bayu wardhana ', '$2b$12$OlTcs59PwYGB.RONQtGEZe0NB1C7dsonDFb5D.NVJ5MnTfPcN7Lma', 3, 'Bayu Wardhana', '088339929222', 'Siwalankerto No. 94'),
+(30, 'bagus santoso', '$2b$12$WgXJi793zlsss.RPhO9TReo.c8oWu/OzxkpdsLueSquVyuI6X.pBy', 3, 'Bagus Santoso', '083833992273', 'Siwalankerto Pasir'),
+(31, 'doni firmansyah', '$2b$12$JrqdaD7y6gdVsR1Z45k6i.hwriKLrrfOFZvJU0AjIXsBYRWpmxRHW', 3, 'Doni Firmansyah', '018181636373', 'Jalan Siwalankerto No.12f, Siwalankerto'),
+(32, 'eko suryanto', '$2b$12$x79haITUgKYNQxg9e96c/eIxFCei1Y1MURDIHlzDLibq31U/2tvJq', 3, 'Eko Suryanto', '018811778838', 'Siwalanketo'),
+(33, 'fajar ramadhan', '$2b$12$IMucRLjnvsWbrcEUcNxc.OA5M7eT7aK3cS8I9EWMFeMCTmIBL.dHO', 3, 'Fajar Ramadhan', '08822727449', 'Sidoarjo No. 99'),
+(34, 'gede wirawan', '$2b$12$s15DBk8tbtgvrmdEkHKxtufSlvlyqzF3Twlh5gAa3FNZSkKnwiUZq', 3, 'Gede Wirawan', '088112992924', 'Kutisari Timur No.90'),
+(35, 'hafiz maulana', '$2b$12$qiuLVLTjvNrfHYxcfFEFPuxb56VFW93.18ZYlb4chLFRbRkNFY3Wq', 3, 'Hafiz Maulana', '088117734443', 'Ahmad Yani No. 90'),
+(36, 'irfan prasetyo', '$2b$12$qe0.0JbW2EV8uFImJoIsXew/S9SWUR0Infp/1WwtY0goqTYgR2zp6', 3, 'Irfan Prasetyo', '088111772622', 'Ahmad Yani No. 93'),
+(37, 'jaka putra', '$2y$10$Ln4xTtpSYgH5JpDed44EEeKIcUjGJkelfTMUVro0vGe8kmi16luqW', 3, 'Jaka Putra', '084844999333', 'Pasir Padang No. 9221'),
+(38, 'kurniawan satria', '$2b$12$26zEqiHvgdHdyEiiKUWIy.3YbY8dwXdKP/w8Kbdem8tRX5ujkZ9YO', 3, 'Kurniawan Satria', '082299337444', 'Pasir Padang No. 91'),
+(39, 'lutfi hidayat', '$2b$12$KockC6eEdiyxiBTEo4Pku.ordOfzQuga/2Qo6RJJZAIq3sLhGeaXW', 3, 'Lutfi Hidayat', '081199222833', 'Ahmad Yani No. 221'),
+(40, 'maulana akbar', '$2b$12$JXuzrWhx7QAVdbFPE.z7COaC2jK8HEL76z6Yazd5TpCK3cfeEmB5W', 3, 'Maulana Akbar', '088339299292', 'Raya Darmo No. 33'),
+(41, 'nanda pratama', '$2b$12$2138BpdT8G3x2KG4FVcs2uPdwzv2k4XZ2JyvxTIQgB25mw.K8v4aa', 3, 'Nanda Pratama', '083839292272', 'Sier Road No. 92'),
+(42, 'oktavianus surya', '$2b$12$XtQ8nkMm6x7QoWOtTlBlueJ7fuwf9tCq7lfnpAHZheS5d8wMCZhWO', 3, 'Oktavianus Surya', '088392727261', 'Jl. Kamplangan No. 91'),
+(43, 'panji adi nugroho', '$2b$12$ddbEYn50XhwB56dztmDgQOb65Px297Sncj1hF92yLNb9Tz.F5WTyK', 3, 'Panji Adi Nugroho', '088373736266', 'Siwalankerto Utara No. 1123'),
+(44, 'pegawaibaru', '$2y$10$MjCysa5bSVRrawdFoXxoJ.721DvAgqXOjvklBQERv0atS4uegDJf2', 2, 'budi', '088127336635', 'kerto'),
+(46, 'pegawaibaru2', '$2b$12$okd7WSjaNjQXLhIIoI2MKubKWf.i59eZG0xe.UhOeRiRdkOp5030S', 2, 'Luman', '017737376262', 'siwalanketogang'),
+(47, 'reyhan', '$2y$10$U1nQxG6hPX//ELmzaQ6eY.bdMmjyMK1vSZTnoOczIfF4I1WkyrYXu', 2, 'Reyhan', '082299117444', 'jalan');
 
 -- --------------------------------------------------------
 
@@ -97,6 +127,7 @@ INSERT INTO `admin` (`id`, `username`, `password`, `position`, `name`, `phone_nu
 -- Table structure for table `category`
 --
 
+DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `max_weight_kg` int(11) NOT NULL,
@@ -120,6 +151,7 @@ INSERT INTO `category` (`id`, `max_weight_kg`, `base_price`, `multiplier_per_kg`
 -- Table structure for table `country_map`
 --
 
+DROP TABLE IF EXISTS `country_map`;
 CREATE TABLE IF NOT EXISTS `country_map` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_location_from` int(11) NOT NULL,
@@ -14914,6 +14946,7 @@ INSERT INTO `country_map` (`id`, `id_location_from`, `id_location_to`, `distance
 -- Table structure for table `driver`
 --
 
+DROP TABLE IF EXISTS `driver`;
 CREATE TABLE IF NOT EXISTS `driver` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `driver_name` varchar(45) NOT NULL,
@@ -14934,7 +14967,7 @@ INSERT INTO `driver` (`id`, `driver_name`, `phone_number`, `total_distance`, `ex
 (3, 'Dwi Santoso', '083456789012', 409.234, 4, 1),
 (4, 'Fahmi Susanto', '084567890123', 0, 4, 1),
 (5, 'Hadi Nugroho', '085678901234', 0, 8, 1),
-(6, 'Joko Wibowo', '086789012345', 0, 9, 1),
+(6, 'Joko Wibowo', '086789012345', 93.516, 9, 1),
 (7, 'Aditya Kusuma', '087890123456', 0, 8, 1),
 (8, 'Rizky Saputra', '088901234567', 113.262, 4, 1),
 (9, 'Dito Hermawan', '089012345678', 0, 6, 1),
@@ -14952,7 +14985,7 @@ INSERT INTO `driver` (`id`, `driver_name`, `phone_number`, `total_distance`, `ex
 (21, 'Lutfi Hidayat', '083234567890', 542.75, 8, 1),
 (22, 'Maulana Akbar', '084345678901', 213.229, 10, 1),
 (23, 'Nanda Pratama', '085456789012', 40, 8, 1),
-(24, 'Oktavianus Surya', '086567890123', 49.717, 3, 1),
+(24, 'Oktavianus Surya', '086567890123', 143.233, 3, 1),
 (25, 'Panji Adi Nugroho', '087678901234', 40, 4, 1),
 (26, 'Rizal Hadianto', '088789012345', 481, 7, 1),
 (27, 'Satria Wijaya', '089890123456', 40, 7, 1),
@@ -14968,6 +15001,7 @@ INSERT INTO `driver` (`id`, `driver_name`, `phone_number`, `total_distance`, `ex
 -- Table structure for table `fuel`
 --
 
+DROP TABLE IF EXISTS `fuel`;
 CREATE TABLE IF NOT EXISTS `fuel` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fuel_type` varchar(100) NOT NULL,
@@ -14994,6 +15028,7 @@ INSERT INTO `fuel` (`id`, `fuel_type`, `cost_per_liter`) VALUES
 -- Table structure for table `item`
 --
 
+DROP TABLE IF EXISTS `item`;
 CREATE TABLE IF NOT EXISTS `item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `status` tinyint(1) NOT NULL DEFAULT 0,
@@ -15045,7 +15080,7 @@ INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `
 (20, 2, 'Sepatu', 32, 19, 11, 1, 1, 30000, '2024-05-06 09:46:38', '2024-05-06 16:46:38', 9, 'Tiffany', '081888888888', 97, 'Lucky', '081111111111'),
 (21, 1, 'parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 6, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888'),
 (22, 2, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-05-26 07:34:07', '2024-05-26 14:34:07', 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
-(23, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
+(23, 2, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-06-12 07:44:06', '2024-06-12 14:44:06', 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
 (24, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
 (25, 2, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-05-26 07:46:13', '2024-05-26 14:46:13', 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
 (26, 2, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-05-26 07:34:48', '2024-05-26 14:34:48', 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
@@ -15054,8 +15089,8 @@ INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `
 (29, 1, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-04-29 14:24:11', NULL, 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
 (30, 2, 'Parfum', 10, 10, 15, 1, 1, 30000, '2024-05-26 07:34:38', '2024-05-26 14:34:38', 3, 'Tiffany', '081888888888', 52, 'Lucky', '081111111111'),
 (31, 2, 'Petite Avenue Perfume', 10, 10, 15, 1, 1, 20000, '2024-05-28 07:38:03', '2024-05-28 14:38:03', 3, 'Fiola', '081999999999', 2, 'Tiffany', '081888888888'),
-(32, 2, 'Petite Avenue Perfume', 20, 10, 15, 2, 1, 28000, '2024-06-02 15:00:02', '2024-06-02 22:00:02', 9, 'Fiola', '081999999999', 2, 'Tiffany', '081888888888'),
-(33, 2, 'Petite Avenue Perfume', 20, 10, 15, 2, 1, 131000, '2024-05-31 09:55:19', '2024-05-31 16:55:19', 2, 'Fiola', '081999999999', 54, 'Tiffany', '081888888888'),
+(32, 1, 'Petite Avenue Perfume', 20, 10, 15, 2, 1, 28000, '2024-06-12 14:20:27', '2024-06-02 22:00:02', 9, 'Fiola', '081999999999', 2, 'Tiffany', '081888888888'),
+(33, 1, 'Petite Avenue Perfume', 20, 10, 15, 2, 1, 131000, '2024-06-12 14:27:21', NULL, 2, 'Fiola', '081999999999', 54, 'Tiffany', '081888888888'),
 (34, 2, 'Petite Avenue Perfume', 30, 10, 10, 3, 1, 52000, '2024-05-26 07:30:19', '2024-05-26 14:30:19', 7, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888'),
 (35, 1, 'Petite Avenue Perfume', 30, 10, 10, 3, 1, 52000, '2024-05-06 09:46:02', NULL, 7, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888'),
 (36, 1, 'Kulkas', 50, 50, 150, 20, 3, 161000, '2024-06-03 07:24:28', NULL, 6, 'Fiola', '081999999999', 2, 'Tiffany', '081888888888'),
@@ -15068,13 +15103,13 @@ INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `
 (43, 1, 'Petite Avenue Perfume Package', 20, 10, 10, 2, 1, 82000, '2024-06-03 07:24:28', NULL, 108, 'Fiola', '081999999999', 106, 'Tiffany', '081888888888'),
 (44, 1, 'Kemeja Katun', 50, 40, 3, 1, 1, 96000, '2024-06-03 07:24:28', NULL, 78, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888'),
 (45, 1, 'Kemeja Katun', 50, 40, 3, 1, 1, 89000, '2024-06-03 07:24:28', NULL, 15, 'Fiola', '081999999999', 6, 'Tiffany', '081888888888'),
-(46, 0, 'Keyboard', 20, 50, 4, 1, 1, 33000, '2024-06-03 07:22:08', NULL, 114, 'Tiffany', '082233334444', 1, 'Fiola', '081122223333'),
-(47, 0, 'Sepatu', 32, 19, 11, 1, 1, 13000, '2024-06-03 08:55:04', NULL, 2, 'Fiola', '081999999999', 1, 'Tiffany', '081888888888'),
-(48, 0, 'Petite Avenue Perfume', 10, 10, 15, 1, 1, 76000, '2024-06-03 08:56:31', NULL, 3, 'Fiola', '081999999999', 113, 'Tiffany', '081888888888'),
-(49, 0, 'Kulkas', 50, 50, 150, 20, 3, 210000, '2024-06-03 08:57:12', NULL, 66, 'Fiola', '081999999999', 64, 'Tiffany', '081888888888'),
-(50, 0, 'Mesin Cuci', 70, 40, 80, 15, 3, 340000, '2024-06-03 08:57:52', NULL, 4, 'Fiola', '081999999999', 103, 'Tiffany', '081888888888'),
-(51, 0, 'Meja', 70, 50, 50, 10, 3, 222000, '2024-06-03 08:59:01', NULL, 65, 'Fiola', '081999999999', 90, 'Tiffany', '081888888888'),
-(52, 0, 'Kemeja Katun', 50, 40, 3, 1, 1, 68000, '2024-06-03 08:59:35', NULL, 76, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888');
+(46, 0, 'Keyboard', 20, 50, 4, 1, 1, 33000, '2024-06-12 14:43:44', NULL, 114, 'Tiffany', '082233334444', 1, 'Fiola', '081122223333'),
+(47, 0, 'Sepatu', 32, 19, 11, 1, 1, 13000, '2024-06-12 14:43:44', NULL, 2, 'Fiola', '081999999999', 1, 'Tiffany', '081888888888'),
+(48, 0, 'Petite Avenue Perfume', 10, 10, 15, 1, 1, 76000, '2024-06-12 14:43:44', NULL, 3, 'Fiola', '081999999999', 113, 'Tiffany', '081888888888'),
+(49, 0, 'Kulkas', 50, 50, 150, 20, 3, 210000, '2024-06-12 14:43:44', NULL, 66, 'Fiola', '081999999999', 64, 'Tiffany', '081888888888'),
+(50, 0, 'Mesin Cuci', 70, 40, 80, 15, 3, 340000, '2024-06-12 14:43:44', NULL, 4, 'Fiola', '081999999999', 103, 'Tiffany', '081888888888'),
+(51, 0, 'Meja', 70, 50, 50, 10, 3, 222000, '2024-06-12 14:43:44', NULL, 65, 'Fiola', '081999999999', 90, 'Tiffany', '081888888888'),
+(52, 0, 'Kemeja Katun', 50, 40, 3, 1, 1, 68000, '2024-06-12 14:43:44', NULL, 76, 'Fiola', '081999999999', 3, 'Tiffany', '081888888888');
 
 -- --------------------------------------------------------
 
@@ -15082,6 +15117,7 @@ INSERT INTO `item` (`id`, `status`, `item_name`, `panjang`, `lebar`, `tinggi`, `
 -- Table structure for table `location`
 --
 
+DROP TABLE IF EXISTS `location`;
 CREATE TABLE IF NOT EXISTS `location` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `alamat` varchar(300) NOT NULL,
@@ -15228,6 +15264,7 @@ INSERT INTO `location` (`id`, `alamat`, `kelurahan_desa`, `kecamatan`, `kota_kab
 -- Table structure for table `log`
 --
 
+DROP TABLE IF EXISTS `log`;
 CREATE TABLE IF NOT EXISTS `log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_admin` int(11) NOT NULL,
@@ -15237,7 +15274,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   `id_item` int(11) DEFAULT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `log`
@@ -15307,7 +15344,61 @@ INSERT INTO `log` (`id`, `id_admin`, `id_table`, `action`, `detail_action`, `id_
 (80, 11, 1, 1, 'Kulkas', 49, '2024-06-03 08:57:12'),
 (81, 11, 1, 1, 'Mesin Cuci', 50, '2024-06-03 08:57:52'),
 (82, 11, 1, 1, 'Meja', 51, '2024-06-03 08:59:01'),
-(83, 11, 1, 1, 'Kemeja Katun', 52, '2024-06-03 08:59:35');
+(83, 11, 1, 1, 'Kemeja Katun', 52, '2024-06-03 08:59:35'),
+(84, 1, 5, 6, NULL, NULL, '2024-06-05 04:48:51'),
+(85, 1, 5, 6, NULL, NULL, '2024-06-06 09:34:56'),
+(98, 10, 1, 3, 'Item delivered', 23, '2024-06-12 07:44:06'),
+(99, 0, 2, 2, 'Truck with ID 2`s status changed to available', NULL, '2024-06-12 07:44:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `route`
+--
+
+DROP TABLE IF EXISTS `route`;
+CREATE TABLE IF NOT EXISTS `route` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_schedule` int(11) NOT NULL,
+  `id_location` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `route`
+--
+
+INSERT INTO `route` (`id`, `id_schedule`, `id_location`) VALUES
+(48, 20, 3),
+(49, 20, 9),
+(50, 20, 2),
+(51, 20, 52),
+(52, 21, 3),
+(53, 21, 2),
+(54, 21, 7),
+(55, 21, 6),
+(56, 21, 3),
+(57, 21, 52),
+(58, 21, 54),
+(59, 31, 78),
+(60, 31, 6),
+(61, 31, 5),
+(62, 31, 16),
+(63, 31, 3),
+(64, 31, 2),
+(65, 31, 108),
+(66, 31, 106),
+(67, 32, 2),
+(68, 32, 4),
+(69, 32, 15),
+(70, 32, 6),
+(71, 32, 11),
+(72, 33, 67),
+(73, 33, 115),
+(74, 33, 110),
+(75, 33, 107),
+(76, 33, 105),
+(77, 33, 67);
 
 -- --------------------------------------------------------
 
@@ -15315,6 +15406,7 @@ INSERT INTO `log` (`id`, `id_admin`, `id_table`, `action`, `detail_action`, `id_
 -- Table structure for table `schedule`
 --
 
+DROP TABLE IF EXISTS `schedule`;
 CREATE TABLE IF NOT EXISTS `schedule` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_schedule` int(11) NOT NULL,
@@ -15328,7 +15420,7 @@ CREATE TABLE IF NOT EXISTS `schedule` (
   KEY `s_item_1` (`id_barang`),
   KEY `s_dest_1` (`id_location_dest`),
   KEY `s_from_1` (`id_location_from`)
-) ENGINE=InnoDB AUTO_INCREMENT=323 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=324 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `schedule`
@@ -15363,8 +15455,8 @@ INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_location_from`, `i
 (26, 19, 25, 3, 52, 2, 1, '2024-05-26 14:46:13'),
 (27, 19, 31, 3, 2, 2, 1, '2024-05-28 14:38:03'),
 (28, 20, 32, 9, 2, 2, 1, '2024-06-02 22:00:02'),
-(29, 20, 23, 3, 52, 1, 1, NULL),
-(30, 21, 33, 2, 54, 2, 1, '2024-05-31 16:55:19'),
+(29, 20, 23, 3, 52, 2, 1, '2024-06-12 14:44:06'),
+(30, 21, 33, 2, 54, 1, 1, NULL),
 (31, 21, 29, 3, 52, 1, 1, NULL),
 (32, 21, 35, 7, 3, 1, 1, NULL),
 (33, 21, 28, 6, 52, 1, 1, NULL),
@@ -15378,10 +15470,10 @@ INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_location_from`, `i
 (41, 22, 26, 3, 52, 2, 2, '2024-05-26 14:34:48'),
 (42, 22, 21, 6, 3, 0, 2, NULL),
 (43, 22, 25, 3, 52, 2, 2, '2024-05-26 14:46:13'),
-(44, 22, 33, 2, 54, 2, 2, '2024-05-31 16:55:19'),
+(44, 22, 33, 2, 54, 1, 2, NULL),
 (45, 22, 31, 3, 2, 2, 2, '2024-05-28 14:38:03'),
 (46, 23, 32, 9, 2, 2, 2, '2024-06-02 22:00:02'),
-(47, 23, 23, 3, 52, 0, 2, NULL),
+(47, 23, 23, 3, 52, 2, 2, '2024-06-12 14:44:06'),
 (48, 24, 24, 3, 52, 0, 2, NULL),
 (49, 24, 28, 6, 52, 0, 2, NULL),
 (50, 24, 35, 7, 3, 0, 2, NULL),
@@ -15393,10 +15485,10 @@ INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_location_from`, `i
 (56, 25, 31, 3, 2, 2, 3, '2024-05-28 14:38:03'),
 (57, 26, 35, 7, 3, 0, 3, NULL),
 (58, 26, 24, 3, 52, 0, 3, NULL),
-(59, 26, 23, 3, 52, 0, 3, NULL),
+(59, 26, 23, 3, 52, 2, 3, '2024-06-12 14:44:06'),
 (60, 26, 25, 3, 52, 2, 3, '2024-05-26 14:46:13'),
 (61, 26, 21, 6, 3, 0, 3, NULL),
-(62, 27, 33, 2, 54, 2, 3, '2024-05-31 16:55:19'),
+(62, 27, 33, 2, 54, 1, 3, NULL),
 (63, 27, 29, 3, 52, 0, 3, NULL),
 (64, 27, 32, 9, 2, 2, 3, '2024-06-02 22:00:02'),
 (65, 27, 28, 6, 52, 0, 3, NULL),
@@ -15426,7 +15518,8 @@ INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_location_from`, `i
 (319, 35, 36, 6, 2, 0, 3, NULL),
 (320, 35, 45, 15, 6, 0, 3, NULL),
 (321, 36, 41, 67, 107, 0, 3, NULL),
-(322, 36, 38, 5, 16, 0, 3, NULL);
+(322, 36, 38, 5, 16, 0, 3, NULL),
+(323, 37, 48, 3, 113, 0, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -15434,6 +15527,7 @@ INSERT INTO `schedule` (`id`, `id_schedule`, `id_barang`, `id_location_from`, `i
 -- Table structure for table `table_type`
 --
 
+DROP TABLE IF EXISTS `table_type`;
 CREATE TABLE IF NOT EXISTS `table_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `table_type` varchar(50) NOT NULL,
@@ -15458,6 +15552,7 @@ INSERT INTO `table_type` (`id`, `table_type`) VALUES
 -- Table structure for table `transaction`
 --
 
+DROP TABLE IF EXISTS `transaction`;
 CREATE TABLE IF NOT EXISTS `transaction` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `status` int(1) NOT NULL,
@@ -15470,7 +15565,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   KEY `t_driver_1` (`id_driver`),
   KEY `t_item_1` (`id_item`),
   KEY `t_truck_1` (`id_truck`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `transaction`
@@ -15518,10 +15613,10 @@ INSERT INTO `transaction` (`id`, `status`, `date_time`, `nominal`, `id_item`, `i
 (53, 1, '2024-05-26 07:34:48', 30000, 26, NULL, NULL),
 (54, 1, '2024-05-26 07:46:13', 30000, 25, NULL, NULL),
 (55, 1, '2024-05-28 07:38:03', 20000, 31, NULL, NULL),
-(56, 1, '2024-05-31 09:55:19', 131000, 33, NULL, NULL),
 (57, 1, '2024-06-02 15:00:02', 28000, 32, NULL, NULL),
 (58, 2, '2024-06-02 15:12:18', 7774, NULL, NULL, 6),
-(59, 2, '2024-06-02 15:31:17', 1000000, NULL, 29, NULL);
+(59, 2, '2024-06-02 15:31:17', 1000000, NULL, 29, NULL),
+(60, 1, '2024-06-12 07:44:06', 30000, 23, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -15529,6 +15624,7 @@ INSERT INTO `transaction` (`id`, `status`, `date_time`, `nominal`, `id_item`, `i
 -- Table structure for table `truck`
 --
 
+DROP TABLE IF EXISTS `truck`;
 CREATE TABLE IF NOT EXISTS `truck` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `unique_number` varchar(11) DEFAULT NULL,
@@ -15554,12 +15650,12 @@ CREATE TABLE IF NOT EXISTS `truck` (
 
 INSERT INTO `truck` (`id`, `unique_number`, `total_distance`, `capacity_kg`, `panjang`, `lebar`, `tinggi`, `truck_status`, `fuel_capacity`, `fuel_now`, `km_per_liter`, `id_fuel`, `id_location`) VALUES
 (1, 'AE 7001 AB', 10.636, 1000, 230, 140, 124, 1, 43, 35.8809, 14.63, 2, 3),
-(2, 'AE 8002 CD', 9.717, 1000, 230, 140, 124, 1, 43, 42.3358, 14.63, 2, 3),
+(2, 'AE 8002 CD', 93.516, 1000, 230, 140, 124, 1, 43, 35.9437, 14.63, 2, 2),
 (3, 'AG 8003 EF', 113.262, 2000, 310, 175, 185, 3, 70, 53.8197, 7, 6, 3),
 (4, 'AG 9004 GH', 0, 1000, 230, 140, 124, 3, 43, 41.1682, 13.3, 1, 78),
 (5, 'L 9005 IJ ', 0, 2000, 310, 175, 185, 3, 70, 31.342, 7, 6, 2),
 (6, 'L 8006 KL ', 0, 1000, 230, 140, 124, 3, 43, 28.9043, 13.3, 1, 67),
-(7, 'M 9007 MN ', 0, 1000, 230, 140, 124, 3, 43, 43, 13.3, 1, 115),
+(7, 'M 9007 MN ', 0, 1000, 230, 140, 124, 1, 43, 43, 13.3, 1, 115),
 (8, 'M 8008 OP ', 147.299, 2000, 310, 175, 185, 1, 70, 48.9573, 7, 6, 90),
 (9, 'N 9009 QR ', 213.335, 1000, 230, 140, 124, 1, 43, 26.9598, 7, 6, 86),
 (10, 'N 8010 ST ', 229.607, 1000, 230, 140, 124, 1, 43, 25.7363, 7, 6, 85),
@@ -15567,7 +15663,7 @@ INSERT INTO `truck` (`id`, `unique_number`, `total_distance`, `capacity_kg`, `pa
 (12, 'P 8012 WX ', 440.807, 1000, 230, 140, 124, 1, 43, 9.85662, 13.3, 1, 108),
 (13, 'S 8013 YZ ', 173.229, 1000, 230, 140, 124, 2, 43, 29.9753, 13.3, 1, 64),
 (14, 'S 9014 AB ', 45.334, 2000, 310, 175, 185, 1, 70, 63.5237, 7, 6, 74),
-(15, 'W 8015 CD ', 0, 1000, 230, 140, 124, 3, 43, 31.7269, 13.3, 1, 110),
+(15, 'W 8015 CD ', 0, 1000, 230, 140, 124, 1, 43, 31.7269, 13.3, 1, 110),
 (16, 'W 9016 EF ', 200.596, 1000, 230, 140, 124, 1, 43, 12.8352, 13.3, 1, 28),
 (20, 'L 8123 FM', 0, 1000, 230, 140, 124, 2, 43, 43, 14.63, 2, 3),
 (21, 'L 8123 FI', 0, 1000, 230, 140, 124, 2, 43, 43, 13.3, 1, 8),
@@ -15580,6 +15676,7 @@ INSERT INTO `truck` (`id`, `unique_number`, `total_distance`, `capacity_kg`, `pa
 -- Table structure for table `truck_driver`
 --
 
+DROP TABLE IF EXISTS `truck_driver`;
 CREATE TABLE IF NOT EXISTS `truck_driver` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_truck` int(11) NOT NULL,
@@ -15589,7 +15686,7 @@ CREATE TABLE IF NOT EXISTS `truck_driver` (
   KEY `id_truck` (`id_truck`) USING BTREE,
   KEY `id_driver` (`id_driver1`) USING BTREE,
   KEY `truck_driver_ibfk_3` (`id_driver2`)
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `truck_driver`
@@ -15627,7 +15724,7 @@ INSERT INTO `truck_driver` (`id`, `id_truck`, `id_driver1`, `id_driver2`) VALUES
 -- Table structure for table `truck_type`
 --
 
-
+DROP TABLE IF EXISTS `truck_type`;
 CREATE TABLE IF NOT EXISTS `truck_type` (
   `id` int(11) NOT NULL,
   `type_name` varchar(3) NOT NULL,
@@ -15645,11 +15742,7 @@ CREATE TABLE IF NOT EXISTS `truck_type` (
 INSERT INTO `truck_type` (`id`, `type_name`, `capacity_kg`, `panjang`, `lebar`, `tinggi`, `fuel_capacity`) VALUES
 (1, 'CDE', 1000, 230, 140, 124, 43),
 (2, 'CDD', 2000, 310, 175, 185, 70);
-
---
--- Constraints for dumped tables
---
-
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

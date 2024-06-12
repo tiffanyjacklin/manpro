@@ -43,7 +43,7 @@ if(isset($_POST['login'])){
                 header("Location: dashboard.php"); // Employee
             } else if ($row['position'] == 3) {
                 $_SESSION['driver_name'] = $row['username']; // Set driver name in session
-                header("Location: dashboard.php"); // Driver
+                header("Location: route.php"); // Driver
             }
             exit();
         }

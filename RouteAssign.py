@@ -12,7 +12,7 @@ mydb = mysql.connector.connect(
 
 def fetch_data():
     mycursor = mydb.cursor( buffered=True , dictionary=True)
-    sql_id_schedules = "SELECT DISTINCT `schedule`.`id_schedule`, `truck`.`id_location` FROM `truck_driver` JOIN `truck` ON `truck_driver`.`id_truck` = `truck`.`id` JOIN `schedule` ON `schedule`.`id_schedule` = `truck_driver`.`id` WHERE `schedule`.`status` = 1 ORDER BY `schedule`.`id_schedule`"
+    sql_id_schedules = "SELECT DISTINCT `schedule`.`id_schedule`, `truck`.`id_location` FROM `truck_driver` JOIN `truck` ON `truck_driver`.`id_truck` = `truck`.`id` JOIN `schedule` ON `schedule`.`id_schedule` = `truck_driver`.`id` WHERE `schedule`.`status` = 1 AND `schedule`.`id_schedule` NOT IN (SELECT `id_schedule` FROM `route`)ORDER BY `schedule`.`id_schedule`"
     mycursor.execute(sql_id_schedules)
     id_schedules = mycursor.fetchall()
 
@@ -62,6 +62,7 @@ id_schedules, all_schedule_details, mylocation = fetch_data()
 count = 0
 shortest_paths = []
 schedule_ids = []
+distances = []
 
 for id_schedule in id_schedules:
 
@@ -89,16 +90,18 @@ for id_schedule in id_schedules:
     full_distance_matrix, loc_index = build_full_distance_matrix(mylocation)
     distance_matrix = filter_distance_matrix(full_distance_matrix, loc_index, locations)
 
-    ant_colony = AntColony(distance_matrix, locations, route, location_id, 100, 5, 100, 0.95, alpha=1, beta=1)
-    shortest_path = ant_colony.run()
+    ant_colony = AntColony(distance_matrix, locations, route, location_id, 100, 10, 100, 0.95, alpha=1, beta=1)
+    shortest_path, distance = ant_colony.run()
    
     if shortest_path is not None:
         shortest_path_ids = [ant_colony.index_to_id[index] for index in shortest_path]
 
-    shortest_paths.append(shortest_path_ids)
+        distances.append(distance)
+        shortest_paths.append(shortest_path_ids)
     count += 1
 
 result = []
 result.append(shortest_paths)
 result.append(schedule_ids)
 print(result)
+print(distances)

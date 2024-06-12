@@ -121,7 +121,7 @@ if (mysqli_num_rows($res_items) > 0) {
                       <div class="col-auto">
                           <div class="title-dashboard4">
                               <i class="fa-solid fa-circle" style="color: #68bcef"></i> Pemasukan 
-                              <i class="fa-solid fa-circle" style="color: #fe9597"></i> Maintenance
+                              <i class="fa-solid fa-circle" style="color: #fe9597"></i> Maintenance & Bensin
                               <i class="fa-solid fa-circle" style="color: #ae66ff"></i> Gaji
                           </div>
                       </div>
@@ -274,7 +274,7 @@ if (mysqli_num_rows($res_items) > 0) {
         barPercentage: 0.75, // Adjust bar width (0.75 means 50% of the available space)
         categoryPercentage: 0.75, // Adjust space between bars (0.75 means 50% of the available space)
       }, {
-        label: 'Pengeluaran (Maintenance)', // Label for the second dataset
+        label: 'Pengeluaran (Maintenance & Bensin)', // Label for the second dataset
         data: maintenance,
         backgroundColor: '#fe9597', // Change bar color for income
         barPercentage: 0.75, // Adjust bar width (0.75 means 50% of the available space)

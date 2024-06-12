@@ -13,66 +13,64 @@
     <div class="offcanvas-body">
         <div class="d-flex flex-column align-items-start p-0">
             <div class="btn-group-vertical gap-2 w-100" role="group" aria-label="Custom Radio Buttons">
+                
+                <?php $position = $_SESSION['position'] ?>
+                <?php if ($position == 1 or $position == 2): ?>
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon" aria-pressed="false" >
                         <i class="fa-solid fa-shop"></i>
                     </div>
                     <span class="button-label">Dashboard</span>
                 </button>
-                <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
+                <?php endif; ?>
+                <?php if ($position == 1 or $position == 2): ?>
+                    <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
                         <i class="fa-solid fa-calendar" aria-pressed="false"></i>
                     </div>
                     <span class="button-label">Schedule</span>
                 </button>
+                <?php endif; ?>
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
                     <i class="fa-solid fa-route" aria-pressed="false"></i>
                     </div>
                     <span class="button-label">Route</span>
                 </button>
-                
+                <?php if ($position == 1 or $position == 2): ?>
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
                         <i class="fa-solid fa-coins" aria-pressed="false"></i>
                     </div>
                     <span class="button-label">Transaction</span>
                 </button>
+                <?php endif; ?>
+                <?php if ($position == 1 or $position == 2): ?>
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
                         <i class="fa-solid fa-cubes" aria-pressed="false"></i>
                     </div>
                     <span class="button-label">Items</span>
                 </button>
+                <?php endif; ?>
+                <?php if ($position == 1 or $position == 2): ?>
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
                         <i class="fa-solid fa-truck-fast" aria-pressed="false"></i>
                     </div>
                     <span class="button-label">Trucks</span>
                 </button>
+                <?php endif; ?>
+                <?php if ($position == 1 or $position == 2): ?>
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
                         <i class="fa-solid fa-person-praying" aria-pressed="false"></i>
                     </div>
                     <span class="button-label">Drivers</span>
                 </button>
-                <!-- <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
-                    <div class="btn-icon">
-                    
-                        <i class="fa-solid fa-bell" aria-pressed="false"></i>
-                    </div>
-                    <span class="button-label">Notification</span>
-                </button> -->
-                <?php 
-                    // Fetch the current user's data
-                    $user_id = $_SESSION['user_id'];
-                    $query = $con->prepare("SELECT * FROM admin WHERE id = ?");
-                    $query->bind_param("i", $user_id);
-                    $query->execute();
-                    $result = $query->get_result();
-                    $manager = $result->fetch_assoc();
-                ?>
-                <?php if ($manager['position'] == 1): ?>
+                <?php endif; ?>
+                
+                <?php if ($position == 1): ?>
                 <button type="button" class="btn btn-transparent d-flex justify-content-start align-items-center rounded-3 p-0" aria-pressed="false" onclick="toggleButton(this)">
                     <div class="btn-icon">
                         <i class="fa-solid fa-clipboard-list" aria-pressed="false"></i>

@@ -116,12 +116,12 @@ form button[type="submit"].btn-transparent:active {
     margin: 20px;
 
 }
-#table-unscheduled, #table-on-going, #table-completed, #table-items, #table-1best, #table-2best, #table-3best, #table-driver  {
+#table-unscheduled, #table-on-going, #table-completed, #table-items, #table-1best, #table-2best, #table-3best, #table-driver, #table-routes  {
     min-width: 100%; /* Set initial minimum width to 100% */
     width: 100%; /* Ensure the table fills its container */
 }
 @media (max-width: 933px) {
-    #table-unscheduled, #table-on-going, #table-completed, #table-items, #table-1best, #table-2best, #table-3best, #table-driver {
+    #table-unscheduled, #table-on-going, #table-completed, #table-items, #table-1best, #table-2best, #table-3best, #table-driver, #table-routes {
     min-width: 932px; /* Set minimum width to 932px for larger screens */
     }
 }
@@ -447,6 +447,11 @@ div.dt-container div.dt-paging ul.pagination li.page-item.disabled a.page-link {
     color: #495057;
     font-weight: bold;
     align-items: start;
+}
+.title-dashboard4 {
+    font-size: 16px;
+    color: #000;
+    font-weight: bold;
 }
 .main-content .container .d-flex.justify-content-between .status-container .status-item {
     display: inline-flex;

@@ -35,9 +35,9 @@ class AntColony(object):
             self.pheromone = self.pheromone * self.decay
 
         if best_path == (None, np.inf):
-            return None
+            return None, None
 
-        return best_path[0]
+        return best_path[0], best_path[1]
 
     def generate_all_paths(self):
         all_paths = []

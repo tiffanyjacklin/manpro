@@ -17,10 +17,14 @@ if (isset($_POST['item_ids_output']) && isset($_POST['selected_schedule'])) {
     
     echo $item_ids_output;
     echo $selected_best;
-    $item_ids_by_trucks = json_decode($item_ids_output, true);
-
+    $data = json_decode($item_ids_output, true);
+    if ($data !== null){
+        $item_ids_by_trucks = $data['schedules'];
+        $route_outputs = $data['routes'];
+    }
     // Ensure that the JSON structure is as expected
-    if (!is_array($item_ids_by_trucks) || !isset($item_ids_by_trucks[0]) || !isset($item_ids_by_trucks[1]) || !isset($item_ids_by_trucks[2]) || !isset($item_ids_by_trucks[3])) {
+    if (!is_array($item_ids_by_trucks) || !isset($item_ids_by_trucks[0]) || !isset($item_ids_by_trucks[1]) || !isset($item_ids_by_trucks[2]) || !isset($item_ids_by_trucks[3]) || 
+        !is_array($route_outputs) || !isset($route_outputs[$selected_best-1])) {
         echo "Unexpected JSON structure.";
         exit;
     }
@@ -36,7 +40,7 @@ if (isset($_POST['item_ids_output']) && isset($_POST['selected_schedule'])) {
     $updated_trucks = [];
     $schedule_ids = [];
     $count = 1;
-
+    
     foreach ($item_ids_by_trucks as $item_ids_by_truck) {
         $is_selected_best = ($count == $selected_best);
         if (is_array($item_ids_by_truck)) {
@@ -91,7 +95,7 @@ if (isset($_POST['item_ids_output']) && isset($_POST['selected_schedule'])) {
                                             $sql_update_truck = "UPDATE `truck` SET `truck_status` = 3 WHERE `id` = ?";
                                             echo $sql_update_truck; 
                                             $stmt_update_truck = mysqli_prepare($con, $sql_update_truck);
-                                            mysqli_stmt_bind_param($stmt_update_truck, "ii", $row['id_location_from'], $trucks_ids[$truck_id]);
+                                            mysqli_stmt_bind_param($stmt_update_truck, "i", $trucks_ids[$truck_id]);
                                             mysqli_stmt_execute($stmt_update_truck);
                                             $updated_trucks[] = $truck_id;
 
@@ -121,6 +125,47 @@ if (isset($_POST['item_ids_output']) && isset($_POST['selected_schedule'])) {
             $count++;
         }
     }
+    // $routes_output = exec("python ./RouteAssign.py");
+    $routes_by_trucks = $route_outputs[$selected_best-1];
+
+    // $routes_by_trucks = json_decode($routes_output, true);
+
+    // Ensure that the JSON structure is as expected
+    if (!is_array($routes_by_trucks) || !isset($routes_by_trucks[0]) || !isset($routes_by_trucks[1])) {
+        echo "Unexpected JSON structure.";
+        exit;
+    }
+    $schedule_id_all = $schedule_ids;
+    // echo count($schedule_id_all);
+    $routes = $routes_by_trucks[0];
+    $count = 0;
+
+    foreach ($schedule_id_all as $schedule_id) {
+        if (is_array($routes[$count])){
+            $route_for_this_schedule = $routes[$count];
+            foreach ($route_for_this_schedule as $location) {
+                $sql_insert_route = "INSERT INTO `route` (`id_schedule`, `id_location`) VALUES (?, ?);";
+                $stmt_insert_route = mysqli_prepare($con, $sql_insert_route);
+                
+                if ($stmt_insert_route === false) {
+                    echo "Failed to prepare the statement.";
+                    continue;
+                }
+
+                mysqli_stmt_bind_param($stmt_insert_route, "ii", $schedule_id, $location);
+                mysqli_stmt_execute($stmt_insert_route);
+                // echo $stmt_insert_route;
+                // echo "Schedule ID: ".$schedule_id;
+                // echo "<br>";
+                // echo "Location ID: ".$location;
+                // echo "<br>";
+            }
+        }
+        // echo "<br>";
+        $count++;
+    }
+
+
     // header("Location: schedule.php");
     header("Location: generate-driver.php");
     // header("Location: generate-schedule.php");
@@ -157,13 +202,23 @@ if (isset($_POST['item_ids_output']) && isset($_POST['selected_schedule'])) {
                 
 
                 <?php
-                    $item_ids_output = exec("python ./mainGA.py");
+                    $output = exec("python ./mainGA.py");
+                    // $output = '{"schedules": [[[51, 48, 52, 46, 50], [47, 49]], [[47, 46, 52, 50], [49, 48, 51]], [[47, 52, 46], [49, 48, 51]], [1, 2]], "routes": [[[[3, 4, 114, 1, 113, 76, 3, 65, 90, 103], [3, 2, 1, 66, 64]], [775537.0, 258494.0]], [[[3, 76, 114, 2, 1, 4, 3, 103], [3, 113, 65, 66, 64, 90]], [417622.0, 514690.0]], [[[3, 76, 3, 114, 2, 1], [3, 113, 65, 66, 64, 90]], [171446.0, 514690.0]]]}';
+                    // echo $output;
+                    $data = json_decode($output, true);
+                    $route_name = [];
+
+                    // $item_ids_output = exec("python ./mainGA.py");
                     // $item_ids_output = exec("python ./ScheduleAssign.py");
                     // echo $item_ids_output;
                     // echo "HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-                    
-                    $item_ids_by_trucks = json_decode($item_ids_output);
-                    if (!is_array($item_ids_by_trucks) || !isset($item_ids_by_trucks[0]) || !isset($item_ids_by_trucks[1]) || !isset($item_ids_by_trucks[2]) || !isset($item_ids_by_trucks[3])) {
+                    if ($data !== null){
+                        $item_ids_by_trucks = $data['schedules'];
+                        $route_outputs = $data['routes'];
+                    }
+                    // $item_ids_by_trucks = json_decode($item_ids_output);
+                    if (!is_array($item_ids_by_trucks) || !isset($item_ids_by_trucks[0]) || !isset($item_ids_by_trucks[1]) || !isset($item_ids_by_trucks[2]) || !isset($item_ids_by_trucks[3]) || 
+                        !is_array($route_outputs) || !isset($route_outputs[0]) || !isset($route_outputs[1]) || !isset($route_outputs[2])) {
                         echo "Unexpected JSON structure.";
                         // exit;
                         $trucks_ids = $item_ids_by_trucks[1];
@@ -176,11 +231,16 @@ if (isset($_POST['item_ids_output']) && isset($_POST['selected_schedule'])) {
                     for ($i = 0; $i < $max_index; $i++) {
                         echo '<div class="tab-content">
                         <div class="tab-pane fade' . ($i == 0 ? 'show active' : '') . '" id="'.($i+1).'best">';
+                        echo '<div class="title-form">
+                                    Schedule
+                                  </div>';
+
                         $item_ids_by_truck = $item_ids_by_trucks[$i];
-                        
+                        $route_output = $route_outputs[$i][0];
+                        $route_distances = $route_outputs[$i][1];
 
                         // echo $item_ids_by_truck;
-                        if (is_array($item_ids_by_truck) AND is_array($trucks_ids)) {
+                        if (is_array($item_ids_by_truck) AND is_array($trucks_ids) AND is_array($route_output)) {
                             // echo '<pre>';
                             // var_dump($item_ids_by_truck);
                             // echo '</pre>';
@@ -292,16 +352,181 @@ if (isset($_POST['item_ids_output']) && isset($_POST['selected_schedule'])) {
 
                             echo '</tbody>';
                             echo '</table>';
+
+                            echo '<div class="title-form">
+                                    Route <br>
+                                    Total Distance: '.(array_sum($route_distances)/1000).' km</div>';
+
+                            $route_count = 0;
+
+                            echo '<div class="accordion" id="accordionExample'.$route_count.$truck_id.$schedule_id_counter.'">';
+                            foreach ($trucks_ids as $truck_id){
+                                $route = $route_output[$route_count];
+                                $items = $item_ids_by_truck[$route_count];
+                                $route_distance = $route_distances[$route_count];
+
+                                $total_distance = 
+                                $sql_truck = "SELECT * FROM `truck` WHERE id = ".$truck_id.";";
+                                $res_truck = mysqli_query($con, $sql_truck);
+                                if (mysqli_num_rows($res_truck) > 0) {
+                                    $row_truck = mysqli_fetch_assoc($res_truck);
+                                    echo '  <div class="accordion-item">
+                                                
+                                                <button class="accordion-button '; 
+                                    if ($route_count != 0){
+                                        echo 'collapsed';
+                                    }           
+                                    echo ' " type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne'.$route_count.$truck_id.$schedule_id_counter.'" ';
+                                    if ($route_count == 0){
+                                        echo 'aria-expanded="true"';
+                                    } else {
+                                        echo 'aria-expanded="false"';
+                                    }
+                                    echo ' aria-controls="collapseOne'.$truck_id.'"><h2 class="accordion-header custom-accordion-header">
+                                            Truck ID:  ' . $row_truck['id'].'<br>
+                                            Unique Number: ' . $row_truck['unique_number'].'<br>
+                                            Total Distance: ' . $route_distance/1000 . ' km
+                                            </h2></button>
+                                        
+                                        <div id="collapseOne'.$route_count.$truck_id.$schedule_id_counter.'" class="accordion-collapse collapse '; 
+                                    if ($route_count == 0){
+                                        echo 'show';
+                                        } 
+                                    echo '" data-bs-parent="#accordionExample'.$route_count.$truck_id.$schedule_id_counter.'">';
+                                    // echo '  </div>';
+
+                                    echo '<div class="accordion-body" style="min-width: 100% !important; width: 100% !important;">
+                                            <div class="container">';
+                                    $origin = [];
+                                    $dest   = [];
+                                    $row_count_location = 0;
+                                    foreach ($route as $location_id){
+                                        $sql_location = 'SELECT CONCAT_WS(
+                                            ", ",
+                                            `alamat`, 
+                                            `kelurahan_desa`, 
+                                            `kecamatan`, 
+                                            `kota_kabupaten`, CONCAT("Jawa Timur ", 
+                                            `kode_pos`)
+                                        ) AS `location` FROM `location` WHERE `id` = '.$location_id.';';
+                                        array_push($route_name, $i.$route_count.$truck_id.$schedule_id_counter.$location_id.$row_count_location);
+                                        
+                                        $res_location = mysqli_query($con, $sql_location);
+                                        if (mysqli_num_rows($res_location) > 0){
+                                            $row_loc = mysqli_fetch_assoc($res_location);
+    
+                                            echo '<div class="title-dashboard4"';
+                                            if ($row_count_location != 0){
+                                                echo ' style="padding-top: 20px;"';
+                                            }
+                                            echo ' >
+                                                    ID Location: '.$location_id.'<br>
+                                                    Address: '.$row_loc['location'].'
+                                                  </div>';
+                                            
+                                            echo '<table class="table table-hover fixed-size-table table-routes" id="table-routes'.$i.$route_count.$truck_id.$schedule_id_counter.$location_id.$row_count_location.'" style="width: 100%;">';
+                                            echo '<thead>';
+                                            echo '<tr>';
+                                            echo '<th scope="col">Delivery Status</th>';
+                                            echo '<th scope="col">Product</th>';
+                                            echo '<th scope="col">Origin Address</th>';
+                                            echo '<th scope="col">Destination Address</th>';
+                                            echo '<th scope="col">Order Received</th>';
+                                            echo '</tr>';
+                                            echo '</thead>';
+                                            echo '<tbody class="table-group-divider">';
+                                            foreach ($items as $item){
+                                                $sql_each_item = 'SELECT `item`.*, CONCAT_WS(
+                                                                        ", <br>",
+                                                                        `l1`.`alamat`, 
+                                                                        `l1`.`kelurahan_desa`, 
+                                                                        `l1`.`kecamatan`, 
+                                                                        `l1`.`kota_kabupaten`, CONCAT("Jawa Timur ", 
+                                                                        `l1`.`kode_pos`)
+                                                                    ) AS `location_from`,
+                                                                    CONCAT_WS(
+                                                                        ", <br>",
+                                                                        `l2`.`alamat`,
+                                                                        `l2`.`kelurahan_desa`,
+                                                                        `l2`.`kecamatan`, 
+                                                                        `l2`.`kota_kabupaten`, CONCAT("Jawa Timur ", 
+                                                                        `l2`.`kode_pos`)
+                                                                    ) AS `location_dest` FROM `item`
+                                                                    JOIN `location` `l1` ON `l1`.`id` = `item`.`id_location_from`
+                                                                    JOIN `location` `l2` ON `l2`.`id` = `item`.`id_location_to` 
+                                                                    WHERE `item`.`id` = '.$item.';';
+                                                $res_each_item = mysqli_query($con, $sql_each_item);
+                                                if (mysqli_num_rows($res_each_item) > 0){
+                                                    $row_each_item = mysqli_fetch_assoc($res_each_item);
+                                                    // echo count($origin)." ".$location_id." ".$row_each_item['id_location_from']." ".$row_each_item['id_location_to']."<br>";
+                                                    if (count($origin) == 0 AND $row_each_item['id_location_from'] == $location_id){
+                                                        echo '<tr>';
+                                                        echo '<td><span class="badge rounded-pill text-bg-warning">Picked up at</span></td>';
+                                                        echo '<td>ORDER ID: '.$item.'<br>
+                                                        '.$row_each_item['item_name'].'</td>';
+                                                        echo '<td>'.$row_each_item['location_from'].'</td>';
+                                                        echo '<td>'.$row_each_item['location_dest'].'</td>';
+                                                        echo '<td>'.$row_each_item['order_received'].'</td>';
+                                                        echo '</tr>';
+                                                        array_push($origin, $item);
+                                                        
+                                                    } else if ($row_each_item['id_location_from'] == $location_id AND !in_array($item, $origin)){
+                                                        echo '<tr>';
+                                                        echo '<td><span class="badge rounded-pill text-bg-warning">Picked up at</span></td>';
+                                                        echo '<td>ORDER ID: '.$item.'<br>
+                                                        '.$row_each_item['item_name'].'</td>';
+                                                        echo '<td>'.$row_each_item['location_from'].'</td>';
+                                                        echo '<td>'.$row_each_item['location_dest'].'</td>';
+                                                        echo '<td>'.$row_each_item['order_received'].'</td>';
+                                                        echo '</tr>';
+                                                        array_push($origin, $item);
+                                                    }
+                                                    else if (count($origin) > 0 && $row_each_item['id_location_to'] == $location_id){
+                                                        echo '<tr>';
+                                                        echo '<td><span class="badge rounded-pill text-bg-warning">Delivered to</span></td>';
+                                                        echo '<td>ORDER ID: '.$item.'<br>
+                                                        '.$row_each_item['item_name'].'</td>';
+                                                        echo '<td>'.$row_each_item['location_from'].'</td>';
+                                                        echo '<td>'.$row_each_item['location_dest'].'</td>';
+                                                        echo '<td>'.$row_each_item['order_received'].'</td>';
+                                                        echo '</tr>';
+                                                        array_push($dest, $item);
+                                                    }
+                                                }        
+                                            }
+                                            if (count($origin) == 0){
+                                                echo '<tr>';
+                                                echo '<td><span class="badge rounded-pill text-bg-warning">Truck Departing</span></td>';
+                                                echo '<td>-</td>';
+                                                echo '<td>-</td>';
+                                                echo '<td>-</td>';
+                                                echo '<td>-</td>';
+                                                echo '</tr>';
+                                                array_push($origin, $location_id);
+                                            }
+                                            echo '</tbody>
+                                            </table>';
+                                            $row_count_location++;
+                                        }
+                                    }
+                                    
+                                    echo '  </div>
+                                          </div>
+                                        </div>
+                                      </div>';
+                                    $route_count = $route_count + 1;
+                                }
+                            }
+                            echo '</div>';
                             echo '</div>';
                             echo '</div>';
                         } 
-                        
                     }
                     
                     ?>
                 <div style="text-align: center;">
                     <form id="scheduleForm" action="generate-schedule.php" method="POST">
-                        <input type="hidden" name="item_ids_output" value="<?php echo htmlspecialchars($item_ids_output); ?>">
+                        <input type="hidden" name="item_ids_output" value="<?php echo htmlspecialchars($output); ?>">
                         <div class="schedule-row">
                         <div class="schedule-col">
                             <label for="selectedSchedule">Select Schedule to Save:</label>
@@ -346,6 +571,14 @@ if (isset($_POST['item_ids_output']) && isset($_POST['selected_schedule'])) {
                 "pageLength": 10,
                 "autoWidth": true,
                 "dom": '<"generate1"lfB><"generateBody"t><"generate2"ipr>'
+            });
+            var route_name = <?php echo json_encode($route_name); ?>;
+            route_name.forEach(function(id_table) {
+                $('#table-routes' + id_table).DataTable({
+                    "pageLength": 10,
+                    "autoWidth": true,
+                    "dom": '<"c8tableBody"t>'
+                });
             });
 
             // Handle tab click event

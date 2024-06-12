@@ -203,6 +203,20 @@ body {
     text-align: center;
 }
 
+.detail-view {
+    display: none;
+    padding: 20px;
+}
+
+.date-buttons button {
+    margin: 5px;
+    padding: 10px;
+}
+
+.detail-content {
+    margin-top: 20px;
+}
+
 /* YEAR CSS */
 .year-header {
     display: flex;
@@ -233,4 +247,71 @@ body {
 
 .year-selector {
     margin-bottom: 10px;
+}
+/* ----------TABLE------------- */
+
+#transaction-container {
+    display: block;
+}
+#transaction-table {
+    margin-top: 20px;
+    display: block;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f4f4f4;
+}
+
+/* CALENDER */
+
+.year-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.calendar-popup {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 2px solid #333;
+    padding: 10px;
+    z-index: 1000;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.calendar-popup span {
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+.calendar-popup span.selected {
+    background-color: green;
+    color: white;
+}
+.calendar-popup span:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Background gelap ketika kursor menunjuk */
+}
+.year-button {
+    cursor: pointer;
+}
+table {
+    width:100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 8px;
+    text-align: center;
 }
