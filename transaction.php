@@ -239,10 +239,10 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
       <script>
         document.addEventListener('DOMContentLoaded', function() {
             fetchData();
-            
+            const now = new Date();
             // BULAN
-            var currentYear = <?= $year ?>;
-            var currentMonth = <?= $month ?>;
+            var currentYear = now.getFullYear();
+            var currentMonth = now.getMonth() + 1;
             var previousHeaderContent = '';
             var isDetailView = false;
 
